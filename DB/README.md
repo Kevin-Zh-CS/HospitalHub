@@ -1,4 +1,4 @@
-# Database Design (Not finished yet)
+# Database Design
 
 *   Database System: PostgreSQL
 *   Environment: Docker
