@@ -16,3 +16,10 @@ $ docker exec -it postgres psql -U postgres -d postgres
 
 Execute `init_pg.sql`, create a database and then switch to that database.
 
+## Initialize Values
+
+```bash
+$ python3 gen_sql/main.py
+```
+
+Then, execute `init_data.sql`, insert some initial values into the database
