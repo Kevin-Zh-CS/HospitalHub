@@ -42,7 +42,7 @@ CREATE TABLE hospital_hub_user
     password      TEXT          NOT NULL,
     email         TEXT          NOT NULL UNIQUE,
     balance       MONEY         NOT NULL DEFAULT 0.00,
-    portrait_url  TEXT          NOT NULL,
+    portrait_url  TEXT          NOT NULL DEFAULT 'https://placehold.it/128x128',
     order_id_list INT[]         NOT NULL DEFAULT array []::INT[],
     tag           identity_type NOT NULL,
     true_name     TEXT          NOT NULL DEFAULT '',
@@ -71,12 +71,12 @@ CREATE TABLE doctor
     experience    TEXT        NOT NULL DEFAULT '',
     education     TEXT        NOT NULL DEFAULT '',
     arrangement   TIMESTAMP[] NOT NULL DEFAULT ARRAY []::TIMESTAMP[],
-    score         NUMERIC,
+    score         NUMERIC     NOT NULL DEFAULT 0,
     comment_id    INT[]       NOT NULL DEFAULT ARRAY []::INT[],
     on_duty       BOOLEAN     NOT NULL DEFAULT false,
     type          doctor_type NOT NULL DEFAULT 'normal',
-    capacity      INT,
-    finish        INT
+    capacity      INT         NOT NULL DEFAULT 0,
+    finish        INT         NOT NULL DEFAULT 0
 );
 
 
