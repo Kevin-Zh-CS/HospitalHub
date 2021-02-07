@@ -16,12 +16,12 @@ user_data = [
 
 sql_wildcard = '''
 INSERT INTO hospital_hub_user(username, password, email, tag, true_name, age)
-SELECT '{username}', '{password}', '{email}', '{tag}', '{true_name}', {age}
+SELECT '{username}', crypt('{password}', gen_salt('bf')), '{email}', '{tag}', '{true_name}', {age}
 WHERE NOT EXISTS(
         SELECT username, password, email, tag, true_name, age
         FROM hospital_hub_user
         WHERE username = '{username}'
-          AND password = '{password}'
+          AND password = crypt('{password}', gen_salt('bf'))
           AND email = '{email}'
           AND tag = '{tag}'
           AND true_name = '{true_name}'
