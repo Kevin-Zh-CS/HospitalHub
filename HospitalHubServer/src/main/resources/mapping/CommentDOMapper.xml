@@ -130,4 +130,6 @@
       publish_time = #{publishTime,jdbcType=TIMESTAMP}
     where comment_id = #{commentId,jdbcType=INTEGER}
   </update>
+
+
 </mapper>
