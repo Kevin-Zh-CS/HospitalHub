@@ -1,6 +1,8 @@
 package com.hospital.controller;
 
 import com.alibaba.druid.util.StringUtils;
+import com.hospital.dao.UserDOMapper;
+import com.hospital.dao.dataobject.UserDO;
 import com.hospital.error.BusinessError;
 import com.hospital.error.BusinessException;
 import com.hospital.response.CommonReturnType;
@@ -11,11 +13,13 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 @CrossOrigin(allowCredentials = "true", allowedHeaders = "*")
-@Controller("user")
+@Controller
 public class UserController {
 
     @Autowired
@@ -23,6 +27,7 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
 
     @RequestMapping(value = "/test")
     @ResponseBody
@@ -50,6 +55,23 @@ public class UserController {
         redisTemplate.opsForValue().set(uuidToken, userModel);
         redisTemplate.expire(uuidToken, 1, TimeUnit.HOURS);
         return CommonReturnType.create(userModel.getTag(), uuidToken);
+    }
+
+    @GetMapping("/get")
+    @ResponseBody
+    public CommonReturnType getUser(@RequestParam(name = "id") Integer id) throws BusinessException{
+//        UserModel userModel = userService.getUserById(id);
+//        return CommonReturnType.create(userModel.getTag(), userModel);
+        UserDO userDO = userService.getUserById(id);
+        return CommonReturnType.create(userDO.getTag(), userDO);
+    }
+
+    @GetMapping("/getOrders")
+    @ResponseBody
+    public CommonReturnType getOrders(@RequestParam(name = "id") Integer id) throws BusinessException{
+        userService.UpdateOrderListById(id);
+
+        return CommonReturnType.create("233", 1);
     }
 
 
