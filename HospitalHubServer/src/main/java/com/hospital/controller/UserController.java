@@ -29,11 +29,11 @@ public class UserController {
     private UserService userService;
 
 
-    @RequestMapping(value = "/test")
-    @ResponseBody
-    public CommonReturnType testConnection(){
-        return CommonReturnType.create("doctor", "yes");
-    }
+//    @RequestMapping(value = "/test")
+//    @ResponseBody
+//    public CommonReturnType testConnection(){
+//        return CommonReturnType.create("doctor", "yes");
+//    }
 
     @PostMapping(value = "/login", consumes = CommonReturnType.CONTENT_TYPE_FROMED)
     @ResponseBody
@@ -57,6 +57,10 @@ public class UserController {
         return CommonReturnType.create(userModel.getTag(), uuidToken);
     }
 
+
+
+
+
     @GetMapping("/get")
     @ResponseBody
     public CommonReturnType getUser(@RequestParam(name = "id") Integer id) throws BusinessException{
@@ -66,13 +70,13 @@ public class UserController {
         return CommonReturnType.create(userDO.getTag(), userDO);
     }
 
-    @GetMapping("/getOrders")
-    @ResponseBody
-    public CommonReturnType getOrders(@RequestParam(name = "id") Integer id) throws BusinessException{
-        userService.UpdateOrderListById(id);
 
-        return CommonReturnType.create("233", 1);
-    }
+//    @GetMapping("/getOrders")
+//    @ResponseBody
+//    public CommonReturnType getOrders(@RequestParam(name = "id") Integer id) throws BusinessException{
+//        userService.UpdateOrderListById(id);
+//        return CommonReturnType.create("233", 1);
+//    }
 
 
 

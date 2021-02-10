@@ -28,3 +28,7 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Project ###
+init_db.sql
+model.md

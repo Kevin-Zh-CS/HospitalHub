@@ -1,7 +1,10 @@
 package com.hospital.service.model;
 
+import org.springframework.core.annotation.Order;
+
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 public class UserModel implements Serializable {
 
@@ -11,7 +14,7 @@ public class UserModel implements Serializable {
     private String email;
     private Double balance;
     private String portraitUrl;
-    private Object orderIdList;
+    private List<OrderModel> orderIdList;
     private String tag;
     private String trueName;
     private String gender;
@@ -65,11 +68,11 @@ public class UserModel implements Serializable {
         this.portraitUrl = portraitUrl;
     }
 
-    public Object getOrderIdList() {
+    public List<OrderModel> getOrderIdList() {
         return orderIdList;
     }
 
-    public void setOrderIdList(Object orderIdList) {
+    public void setOrderIdList(List<OrderModel> orderIdList) {
         this.orderIdList = orderIdList;
     }
 

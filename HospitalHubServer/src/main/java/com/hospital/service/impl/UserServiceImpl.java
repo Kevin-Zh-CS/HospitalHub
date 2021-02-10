@@ -36,15 +36,15 @@ public class UserServiceImpl implements UserService {
 
     }
 
-    @Override
-    public void UpdateOrderListById(Integer id) throws BusinessException {
-        UserDO userDO = userDOMapper.selectByPrimaryKey(id);
-        List<Integer> orderIdList = new ArrayList<>(userDO.getOrderIdList());
-        orderIdList.add(9);
-        System.out.println(orderIdList);
-        userDO.setOrderIdList(orderIdList);
-        userDOMapper.updateByPrimaryKey(userDO);
-    }
+//    @Override
+//    public void UpdateOrderListById(Integer id) throws BusinessException {
+//        UserDO userDO = userDOMapper.selectByPrimaryKey(id);
+//        List<Integer> orderIdList = new ArrayList<>(userDO.getOrderIdList());
+//        orderIdList.add(9);
+//        System.out.println(orderIdList);
+//        userDO.setOrderIdList(orderIdList);
+//        userDOMapper.updateByPrimaryKey(userDO);
+//    }
 
 //    @Override
 //    public List<Integer> getOrdersById(Integer userId) {
