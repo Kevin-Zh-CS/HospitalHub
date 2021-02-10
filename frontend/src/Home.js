@@ -33,7 +33,7 @@ class Home extends Component {
         justifyContent: 'center',
       }}
       >
-        Welcome to hospital hub.
+        Welcome to Hospital Hub.
       </div>
     )
   }
