@@ -1,8 +1,9 @@
 package com.hospital.service.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class UserModel {
+public class UserModel implements Serializable {
 
     private Integer userId;
     private String username;
@@ -64,8 +65,8 @@ public class UserModel {
         this.portraitUrl = portraitUrl;
     }
 
-    public ArrayList<Integer> getOrderIdList() {
-        return (ArrayList<Integer>) this.orderIdList;
+    public Object getOrderIdList() {
+        return orderIdList;
     }
 
     public void setOrderIdList(Object orderIdList) {
