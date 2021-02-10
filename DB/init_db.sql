@@ -39,7 +39,7 @@ CREATE TABLE hospital_hub_user
 (
     user_id       SERIAL PRIMARY KEY,
     username      TEXT          NOT NULL,
-    password      TEXT          NOT NULL,
+    password      TEXT          NOT NULL UNIQUE,
     email         TEXT          NOT NULL UNIQUE,
     balance       MONEY         NOT NULL DEFAULT 0.00,
     portrait_url  TEXT          NOT NULL DEFAULT 'https://placehold.it/128x128',
