@@ -1,2 +1,3 @@
 .DS_Store
-DB/gen_sql/.idea
+DB/gen_sql/.ideanode_modules
+node_modules
