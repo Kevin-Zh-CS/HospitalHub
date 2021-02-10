@@ -1,5 +1,5 @@
 {
-  "name": "lib_admin",
+  "name": "Frontend of HospitalHub",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
