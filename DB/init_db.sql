@@ -1,4 +1,5 @@
 DROP EXTENSION IF EXISTS pgcrypto;
+SET DATESTYLE TO 'ISO';
 
 DROP TABLE IF EXISTS hospital,
     hospital_hub_user,
@@ -37,17 +38,16 @@ CREATE TABLE hospital
 
 CREATE TABLE hospital_hub_user
 (
-    user_id       SERIAL PRIMARY KEY,
-    username      TEXT          NOT NULL,
-    password      TEXT          NOT NULL UNIQUE,
-    email         TEXT          NOT NULL UNIQUE,
-    balance       MONEY         NOT NULL DEFAULT 0.00,
-    portrait_url  TEXT          NOT NULL DEFAULT 'https://placehold.it/128x128',
-    order_id_list INT[]         NOT NULL DEFAULT array []::INT[],
-    tag           identity_type NOT NULL,
-    true_name     TEXT          NOT NULL DEFAULT '',
-    gender        gender_type   NOT NULL DEFAULT 'unknown',
-    age           INT           NOT NULL
+    user_id      SERIAL PRIMARY KEY,
+    username     TEXT          NOT NULL,
+    password     TEXT          NOT NULL UNIQUE,
+    email        TEXT          NOT NULL UNIQUE,
+    balance      MONEY         NOT NULL DEFAULT 0.00,
+    portrait_url TEXT          NOT NULL DEFAULT 'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2561659095,299912888&fm=26&gp=0.jpg',
+    tag          identity_type NOT NULL,
+    true_name    TEXT          NOT NULL DEFAULT '',
+    gender       gender_type   NOT NULL DEFAULT 'unknown',
+    age          INT           NOT NULL
 );
 
 
@@ -61,7 +61,6 @@ CREATE TABLE department
     waiting         INT  NOT NULL DEFAULT 0
 );
 
-
 CREATE TABLE doctor
 (
     user_id       INT         NOT NULL REFERENCES hospital_hub_user,
@@ -72,7 +71,6 @@ CREATE TABLE doctor
     education     TEXT        NOT NULL DEFAULT '',
     arrangement   TIMESTAMP[] NOT NULL DEFAULT ARRAY []::TIMESTAMP[],
     score         NUMERIC     NOT NULL DEFAULT 0,
-    comment_id    INT[]       NOT NULL DEFAULT ARRAY []::INT[],
     on_duty       BOOLEAN     NOT NULL DEFAULT false,
     type          doctor_type NOT NULL DEFAULT 'normal',
     capacity      INT         NOT NULL DEFAULT 0,
@@ -82,10 +80,9 @@ CREATE TABLE doctor
 
 CREATE TABLE patient
 (
-    user_id              INT   NOT NULL REFERENCES hospital_hub_user,
-    registration_id_list INT[] NOT NULL DEFAULT ARRAY []::INT[],
-    history              TEXT  NOT NULL DEFAULT '',
-    patient_address      TEXT  NOT NULL DEFAULT ''
+    user_id         INT  NOT NULL REFERENCES hospital_hub_user,
+    history         TEXT NOT NULL DEFAULT '',
+    patient_address TEXT NOT NULL DEFAULT ''
 );
 
 
@@ -95,13 +92,11 @@ CREATE SEQUENCE serial_seq START WITH 1;
 
 CREATE TABLE registration
 (
-    registration_id   TEXT        NOT NULL PRIMARY KEY DEFAULT current_date || nextval('serial_seq'::regclass)::TEXT,
-    true_name         TEXT        NOT NULL             DEFAULT '',
-    gender            gender_type NOT NULL             default 'unknown',
-    age               INT,
-    hospital_id       INT         NOT NULL REFERENCES hospital,
-    department_id     INT         NOT NULL REFERENCES department,
-    registration_time TIMESTAMP
+    registration_id   TEXT      NOT NULL PRIMARY KEY DEFAULT current_date || '-' || nextval('serial_seq'::regclass)::TEXT,
+    patient_id        INT       NOT NULL REFERENCES hospital_hub_user (user_id),
+    doctor_id         INT       NOT NULL REFERENCES hospital_hub_user (user_id),
+    hospital_id       INT       NOT NULL REFERENCES hospital,
+    registration_time TIMESTAMP NOT NULL             DEFAULT now()::timestamp(0)
 );
 
 
@@ -111,7 +106,7 @@ CREATE TABLE comment
     patient_id   INT       NOT NULL REFERENCES hospital_hub_user (user_id),
     doctor_id    INT       NOT NULL REFERENCES hospital_hub_user (user_id),
     content      TEXT      NOT NULL DEFAULT '',
-    publish_time TIMESTAMP NOT NULL DEFAULT current_timestamp
+    publish_time TIMESTAMP NOT NULL DEFAULT now()::timestamp(0)
 );
 
 
@@ -133,7 +128,7 @@ CREATE TABLE prescription
     registration_id     TEXT       NOT NULL REFERENCES registration,
     patient_id          INT        NOT NULL REFERENCES hospital_hub_user (user_id),
     doctor_id           INT        NOT NULL REFERENCES hospital_hub_user (user_id),
-    prescription_time   TIMESTAMP  NOT NULL DEFAULT current_timestamp,
+    prescription_time   TIMESTAMP  NOT NULL DEFAULT now()::timestamp(0),
     patient_address     TEXT       NOT NULL DEFAULT '',
     hospital_address    TEXT       NOT NULL DEFAULT '',
     true_name           TEXT       NOT NULL DEFAULT '',
