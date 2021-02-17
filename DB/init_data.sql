@@ -339,21 +339,21 @@ WHERE email = 'neo_hugh_9@996.icu.com'
 -- 初始化 comment
 
 INSERT INTO comment(patient_id, doctor_id, content)
-SELECT patient_user.user_id, doctor_user.user_id, '不知道为啥你要隔三差五发张自拍，我真的无语，要发就天天发，这是在拯救世界'
+SELECT patient_user.user_id, doctor_user.user_id, '你就是世界 你就是宇宙 你就是大陆 你就是国家 你就是扰乱我之后又来拯救我的人，你就是神 你就是上帝 你就是love  你就是天使 你就是上天派来拯救我的精灵'
 FROM hospital_hub_user AS patient_user,
      hospital_hub_user AS doctor_user
 WHERE patient_user.username = 'neo_hugh_9'
   AND doctor_user.username = 'neo_hugh_1';
 
 INSERT INTO comment(patient_id, doctor_id, content)
-SELECT patient_user.user_id, doctor_user.user_id, '这里一切都是丑的， 风、雨、太阳都丑，人也丑，我也丑得很。 只有你是青天一样可羡'
+SELECT patient_user.user_id, doctor_user.user_id, '你其有点像天上的月亮，也像那闪烁的星星，可惜我不是诗人，否则当写一万首诗来形容你的美丽'
 FROM hospital_hub_user AS patient_user,
      hospital_hub_user AS doctor_user
-WHERE patient_user.username = 'neo_hugh_7'
-  AND doctor_user.username = 'neo_hugh_3';
+WHERE patient_user.username = 'neo_hugh_8'
+  AND doctor_user.username = 'neo_hugh_0';
 
 INSERT INTO comment(patient_id, doctor_id, content)
-SELECT patient_user.user_id, doctor_user.user_id, '不知道为啥你要隔三差五发张自拍，我真的无语，要发就天天发，这是在拯救世界'
+SELECT patient_user.user_id, doctor_user.user_id, '你的侧脸应该制定为国家一级宝物'
 FROM hospital_hub_user AS patient_user,
      hospital_hub_user AS doctor_user
 WHERE patient_user.username = 'neo_hugh_6'
@@ -363,12 +363,64 @@ INSERT INTO comment(patient_id, doctor_id, content)
 SELECT patient_user.user_id, doctor_user.user_id, '世事如书，我偏爱你这一句'
 FROM hospital_hub_user AS patient_user,
      hospital_hub_user AS doctor_user
-WHERE patient_user.username = 'neo_hugh_6'
-  AND doctor_user.username = 'neo_hugh_0';
+WHERE patient_user.username = 'neo_hugh_8'
+  AND doctor_user.username = 'neo_hugh_4';
 
 INSERT INTO comment(patient_id, doctor_id, content)
-SELECT patient_user.user_id, doctor_user.user_id, '你其有点像天上的月亮，也像那闪烁的星星，可惜我不是诗人，否则当写一万首诗来形容你的美丽'
+SELECT patient_user.user_id, doctor_user.user_id, '不知道为啥你要隔三差五发张自拍，我真的无语，要发就天天发，这是在拯救世界'
 FROM hospital_hub_user AS patient_user,
      hospital_hub_user AS doctor_user
 WHERE patient_user.username = 'neo_hugh_9'
-  AND doctor_user.username = 'neo_hugh_1';
+  AND doctor_user.username = 'neo_hugh_4';
+
+-- 初始化 registration
+
+INSERT INTO registration(patient_id, doctor_id, hospital_id)
+SELECT patient_user.user_id, doctor_user.user_id, hospital_id
+FROM hospital_hub_user AS patient_user,
+     hospital_hub_user AS doctor_user,
+     doctor
+WHERE patient_user.username = 'neo_hugh_6'
+  AND doctor_user.username = 'neo_hugh_4'
+  AND doctor.user_id = doctor_user.user_id;
+
+
+INSERT INTO registration(patient_id, doctor_id, hospital_id)
+SELECT patient_user.user_id, doctor_user.user_id, hospital_id
+FROM hospital_hub_user AS patient_user,
+     hospital_hub_user AS doctor_user,
+     doctor
+WHERE patient_user.username = 'neo_hugh_9'
+  AND doctor_user.username = 'neo_hugh_2'
+  AND doctor.user_id = doctor_user.user_id;
+
+
+INSERT INTO registration(patient_id, doctor_id, hospital_id)
+SELECT patient_user.user_id, doctor_user.user_id, hospital_id
+FROM hospital_hub_user AS patient_user,
+     hospital_hub_user AS doctor_user,
+     doctor
+WHERE patient_user.username = 'neo_hugh_6'
+  AND doctor_user.username = 'neo_hugh_4'
+  AND doctor.user_id = doctor_user.user_id;
+
+
+INSERT INTO registration(patient_id, doctor_id, hospital_id)
+SELECT patient_user.user_id, doctor_user.user_id, hospital_id
+FROM hospital_hub_user AS patient_user,
+     hospital_hub_user AS doctor_user,
+     doctor
+WHERE patient_user.username = 'neo_hugh_7'
+  AND doctor_user.username = 'neo_hugh_2'
+  AND doctor.user_id = doctor_user.user_id;
+
+
+INSERT INTO registration(patient_id, doctor_id, hospital_id)
+SELECT patient_user.user_id, doctor_user.user_id, hospital_id
+FROM hospital_hub_user AS patient_user,
+     hospital_hub_user AS doctor_user,
+     doctor
+WHERE patient_user.username = 'neo_hugh_7'
+  AND doctor_user.username = 'neo_hugh_2'
+  AND doctor.user_id = doctor_user.user_id;
+
