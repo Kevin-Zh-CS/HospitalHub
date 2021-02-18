@@ -14,12 +14,12 @@ user_data = [
     ['15280924959', '57R4W#qc', 'nleonardo.b@activelywell.com', 'patient', '蒋勰', 34, 'male']
 ]
 
-address_data = [
-    '',
-    '',
-    '',
-    '',
-    ''
+arrangement_data = [
+    '{false, false, true, true, true, true, false}',
+    '{true, false, true, false, false, true, true}',
+    '{true, true, false, false, true, true, false}',
+    '{false, true, false, true, true, false, true}',
+    '{false, true, true, false, true, true, false}'
 ]
 
 sql_wildcard = '''INSERT INTO hospital_hub_user(username, password, email, tag, true_name, age, gender) VALUES('{username}', crypt('{password}', gen_salt('bf')), '{email}', '{tag}', '{true_name}', {age}, '{gender}');
@@ -42,8 +42,8 @@ $$
           AND hospital_name = '{hospital}'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id)
-        VALUES (tmp_user_id, tmp_department_id, tmp_hospital_id);
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement)
+        VALUES (tmp_user_id, tmp_department_id, tmp_hospital_id, '{arrangement}');
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_user_id)
@@ -63,7 +63,7 @@ def gen(sql_file):
     for idx, row in enumerate(user_data):
         if idx < 5:
             sql_file.write(sql_doctor_wildcard.format(email=row[2], department=department_data[idx],
-                                                      hospital=hospital_data[idx][0]))
+                                                      hospital=hospital_data[idx][0], arrangement=arrangement_data[idx]))
         else:
             sql_file.write(sql_patient_wildcard.format(email=row[2]))
         sql_file.write('\n')
