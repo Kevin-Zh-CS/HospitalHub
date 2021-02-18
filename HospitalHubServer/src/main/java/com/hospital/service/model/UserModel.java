@@ -1,24 +1,57 @@
 package com.hospital.service.model;
 
-import org.springframework.core.annotation.Order;
+import com.hospital.dao.dataobject.PrescriptionDO;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 public class UserModel implements Serializable {
-
     private Integer userId;
+
+    @NotBlank(message = "手机号不能为空")
     private String username;
+
+    @NotBlank(message = "密码不能为空")
     private String password;
+
+    @NotBlank(message = "邮箱不能为空")
     private String email;
+
     private Double balance;
     private String portraitUrl;
-    private List<OrderModel> orderIdList;
+    private List<PrescriptionDO> orderList;
     private String tag;
+
+    @NotBlank(message = "请填写真实姓名")
     private String trueName;
+
+    @NotNull(message = "性别不能为空")
     private String gender;
+
+    @NotNull(message = "年龄不能为空")
+    @Min(value = 0, message = "年龄必须大于0")
+    @Max(value = 120, message = "年龄必须小于120")
     private Integer age;
+
+    public UserModel() {
+    }
+
+    public UserModel(String username, String password, String email, Double balance, String portraitUrl, List<PrescriptionDO> orderList, String tag, String trueName, String gender, Integer age) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.balance = balance;
+        this.portraitUrl = portraitUrl;
+        this.orderList = orderList;
+        this.tag = tag;
+        this.trueName = trueName;
+        this.gender = gender;
+        this.age = age;
+    }
 
     public Integer getUserId() {
         return userId;
@@ -68,12 +101,12 @@ public class UserModel implements Serializable {
         this.portraitUrl = portraitUrl;
     }
 
-    public List<OrderModel> getOrderIdList() {
-        return orderIdList;
+    public List<PrescriptionDO> getOrderIdList() {
+        return orderList;
     }
 
-    public void setOrderIdList(List<OrderModel> orderIdList) {
-        this.orderIdList = orderIdList;
+    public void setOrderIdList(List<PrescriptionDO> orderIdList) {
+        this.orderList = orderIdList;
     }
 
     public String getTag() {

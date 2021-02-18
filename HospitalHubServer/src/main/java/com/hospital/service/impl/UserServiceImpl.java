@@ -5,14 +5,12 @@ import com.hospital.dao.dataobject.UserDO;
 import com.hospital.error.BusinessError;
 import com.hospital.error.BusinessException;
 import com.hospital.service.UserService;
+import com.hospital.service.model.PatientModel;
 import com.hospital.service.model.UserModel;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -52,7 +50,7 @@ public class UserServiceImpl implements UserService {
 //    }
 
     @Override
-    public void register(UserModel userModel) throws BusinessException {
+    public void register(PatientModel patientModel) throws BusinessException {
 
     }
 

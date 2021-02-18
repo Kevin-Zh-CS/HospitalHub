@@ -3,6 +3,7 @@ package com.hospital.response;
 public class CommonReturnType {
 
     public static final String CONTENT_TYPE_FROMED = "application/x-www-form-urlencoded";
+    public static final String DEFAULT_PORTRAIT_URL = "https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2561659095,299912888&fm=26&gp=0.jpg";
     public static final String DOCTOR = "doctor";
     public static final String PATIENT = "patient";
 

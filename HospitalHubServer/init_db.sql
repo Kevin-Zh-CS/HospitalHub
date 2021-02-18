@@ -42,8 +42,8 @@ CREATE TABLE hospital_hub_user
     password      TEXT          NOT NULL,
     email         TEXT          NOT NULL UNIQUE,
     balance       MONEY         NOT NULL DEFAULT 0.00,
-    portrait_url  TEXT          NOT NULL,
-    order_id_list INT[]         NOT NULL DEFAULT array []::INT[],
+    portrait_url  TEXT          DEFAULT 'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2561659095,299912888&fm=26&gp=0.jpg',
+    --order_id_list INT[]         NOT NULL DEFAULT array []::INT[],
     tag           identity_type NOT NULL,
     true_name     TEXT          NOT NULL DEFAULT '',
     gender        gender_type   NOT NULL DEFAULT 'unknown',
@@ -72,18 +72,19 @@ CREATE TABLE doctor
     education     TEXT        NOT NULL DEFAULT '',
     arrangement   TIMESTAMP[] NOT NULL DEFAULT ARRAY []::TIMESTAMP[],
     score         NUMERIC,
-    comment_id    INT[]       NOT NULL DEFAULT ARRAY []::INT[],
-    on_duty       BOOLEAN     NOT NULL DEFAULT false,
+    --comment_id    INT[]       NOT NULL DEFAULT ARRAY []::INT[],
     type          doctor_type NOT NULL DEFAULT 'normal',
     capacity      INT,
-    finish        INT
+    finish        INT,
+    waiting       INT,
+    on_duty       BOOLEAN     NOT NULL DEFAULT false
 );
 
 
 CREATE TABLE patient
 (
     user_id              INT   NOT NULL REFERENCES hospital_hub_user,
-    registration_id_list INT[] NOT NULL DEFAULT ARRAY []::INT[],
+    --registration_id_list INT[] NOT NULL DEFAULT ARRAY []::INT[],
     history              TEXT  NOT NULL DEFAULT '',
     patient_address      TEXT  NOT NULL DEFAULT ''
 );
@@ -92,10 +93,13 @@ CREATE TABLE patient
 DROP SEQUENCE IF EXISTS serial_seq;
 CREATE SEQUENCE serial_seq START WITH 1;
 
-
+--挂号--
 CREATE TABLE registration
 (
     registration_id   TEXT        NOT NULL PRIMARY KEY DEFAULT current_date || nextval('serial_seq'::regclass)::TEXT,
+    patient_id        INT         NOT NULL             DEFAULT 0,
+    --这里把原来的科室id换成了医生id
+    doctor_id         INT         NOT NULL             DEFAULT 0,
     true_name         TEXT        NOT NULL             DEFAULT '',
     gender            gender_type NOT NULL             default 'unknown',
     age               INT,
@@ -103,6 +107,8 @@ CREATE TABLE registration
     department_id     INT         NOT NULL REFERENCES department,
     registration_time TIMESTAMP
 );
+
+
 
 
 CREATE TABLE comment
@@ -115,7 +121,7 @@ CREATE TABLE comment
 );
 
 
-
+--行程--
 CREATE TABLE process
 (
     registration_id TEXT    NOT NULL REFERENCES registration,
@@ -126,7 +132,7 @@ CREATE TABLE process
     state           BOOLEAN NOT NULL DEFAULT false
 );
 
-
+--处方--
 CREATE TABLE prescription
 (
     prescription_id     SERIAL PRIMARY KEY,

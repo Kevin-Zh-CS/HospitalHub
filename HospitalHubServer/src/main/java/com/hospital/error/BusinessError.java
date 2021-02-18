@@ -11,9 +11,11 @@ public enum BusinessError implements CommonError {
     USER_NOT_EXIST(20001, "用户不存在"),
     USER_LOGIN_FAIL(20002, "用户手机号或密码不正确"),
     USER_NOT_LOGIN(20003,"用户未登录"),
-
+    USER_PASSWORD_NOT_CONSISTENT(20004, "两次密码不一致"),
+    USER_EMIAL_FORMAT_NOT_CORRECT(20005, "邮箱格式不正确"),
+    USER_PHONE_FORMAT_NOT_CORRECT(20006, "电话格式不正确"),
     //30000开头为交易信息错误
-    STOCK_NOT_ENOUTH(30001,"库存不足")
+    STOCK_NOT_ENOUgH(30001,"库存不足")
     ;
 
     private int errorCode;

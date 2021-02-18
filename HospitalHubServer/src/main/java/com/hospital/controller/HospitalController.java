@@ -3,6 +3,7 @@ package com.hospital.controller;
 import com.hospital.dao.dataobject.HospitalDO;
 import com.hospital.response.CommonReturnType;
 import com.hospital.service.HospitalService;
+import com.hospital.service.model.DepartmentModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +14,7 @@ import java.util.List;
 @RequestMapping("/hospital")
 @Controller
 public class HospitalController {
+
     @Autowired
     private HospitalService hospitalService;
 
@@ -26,8 +28,11 @@ public class HospitalController {
     @GetMapping("/detail")
     @ResponseBody
     public CommonReturnType getHospitalDetail(@RequestParam(name = "hospitalId") Integer hospitalId){
-        //TODO
-        return CommonReturnType.create("hospital", null);
+        List<Integer> departmentIdList = hospitalService.getDepartmentIdList(hospitalId);
+        List<DepartmentModel> departmentModelList = hospitalService.getDepartmentList(departmentIdList);
+        return CommonReturnType.create("hospital", departmentIdList);
     }
+
+
 
 }
