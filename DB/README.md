@@ -8,7 +8,8 @@
 
 ```bash
 $ docker pull postgres
-$ docker run --name postgres -d -p 5432:5432 -e POSTGRES_PASSWORD=123456 postgres
+$ mkdir ${HOME}/pgdata
+$ docker run --name postgres -d  -e POSTGRES_PASSWORD=123456 -v ${HOME}/pgdata/:/var/lib/postgresql/data -p 5432:5432 postgres 
 $ docker exec -it postgres psql -U postgres -d postgres
 ```
 
@@ -23,3 +24,4 @@ $ python3 gen_sql/main.py
 ```
 
 Then, execute `init_data.sql`, insert some initial values into the database
+

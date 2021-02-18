@@ -1,426 +1,318 @@
-
 -- 初始化 hospital
-
-INSERT INTO hospital(hospital_name, hospital_address)
-SELECT '浙大校医院', '浙江省杭州市西湖区余杭塘路388号'
-WHERE NOT EXISTS(
-        SELECT hospital_name, hospital_address
-        FROM hospital
-        WHERE hospital_name = '浙大校医院'
-          AND hospital_address = '浙江省杭州市西湖区余杭塘路388号');
-
-INSERT INTO hospital(hospital_name, hospital_address)
-SELECT '上海市第九人民医院', '上海市虹口区周家嘴路525号'
-WHERE NOT EXISTS(
-        SELECT hospital_name, hospital_address
-        FROM hospital
-        WHERE hospital_name = '上海市第九人民医院'
-          AND hospital_address = '上海市虹口区周家嘴路525号');
-
-INSERT INTO hospital(hospital_name, hospital_address)
-SELECT '解放军三〇七医院', '北京市丰台区东大街8号'
-WHERE NOT EXISTS(
-        SELECT hospital_name, hospital_address
-        FROM hospital
-        WHERE hospital_name = '解放军三〇七医院'
-          AND hospital_address = '北京市丰台区东大街8号');
-
-INSERT INTO hospital(hospital_name, hospital_address)
-SELECT '上海市第六人民医院', '中国上海市徐汇区田林宜山路600号'
-WHERE NOT EXISTS(
-        SELECT hospital_name, hospital_address
-        FROM hospital
-        WHERE hospital_name = '上海市第六人民医院'
-          AND hospital_address = '中国上海市徐汇区田林宜山路600号');
-
-INSERT INTO hospital(hospital_name, hospital_address)
-SELECT '浙江省第一医院', '浙江省杭州市上城区庆春路79号'
-WHERE NOT EXISTS(
-        SELECT hospital_name, hospital_address
-        FROM hospital
-        WHERE hospital_name = '浙江省第一医院'
-          AND hospital_address = '浙江省杭州市上城区庆春路79号');
+INSERT INTO hospital(hospital_name, hospital_address) VALUES('浙大校医院', '浙江省杭州市西湖区余杭塘路388号');
+INSERT INTO hospital(hospital_name, hospital_address) VALUES('上海市第九人民医院', '上海市虹口区周家嘴路525号');
+INSERT INTO hospital(hospital_name, hospital_address) VALUES('解放军三〇七医院', '北京市丰台区东大街8号');
+INSERT INTO hospital(hospital_name, hospital_address) VALUES('上海市第六人民医院', '中国上海市徐汇区田林宜山路600号');
+INSERT INTO hospital(hospital_name, hospital_address) VALUES('浙江省第一医院', '浙江省杭州市上城区庆春路79号');
 
 -- 初始化 department
+INSERT INTO department(hospital_id, department_name) SELECT hospital_id, '牙科' FROM hospital;
+UPDATE hospital SET department_id_list = array_append(department_id_list, (SELECT department_id FROM department WHERE hospital.hospital_id = department.hospital_id AND department_name = '牙科'));
+INSERT INTO department(hospital_id, department_name) SELECT hospital_id, '内科' FROM hospital;
+UPDATE hospital SET department_id_list = array_append(department_id_list, (SELECT department_id FROM department WHERE hospital.hospital_id = department.hospital_id AND department_name = '内科'));
+INSERT INTO department(hospital_id, department_name) SELECT hospital_id, '外科' FROM hospital;
+UPDATE hospital SET department_id_list = array_append(department_id_list, (SELECT department_id FROM department WHERE hospital.hospital_id = department.hospital_id AND department_name = '外科'));
+INSERT INTO department(hospital_id, department_name) SELECT hospital_id, '皮肤科' FROM hospital;
+UPDATE hospital SET department_id_list = array_append(department_id_list, (SELECT department_id FROM department WHERE hospital.hospital_id = department.hospital_id AND department_name = '皮肤科'));
+INSERT INTO department(hospital_id, department_name) SELECT hospital_id, '精神科' FROM hospital;
+UPDATE hospital SET department_id_list = array_append(department_id_list, (SELECT department_id FROM department WHERE hospital.hospital_id = department.hospital_id AND department_name = '精神科'));
+INSERT INTO department(hospital_id, department_name) SELECT hospital_id, '妇科' FROM hospital;
+UPDATE hospital SET department_id_list = array_append(department_id_list, (SELECT department_id FROM department WHERE hospital.hospital_id = department.hospital_id AND department_name = '妇科'));
 
-INSERT INTO department(hospital_id, department_name)
-SELECT hospital.hospital_id, '牙科'
-FROM hospital
-WHERE NOT EXISTS(
-        SELECT department.hospital_id, department_name
-        FROM department
-        WHERE department.hospital_id = hospital.hospital_id
-          AND department_name = '牙科');
+-- 初始化 user
+INSERT INTO hospital_hub_user(username, password, email, tag, true_name, age, gender) VALUES('17403957784', crypt('DK+xR5D*', gen_salt('bf')), 'vfero.maly@cronx.com', 'doctor', '邓俊智', 33, 'male');
+INSERT INTO hospital_hub_user(username, password, email, tag, true_name, age, gender) VALUES('17400663207', crypt('aVB^vK4H', gen_salt('bf')), 'vlinbr@blogstudent.com', 'doctor', '习星渊', 55, 'male');
+INSERT INTO hospital_hub_user(username, password, email, tag, true_name, age, gender) VALUES('14532187706', crypt('h8-CnzP<', gen_salt('bf')), 'qgeorge.bloom.58t@dbt845.xyz', 'doctor', '焦鸿志', 45, 'male');
+INSERT INTO hospital_hub_user(username, password, email, tag, true_name, age, gender) VALUES('18897834281', crypt('5}W8Fdsr', gen_salt('bf')), 'sslimani.c@jarlhwa.com', 'doctor', '吕盈仪', 34, 'female');
+INSERT INTO hospital_hub_user(username, password, email, tag, true_name, age, gender) VALUES('14554580678', crypt('9Gh`+Ezv', gen_salt('bf')), '2zkrya.altaay18t@mishti.shop', 'doctor', '王修远', 29, 'male');
+INSERT INTO hospital_hub_user(username, password, email, tag, true_name, age, gender) VALUES('16741957248', crypt('4j$^Y3Pf', gen_salt('bf')), 'wstylo.bleu02@customright.com', 'patient', '吕才艺', 82, 'male');
+INSERT INTO hospital_hub_user(username, password, email, tag, true_name, age, gender) VALUES('17404133919', crypt('-R6Zr#<U', gen_salt('bf')), '8secreta@alibaba.cd', 'patient', '陈婧', 14, 'female');
+INSERT INTO hospital_hub_user(username, password, email, tag, true_name, age, gender) VALUES('14749815233', crypt('R8v{]qkx', gen_salt('bf')), 'tsaefho64i@kittiza.com', 'patient', '范思楠', 19, 'male');
+INSERT INTO hospital_hub_user(username, password, email, tag, true_name, age, gender) VALUES('17400217949', crypt('a9Sh}hYF', gen_salt('bf')), '8ibrahim.kha@bookstorage.site', 'patient', '蔡依玉', 20, 'female');
+INSERT INTO hospital_hub_user(username, password, email, tag, true_name, age, gender) VALUES('15280924959', crypt('57R4W#qc', gen_salt('bf')), 'nleonardo.b@activelywell.com', 'patient', '蒋勰', 34, 'male');
 
-INSERT INTO department(hospital_id, department_name)
-SELECT hospital.hospital_id, '内科'
-FROM hospital
-WHERE NOT EXISTS(
-        SELECT department.hospital_id, department_name
-        FROM department
-        WHERE department.hospital_id = hospital.hospital_id
-          AND department_name = '内科');
+-- 初始化 doctor和patient
+DO
+$$
+    DECLARE
+        tmp_user_id       INT;
+        tmp_department_id INT;
+        tmp_hospital_id   INT;
+    BEGIN
+        SELECT hospital_hub_user.user_id, department.department_id, hospital.hospital_id
+        INTO tmp_user_id, tmp_department_id, tmp_hospital_id
+        FROM hospital_hub_user,
+             department,
+             hospital
+        WHERE email = 'vfero.maly@cronx.com'
+          AND department_name = '牙科'
+          AND hospital_name = '浙大校医院'
+          AND department.hospital_id = hospital.hospital_id;
 
-INSERT INTO department(hospital_id, department_name)
-SELECT hospital.hospital_id, '外科'
-FROM hospital
-WHERE NOT EXISTS(
-        SELECT department.hospital_id, department_name
-        FROM department
-        WHERE department.hospital_id = hospital.hospital_id
-          AND department_name = '外科');
+        INSERT INTO doctor(user_id, department_id, hospital_id)
+        VALUES (tmp_user_id, tmp_department_id, tmp_hospital_id);
 
-INSERT INTO department(hospital_id, department_name)
-SELECT hospital.hospital_id, '皮肤科'
-FROM hospital
-WHERE NOT EXISTS(
-        SELECT department.hospital_id, department_name
-        FROM department
-        WHERE department.hospital_id = hospital.hospital_id
-          AND department_name = '皮肤科');
+        UPDATE department
+        SET doctor_id_list = array_append(doctor_id_list, tmp_user_id)
+        WHERE department_id = tmp_department_id;
+    END
+$$;
 
-INSERT INTO department(hospital_id, department_name)
-SELECT hospital.hospital_id, '精神科'
-FROM hospital
-WHERE NOT EXISTS(
-        SELECT department.hospital_id, department_name
-        FROM department
-        WHERE department.hospital_id = hospital.hospital_id
-          AND department_name = '精神科');
+DO
+$$
+    DECLARE
+        tmp_user_id       INT;
+        tmp_department_id INT;
+        tmp_hospital_id   INT;
+    BEGIN
+        SELECT hospital_hub_user.user_id, department.department_id, hospital.hospital_id
+        INTO tmp_user_id, tmp_department_id, tmp_hospital_id
+        FROM hospital_hub_user,
+             department,
+             hospital
+        WHERE email = 'vlinbr@blogstudent.com'
+          AND department_name = '内科'
+          AND hospital_name = '上海市第九人民医院'
+          AND department.hospital_id = hospital.hospital_id;
 
-INSERT INTO department(hospital_id, department_name)
-SELECT hospital.hospital_id, '妇科'
-FROM hospital
-WHERE NOT EXISTS(
-        SELECT department.hospital_id, department_name
-        FROM department
-        WHERE department.hospital_id = hospital.hospital_id
-          AND department_name = '妇科');
+        INSERT INTO doctor(user_id, department_id, hospital_id)
+        VALUES (tmp_user_id, tmp_department_id, tmp_hospital_id);
 
- -- 初始化 user
+        UPDATE department
+        SET doctor_id_list = array_append(doctor_id_list, tmp_user_id)
+        WHERE department_id = tmp_department_id;
+    END
+$$;
 
-INSERT INTO hospital_hub_user(username, password, email, tag, true_name, age)
-SELECT 'neo_hugh_0', crypt('WDNMD000', gen_salt('bf')), 'neo_hugh_0@996.icu.com', 'doctor', '胡洋凡零号', 1
-WHERE NOT EXISTS(
-        SELECT username, password, email, tag, true_name, age
-        FROM hospital_hub_user
-        WHERE username = 'neo_hugh_0'
-          AND password = crypt('WDNMD000', gen_salt('bf'))
-          AND email = 'neo_hugh_0@996.icu.com'
-          AND tag = 'doctor'
-          AND true_name = '胡洋凡零号'
-          AND age = 1);
+DO
+$$
+    DECLARE
+        tmp_user_id       INT;
+        tmp_department_id INT;
+        tmp_hospital_id   INT;
+    BEGIN
+        SELECT hospital_hub_user.user_id, department.department_id, hospital.hospital_id
+        INTO tmp_user_id, tmp_department_id, tmp_hospital_id
+        FROM hospital_hub_user,
+             department,
+             hospital
+        WHERE email = 'qgeorge.bloom.58t@dbt845.xyz'
+          AND department_name = '外科'
+          AND hospital_name = '解放军三〇七医院'
+          AND department.hospital_id = hospital.hospital_id;
 
-INSERT INTO hospital_hub_user(username, password, email, tag, true_name, age)
-SELECT 'neo_hugh_1', crypt('WDNMD001', gen_salt('bf')), 'neo_hugh_1@996.icu.com', 'doctor', '胡洋凡一号', 2
-WHERE NOT EXISTS(
-        SELECT username, password, email, tag, true_name, age
-        FROM hospital_hub_user
-        WHERE username = 'neo_hugh_1'
-          AND password = crypt('WDNMD001', gen_salt('bf'))
-          AND email = 'neo_hugh_1@996.icu.com'
-          AND tag = 'doctor'
-          AND true_name = '胡洋凡一号'
-          AND age = 2);
+        INSERT INTO doctor(user_id, department_id, hospital_id)
+        VALUES (tmp_user_id, tmp_department_id, tmp_hospital_id);
 
-INSERT INTO hospital_hub_user(username, password, email, tag, true_name, age)
-SELECT 'neo_hugh_2', crypt('WDNMD002', gen_salt('bf')), 'neo_hugh_2@996.icu.com', 'doctor', '胡洋凡二号', 3
-WHERE NOT EXISTS(
-        SELECT username, password, email, tag, true_name, age
-        FROM hospital_hub_user
-        WHERE username = 'neo_hugh_2'
-          AND password = crypt('WDNMD002', gen_salt('bf'))
-          AND email = 'neo_hugh_2@996.icu.com'
-          AND tag = 'doctor'
-          AND true_name = '胡洋凡二号'
-          AND age = 3);
+        UPDATE department
+        SET doctor_id_list = array_append(doctor_id_list, tmp_user_id)
+        WHERE department_id = tmp_department_id;
+    END
+$$;
 
-INSERT INTO hospital_hub_user(username, password, email, tag, true_name, age)
-SELECT 'neo_hugh_3', crypt('WDNMD003', gen_salt('bf')), 'neo_hugh_3@996.icu.com', 'doctor', '胡洋凡三号', 4
-WHERE NOT EXISTS(
-        SELECT username, password, email, tag, true_name, age
-        FROM hospital_hub_user
-        WHERE username = 'neo_hugh_3'
-          AND password = crypt('WDNMD003', gen_salt('bf'))
-          AND email = 'neo_hugh_3@996.icu.com'
-          AND tag = 'doctor'
-          AND true_name = '胡洋凡三号'
-          AND age = 4);
+DO
+$$
+    DECLARE
+        tmp_user_id       INT;
+        tmp_department_id INT;
+        tmp_hospital_id   INT;
+    BEGIN
+        SELECT hospital_hub_user.user_id, department.department_id, hospital.hospital_id
+        INTO tmp_user_id, tmp_department_id, tmp_hospital_id
+        FROM hospital_hub_user,
+             department,
+             hospital
+        WHERE email = 'sslimani.c@jarlhwa.com'
+          AND department_name = '皮肤科'
+          AND hospital_name = '上海市第六人民医院'
+          AND department.hospital_id = hospital.hospital_id;
 
-INSERT INTO hospital_hub_user(username, password, email, tag, true_name, age)
-SELECT 'neo_hugh_4', crypt('WDNMD004', gen_salt('bf')), 'neo_hugh_4@996.icu.com', 'doctor', '胡洋凡四号', 5
-WHERE NOT EXISTS(
-        SELECT username, password, email, tag, true_name, age
-        FROM hospital_hub_user
-        WHERE username = 'neo_hugh_4'
-          AND password = crypt('WDNMD004', gen_salt('bf'))
-          AND email = 'neo_hugh_4@996.icu.com'
-          AND tag = 'doctor'
-          AND true_name = '胡洋凡四号'
-          AND age = 5);
+        INSERT INTO doctor(user_id, department_id, hospital_id)
+        VALUES (tmp_user_id, tmp_department_id, tmp_hospital_id);
 
-INSERT INTO hospital_hub_user(username, password, email, tag, true_name, age)
-SELECT 'neo_hugh_5', crypt('WDNMD005', gen_salt('bf')), 'neo_hugh_5@996.icu.com', 'patient', '胡洋凡五号', 6
-WHERE NOT EXISTS(
-        SELECT username, password, email, tag, true_name, age
-        FROM hospital_hub_user
-        WHERE username = 'neo_hugh_5'
-          AND password = crypt('WDNMD005', gen_salt('bf'))
-          AND email = 'neo_hugh_5@996.icu.com'
-          AND tag = 'patient'
-          AND true_name = '胡洋凡五号'
-          AND age = 6);
+        UPDATE department
+        SET doctor_id_list = array_append(doctor_id_list, tmp_user_id)
+        WHERE department_id = tmp_department_id;
+    END
+$$;
 
-INSERT INTO hospital_hub_user(username, password, email, tag, true_name, age)
-SELECT 'neo_hugh_6', crypt('WDNMD006', gen_salt('bf')), 'neo_hugh_6@996.icu.com', 'patient', '胡洋凡六号', 7
-WHERE NOT EXISTS(
-        SELECT username, password, email, tag, true_name, age
-        FROM hospital_hub_user
-        WHERE username = 'neo_hugh_6'
-          AND password = crypt('WDNMD006', gen_salt('bf'))
-          AND email = 'neo_hugh_6@996.icu.com'
-          AND tag = 'patient'
-          AND true_name = '胡洋凡六号'
-          AND age = 7);
+DO
+$$
+    DECLARE
+        tmp_user_id       INT;
+        tmp_department_id INT;
+        tmp_hospital_id   INT;
+    BEGIN
+        SELECT hospital_hub_user.user_id, department.department_id, hospital.hospital_id
+        INTO tmp_user_id, tmp_department_id, tmp_hospital_id
+        FROM hospital_hub_user,
+             department,
+             hospital
+        WHERE email = '2zkrya.altaay18t@mishti.shop'
+          AND department_name = '精神科'
+          AND hospital_name = '浙江省第一医院'
+          AND department.hospital_id = hospital.hospital_id;
 
-INSERT INTO hospital_hub_user(username, password, email, tag, true_name, age)
-SELECT 'neo_hugh_7', crypt('WDNMD007', gen_salt('bf')), 'neo_hugh_7@996.icu.com', 'patient', '胡洋凡七号', 8
-WHERE NOT EXISTS(
-        SELECT username, password, email, tag, true_name, age
-        FROM hospital_hub_user
-        WHERE username = 'neo_hugh_7'
-          AND password = crypt('WDNMD007', gen_salt('bf'))
-          AND email = 'neo_hugh_7@996.icu.com'
-          AND tag = 'patient'
-          AND true_name = '胡洋凡七号'
-          AND age = 8);
+        INSERT INTO doctor(user_id, department_id, hospital_id)
+        VALUES (tmp_user_id, tmp_department_id, tmp_hospital_id);
 
-INSERT INTO hospital_hub_user(username, password, email, tag, true_name, age)
-SELECT 'neo_hugh_8', crypt('WDNMD008', gen_salt('bf')), 'neo_hugh_8@996.icu.com', 'patient', '胡洋凡八号', 9
-WHERE NOT EXISTS(
-        SELECT username, password, email, tag, true_name, age
-        FROM hospital_hub_user
-        WHERE username = 'neo_hugh_8'
-          AND password = crypt('WDNMD008', gen_salt('bf'))
-          AND email = 'neo_hugh_8@996.icu.com'
-          AND tag = 'patient'
-          AND true_name = '胡洋凡八号'
-          AND age = 9);
+        UPDATE department
+        SET doctor_id_list = array_append(doctor_id_list, tmp_user_id)
+        WHERE department_id = tmp_department_id;
+    END
+$$;
 
-INSERT INTO hospital_hub_user(username, password, email, tag, true_name, age)
-SELECT 'neo_hugh_9', crypt('WDNMD009', gen_salt('bf')), 'neo_hugh_9@996.icu.com', 'patient', '胡洋凡九号', 10
-WHERE NOT EXISTS(
-        SELECT username, password, email, tag, true_name, age
-        FROM hospital_hub_user
-        WHERE username = 'neo_hugh_9'
-          AND password = crypt('WDNMD009', gen_salt('bf'))
-          AND email = 'neo_hugh_9@996.icu.com'
-          AND tag = 'patient'
-          AND true_name = '胡洋凡九号'
-          AND age = 10);
-
- -- 初始化 doctor和patient
-
-INSERT INTO doctor(user_id, department_id, hospital_id)
-SELECT hospital_hub_user.user_id, department.department_id, hospital.hospital_id
-FROM hospital_hub_user,
-     department,
-     hospital
-WHERE email = 'neo_hugh_0@996.icu.com'
-  AND department_name = '牙科'
-  AND hospital_name = '浙大校医院'
-  AND department.hospital_id = hospital.hospital_id
-  AND NOT EXISTS(
-        SELECT user_id, department_id, hospital_id
-        FROM doctor
-        WHERE doctor.user_id = hospital_hub_user.user_id
-          AND doctor.department_id = department.department_id
-          AND doctor.hospital_id = hospital.hospital_id);
-
-INSERT INTO doctor(user_id, department_id, hospital_id)
-SELECT hospital_hub_user.user_id, department.department_id, hospital.hospital_id
-FROM hospital_hub_user,
-     department,
-     hospital
-WHERE email = 'neo_hugh_1@996.icu.com'
-  AND department_name = '内科'
-  AND hospital_name = '上海市第九人民医院'
-  AND department.hospital_id = hospital.hospital_id
-  AND NOT EXISTS(
-        SELECT user_id, department_id, hospital_id
-        FROM doctor
-        WHERE doctor.user_id = hospital_hub_user.user_id
-          AND doctor.department_id = department.department_id
-          AND doctor.hospital_id = hospital.hospital_id);
-
-INSERT INTO doctor(user_id, department_id, hospital_id)
-SELECT hospital_hub_user.user_id, department.department_id, hospital.hospital_id
-FROM hospital_hub_user,
-     department,
-     hospital
-WHERE email = 'neo_hugh_2@996.icu.com'
-  AND department_name = '外科'
-  AND hospital_name = '解放军三〇七医院'
-  AND department.hospital_id = hospital.hospital_id
-  AND NOT EXISTS(
-        SELECT user_id, department_id, hospital_id
-        FROM doctor
-        WHERE doctor.user_id = hospital_hub_user.user_id
-          AND doctor.department_id = department.department_id
-          AND doctor.hospital_id = hospital.hospital_id);
-
-INSERT INTO doctor(user_id, department_id, hospital_id)
-SELECT hospital_hub_user.user_id, department.department_id, hospital.hospital_id
-FROM hospital_hub_user,
-     department,
-     hospital
-WHERE email = 'neo_hugh_3@996.icu.com'
-  AND department_name = '皮肤科'
-  AND hospital_name = '上海市第六人民医院'
-  AND department.hospital_id = hospital.hospital_id
-  AND NOT EXISTS(
-        SELECT user_id, department_id, hospital_id
-        FROM doctor
-        WHERE doctor.user_id = hospital_hub_user.user_id
-          AND doctor.department_id = department.department_id
-          AND doctor.hospital_id = hospital.hospital_id);
-
-INSERT INTO doctor(user_id, department_id, hospital_id)
-SELECT hospital_hub_user.user_id, department.department_id, hospital.hospital_id
-FROM hospital_hub_user,
-     department,
-     hospital
-WHERE email = 'neo_hugh_4@996.icu.com'
-  AND department_name = '精神科'
-  AND hospital_name = '浙江省第一医院'
-  AND department.hospital_id = hospital.hospital_id
-  AND NOT EXISTS(
-        SELECT user_id, department_id, hospital_id
-        FROM doctor
-        WHERE doctor.user_id = hospital_hub_user.user_id
-          AND doctor.department_id = department.department_id
-          AND doctor.hospital_id = hospital.hospital_id);
-
-INSERT INTO patient(user_id)
-SELECT user_id
-FROM hospital_hub_user
-WHERE email = 'neo_hugh_5@996.icu.com'
-  AND NOT EXISTS(
-        SELECT user_id FROM patient WHERE patient.user_id = hospital_hub_user.user_id);
-
-INSERT INTO patient(user_id)
-SELECT user_id
-FROM hospital_hub_user
-WHERE email = 'neo_hugh_6@996.icu.com'
-  AND NOT EXISTS(
-        SELECT user_id FROM patient WHERE patient.user_id = hospital_hub_user.user_id);
-
-INSERT INTO patient(user_id)
-SELECT user_id
-FROM hospital_hub_user
-WHERE email = 'neo_hugh_7@996.icu.com'
-  AND NOT EXISTS(
-        SELECT user_id FROM patient WHERE patient.user_id = hospital_hub_user.user_id);
-
-INSERT INTO patient(user_id)
-SELECT user_id
-FROM hospital_hub_user
-WHERE email = 'neo_hugh_8@996.icu.com'
-  AND NOT EXISTS(
-        SELECT user_id FROM patient WHERE patient.user_id = hospital_hub_user.user_id);
-
-INSERT INTO patient(user_id)
-SELECT user_id
-FROM hospital_hub_user
-WHERE email = 'neo_hugh_9@996.icu.com'
-  AND NOT EXISTS(
-        SELECT user_id FROM patient WHERE patient.user_id = hospital_hub_user.user_id);
+INSERT INTO patient(user_id) SELECT user_id FROM hospital_hub_user WHERE email = 'wstylo.bleu02@customright.com';
+INSERT INTO patient(user_id) SELECT user_id FROM hospital_hub_user WHERE email = '8secreta@alibaba.cd';
+INSERT INTO patient(user_id) SELECT user_id FROM hospital_hub_user WHERE email = 'tsaefho64i@kittiza.com';
+INSERT INTO patient(user_id) SELECT user_id FROM hospital_hub_user WHERE email = '8ibrahim.kha@bookstorage.site';
+INSERT INTO patient(user_id) SELECT user_id FROM hospital_hub_user WHERE email = 'nleonardo.b@activelywell.com';
 
 -- 初始化 comment
 
 INSERT INTO comment(patient_id, doctor_id, content)
-SELECT patient_user.user_id, doctor_user.user_id, '你就是世界 你就是宇宙 你就是大陆 你就是国家 你就是扰乱我之后又来拯救我的人，你就是神 你就是上帝 你就是love  你就是天使 你就是上天派来拯救我的精灵'
-FROM hospital_hub_user AS patient_user,
-     hospital_hub_user AS doctor_user
-WHERE patient_user.username = 'neo_hugh_9'
-  AND doctor_user.username = 'neo_hugh_1';
+SELECT patient_user.user_id, doctor_user.user_id, '专业详实的解答，多谢医生'
+FROM hospital_hub_user AS patient_user, hospital_hub_user AS doctor_user
+WHERE patient_user.username = '15280924959' AND doctor_user.username = '18897834281';
 
 INSERT INTO comment(patient_id, doctor_id, content)
-SELECT patient_user.user_id, doctor_user.user_id, '你其有点像天上的月亮，也像那闪烁的星星，可惜我不是诗人，否则当写一万首诗来形容你的美丽'
-FROM hospital_hub_user AS patient_user,
-     hospital_hub_user AS doctor_user
-WHERE patient_user.username = 'neo_hugh_8'
-  AND doctor_user.username = 'neo_hugh_0';
+SELECT patient_user.user_id, doctor_user.user_id, '无比赞，谢谢医生的解惑。'
+FROM hospital_hub_user AS patient_user, hospital_hub_user AS doctor_user
+WHERE patient_user.username = '17400217949' AND doctor_user.username = '17400663207';
 
 INSERT INTO comment(patient_id, doctor_id, content)
-SELECT patient_user.user_id, doctor_user.user_id, '你的侧脸应该制定为国家一级宝物'
-FROM hospital_hub_user AS patient_user,
-     hospital_hub_user AS doctor_user
-WHERE patient_user.username = 'neo_hugh_6'
-  AND doctor_user.username = 'neo_hugh_4';
+SELECT patient_user.user_id, doctor_user.user_id, '无比赞，谢谢医生的解惑。'
+FROM hospital_hub_user AS patient_user, hospital_hub_user AS doctor_user
+WHERE patient_user.username = '17404133919' AND doctor_user.username = '14554580678';
 
 INSERT INTO comment(patient_id, doctor_id, content)
-SELECT patient_user.user_id, doctor_user.user_id, '世事如书，我偏爱你这一句'
-FROM hospital_hub_user AS patient_user,
-     hospital_hub_user AS doctor_user
-WHERE patient_user.username = 'neo_hugh_8'
-  AND doctor_user.username = 'neo_hugh_4';
+SELECT patient_user.user_id, doctor_user.user_id, '谢谢医生！'
+FROM hospital_hub_user AS patient_user, hospital_hub_user AS doctor_user
+WHERE patient_user.username = '14749815233' AND doctor_user.username = '17403957784';
 
 INSERT INTO comment(patient_id, doctor_id, content)
-SELECT patient_user.user_id, doctor_user.user_id, '不知道为啥你要隔三差五发张自拍，我真的无语，要发就天天发，这是在拯救世界'
-FROM hospital_hub_user AS patient_user,
-     hospital_hub_user AS doctor_user
-WHERE patient_user.username = 'neo_hugh_9'
-  AND doctor_user.username = 'neo_hugh_4';
+SELECT patient_user.user_id, doctor_user.user_id, '谢谢医生，祝医生新年快乐！'
+FROM hospital_hub_user AS patient_user, hospital_hub_user AS doctor_user
+WHERE patient_user.username = '17400217949' AND doctor_user.username = '17400663207';
 
 -- 初始化 registration
+DO
+$$
+    DECLARE
+        tmp_patient_id      INT;
+        tmp_doctor_id       INT;
+        tmp_hospital_id     INT;
+        tmp_department_id   INT;
+        tmp_registration_id TEXT;
+    BEGIN
+        SELECT patient_user.user_id, doctor_user.user_id, hospital_id, department_id
+        INTO tmp_patient_id, tmp_doctor_id, tmp_hospital_id, tmp_department_id
+        FROM hospital_hub_user AS patient_user, hospital_hub_user AS doctor_user, doctor
+        WHERE patient_user.username = '15280924959' AND doctor_user.username = '18897834281' AND doctor.user_id = doctor_user.user_id;
 
-INSERT INTO registration(patient_id, doctor_id, hospital_id)
-SELECT patient_user.user_id, doctor_user.user_id, hospital_id
-FROM hospital_hub_user AS patient_user,
-     hospital_hub_user AS doctor_user,
-     doctor
-WHERE patient_user.username = 'neo_hugh_6'
-  AND doctor_user.username = 'neo_hugh_4'
-  AND doctor.user_id = doctor_user.user_id;
+        INSERT INTO registration(patient_id, doctor_id, hospital_id, department_id) VALUES(tmp_patient_id, tmp_doctor_id, tmp_hospital_id, tmp_department_id)
+        RETURNING registration_id INTO tmp_registration_id;
+        
+        INSERT INTO process(registration_id, doctor_id) VALUES(tmp_registration_id, tmp_doctor_id);
 
-
-INSERT INTO registration(patient_id, doctor_id, hospital_id)
-SELECT patient_user.user_id, doctor_user.user_id, hospital_id
-FROM hospital_hub_user AS patient_user,
-     hospital_hub_user AS doctor_user,
-     doctor
-WHERE patient_user.username = 'neo_hugh_9'
-  AND doctor_user.username = 'neo_hugh_2'
-  AND doctor.user_id = doctor_user.user_id;
-
-
-INSERT INTO registration(patient_id, doctor_id, hospital_id)
-SELECT patient_user.user_id, doctor_user.user_id, hospital_id
-FROM hospital_hub_user AS patient_user,
-     hospital_hub_user AS doctor_user,
-     doctor
-WHERE patient_user.username = 'neo_hugh_6'
-  AND doctor_user.username = 'neo_hugh_4'
-  AND doctor.user_id = doctor_user.user_id;
+        INSERT INTO prescription(registration_id, patient_id, doctor_id) VALUES (tmp_registration_id, tmp_patient_id, tmp_doctor_id);
+    END
+$$;
 
 
-INSERT INTO registration(patient_id, doctor_id, hospital_id)
-SELECT patient_user.user_id, doctor_user.user_id, hospital_id
-FROM hospital_hub_user AS patient_user,
-     hospital_hub_user AS doctor_user,
-     doctor
-WHERE patient_user.username = 'neo_hugh_7'
-  AND doctor_user.username = 'neo_hugh_2'
-  AND doctor.user_id = doctor_user.user_id;
+DO
+$$
+    DECLARE
+        tmp_patient_id      INT;
+        tmp_doctor_id       INT;
+        tmp_hospital_id     INT;
+        tmp_department_id   INT;
+        tmp_registration_id TEXT;
+    BEGIN
+        SELECT patient_user.user_id, doctor_user.user_id, hospital_id, department_id
+        INTO tmp_patient_id, tmp_doctor_id, tmp_hospital_id, tmp_department_id
+        FROM hospital_hub_user AS patient_user, hospital_hub_user AS doctor_user, doctor
+        WHERE patient_user.username = '14749815233' AND doctor_user.username = '17400663207' AND doctor.user_id = doctor_user.user_id;
+
+        INSERT INTO registration(patient_id, doctor_id, hospital_id, department_id) VALUES(tmp_patient_id, tmp_doctor_id, tmp_hospital_id, tmp_department_id)
+        RETURNING registration_id INTO tmp_registration_id;
+        
+        INSERT INTO process(registration_id, doctor_id) VALUES(tmp_registration_id, tmp_doctor_id);
+
+        INSERT INTO prescription(registration_id, patient_id, doctor_id) VALUES (tmp_registration_id, tmp_patient_id, tmp_doctor_id);
+    END
+$$;
 
 
-INSERT INTO registration(patient_id, doctor_id, hospital_id)
-SELECT patient_user.user_id, doctor_user.user_id, hospital_id
-FROM hospital_hub_user AS patient_user,
-     hospital_hub_user AS doctor_user,
-     doctor
-WHERE patient_user.username = 'neo_hugh_7'
-  AND doctor_user.username = 'neo_hugh_2'
-  AND doctor.user_id = doctor_user.user_id;
+DO
+$$
+    DECLARE
+        tmp_patient_id      INT;
+        tmp_doctor_id       INT;
+        tmp_hospital_id     INT;
+        tmp_department_id   INT;
+        tmp_registration_id TEXT;
+    BEGIN
+        SELECT patient_user.user_id, doctor_user.user_id, hospital_id, department_id
+        INTO tmp_patient_id, tmp_doctor_id, tmp_hospital_id, tmp_department_id
+        FROM hospital_hub_user AS patient_user, hospital_hub_user AS doctor_user, doctor
+        WHERE patient_user.username = '17400217949' AND doctor_user.username = '14554580678' AND doctor.user_id = doctor_user.user_id;
+
+        INSERT INTO registration(patient_id, doctor_id, hospital_id, department_id) VALUES(tmp_patient_id, tmp_doctor_id, tmp_hospital_id, tmp_department_id)
+        RETURNING registration_id INTO tmp_registration_id;
+        
+        INSERT INTO process(registration_id, doctor_id) VALUES(tmp_registration_id, tmp_doctor_id);
+
+        INSERT INTO prescription(registration_id, patient_id, doctor_id) VALUES (tmp_registration_id, tmp_patient_id, tmp_doctor_id);
+    END
+$$;
+
+
+DO
+$$
+    DECLARE
+        tmp_patient_id      INT;
+        tmp_doctor_id       INT;
+        tmp_hospital_id     INT;
+        tmp_department_id   INT;
+        tmp_registration_id TEXT;
+    BEGIN
+        SELECT patient_user.user_id, doctor_user.user_id, hospital_id, department_id
+        INTO tmp_patient_id, tmp_doctor_id, tmp_hospital_id, tmp_department_id
+        FROM hospital_hub_user AS patient_user, hospital_hub_user AS doctor_user, doctor
+        WHERE patient_user.username = '14749815233' AND doctor_user.username = '17403957784' AND doctor.user_id = doctor_user.user_id;
+
+        INSERT INTO registration(patient_id, doctor_id, hospital_id, department_id) VALUES(tmp_patient_id, tmp_doctor_id, tmp_hospital_id, tmp_department_id)
+        RETURNING registration_id INTO tmp_registration_id;
+        
+        INSERT INTO process(registration_id, doctor_id) VALUES(tmp_registration_id, tmp_doctor_id);
+
+        INSERT INTO prescription(registration_id, patient_id, doctor_id) VALUES (tmp_registration_id, tmp_patient_id, tmp_doctor_id);
+    END
+$$;
+
+
+DO
+$$
+    DECLARE
+        tmp_patient_id      INT;
+        tmp_doctor_id       INT;
+        tmp_hospital_id     INT;
+        tmp_department_id   INT;
+        tmp_registration_id TEXT;
+    BEGIN
+        SELECT patient_user.user_id, doctor_user.user_id, hospital_id, department_id
+        INTO tmp_patient_id, tmp_doctor_id, tmp_hospital_id, tmp_department_id
+        FROM hospital_hub_user AS patient_user, hospital_hub_user AS doctor_user, doctor
+        WHERE patient_user.username = '17404133919' AND doctor_user.username = '14532187706' AND doctor.user_id = doctor_user.user_id;
+
+        INSERT INTO registration(patient_id, doctor_id, hospital_id, department_id) VALUES(tmp_patient_id, tmp_doctor_id, tmp_hospital_id, tmp_department_id)
+        RETURNING registration_id INTO tmp_registration_id;
+        
+        INSERT INTO process(registration_id, doctor_id) VALUES(tmp_registration_id, tmp_doctor_id);
+
+        INSERT INTO prescription(registration_id, patient_id, doctor_id) VALUES (tmp_registration_id, tmp_patient_id, tmp_doctor_id);
+    END
+$$;
+
 

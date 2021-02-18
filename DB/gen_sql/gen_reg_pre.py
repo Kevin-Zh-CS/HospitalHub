@@ -1,15 +1,28 @@
 from gen_user import user_data
 from random import choice
 
-sql_wildcard = '''
-INSERT INTO registration(patient_id, doctor_id, hospital_id)
-SELECT patient_user.user_id, doctor_user.user_id, hospital_id
-FROM hospital_hub_user AS patient_user,
-     hospital_hub_user AS doctor_user,
-     doctor
-WHERE patient_user.username = '{patient_username}'
-  AND doctor_user.username = '{doctor_username}'
-  AND doctor.user_id = doctor_user.user_id;
+sql_wildcard = '''DO
+$$
+    DECLARE
+        tmp_patient_id      INT;
+        tmp_doctor_id       INT;
+        tmp_hospital_id     INT;
+        tmp_department_id   INT;
+        tmp_registration_id TEXT;
+    BEGIN
+        SELECT patient_user.user_id, doctor_user.user_id, hospital_id, department_id
+        INTO tmp_patient_id, tmp_doctor_id, tmp_hospital_id, tmp_department_id
+        FROM hospital_hub_user AS patient_user, hospital_hub_user AS doctor_user, doctor
+        WHERE patient_user.username = '{patient_username}' AND doctor_user.username = '{doctor_username}' AND doctor.user_id = doctor_user.user_id;
+
+        INSERT INTO registration(patient_id, doctor_id, hospital_id, department_id) VALUES(tmp_patient_id, tmp_doctor_id, tmp_hospital_id, tmp_department_id)
+        RETURNING registration_id INTO tmp_registration_id;
+        
+        INSERT INTO process(registration_id, doctor_id) VALUES(tmp_registration_id, tmp_doctor_id);
+
+        INSERT INTO prescription(registration_id, patient_id, doctor_id) VALUES (tmp_registration_id, tmp_patient_id, tmp_doctor_id);
+    END
+$$;\n
 '''
 
 
