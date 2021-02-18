@@ -53,12 +53,13 @@ CREATE TABLE hospital_hub_user
 
 CREATE TABLE department
 (
-    department_id   SERIAL PRIMARY KEY,
-    hospital_id     INT  NOT NULL REFERENCES hospital,
-    department_name TEXT NOT NULL DEFAULT '',
-    doctor_id_list  INT[]         DEFAULT ARRAY []::INT[],
-    remain          INT  NOT NULL DEFAULT 0,
-    waiting         INT  NOT NULL DEFAULT 0
+    department_id       SERIAL PRIMARY KEY,
+    hospital_id         INT  NOT NULL REFERENCES hospital,
+    department_name     TEXT NOT NULL DEFAULT '',
+    doctor_id_list      INT[]         DEFAULT ARRAY []::INT[],
+    department_capacity INT  NOT NULL DEFAULT 0,
+    department_remain   INT  NOT NULL DEFAULT 0,
+    department_waiting  INT  NOT NULL DEFAULT 0
 );
 
 CREATE TABLE doctor
@@ -69,7 +70,7 @@ CREATE TABLE doctor
     hospital_id   INT         NOT NULL REFERENCES hospital,
     experience    TEXT        NOT NULL DEFAULT '',
     education     TEXT        NOT NULL DEFAULT '',
-    arrangement   TIMESTAMP[] NOT NULL DEFAULT ARRAY []::TIMESTAMP[],
+    arrangement   INT[]       NOT NULL DEFAULT ARRAY []::INT[],
     score         NUMERIC     NOT NULL DEFAULT 0,
     on_duty       BOOLEAN     NOT NULL DEFAULT false,
     type          doctor_type NOT NULL DEFAULT 'normal',
@@ -96,6 +97,7 @@ CREATE TABLE registration
     patient_id        INT       NOT NULL REFERENCES hospital_hub_user (user_id),
     doctor_id         INT       NOT NULL REFERENCES hospital_hub_user (user_id),
     hospital_id       INT       NOT NULL REFERENCES hospital,
+    department_id     INT       NOT NULL REFERENCES department,
     registration_time TIMESTAMP NOT NULL             DEFAULT now()::timestamp(0)
 );
 
@@ -108,7 +110,6 @@ CREATE TABLE comment
     content      TEXT      NOT NULL DEFAULT '',
     publish_time TIMESTAMP NOT NULL DEFAULT now()::timestamp(0)
 );
-
 
 
 CREATE TABLE process
@@ -129,9 +130,6 @@ CREATE TABLE prescription
     patient_id          INT        NOT NULL REFERENCES hospital_hub_user (user_id),
     doctor_id           INT        NOT NULL REFERENCES hospital_hub_user (user_id),
     prescription_time   TIMESTAMP  NOT NULL DEFAULT now()::timestamp(0),
-    patient_address     TEXT       NOT NULL DEFAULT '',
-    hospital_address    TEXT       NOT NULL DEFAULT '',
-    true_name           TEXT       NOT NULL DEFAULT '',
     prescription_detail TEXT       NOT NULL DEFAULT '',
     status              order_type NOT NULL DEFAULT 'unpaid',
     medicine_id         TEXT       NOT NULL DEFAULT '',
