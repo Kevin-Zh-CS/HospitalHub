@@ -70,7 +70,7 @@ CREATE TABLE doctor
     hospital_id   INT         NOT NULL REFERENCES hospital,
     experience    TEXT        NOT NULL DEFAULT '',
     education     TEXT        NOT NULL DEFAULT '',
-    arrangement   INT[]       NOT NULL DEFAULT ARRAY []::INT[],
+    arrangement   BOOLEAN[]   NOT NULL DEFAULT ARRAY []::BOOLEAN[],
     score         NUMERIC     NOT NULL DEFAULT 0,
     on_duty       BOOLEAN     NOT NULL DEFAULT false,
     type          doctor_type NOT NULL DEFAULT 'normal',
