@@ -53,7 +53,6 @@ public class DoctorServiceImpl implements DoctorService {
         }
         BeanUtils.copyProperties(doctorDO, doctorModel);
 
-        doctorModel.setOrderIdList(prescriptionDOMapper.selectByDoctorId(doctorId));
         doctorModel.setDepartmentName(departmentDOMapper.selectByPrimaryKey(doctorDO.getDepartmentId()).getDepartmentName());
         doctorModel.setHospitalName(hospitalDOMapper.selectByPrimaryKey(doctorDO.getHospitalId()).getHospitalName());
         doctorModel.setCommentDOList(commentDOMapper.selectByDoctorId(doctorId));

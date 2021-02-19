@@ -7,7 +7,6 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.List;
 
 public class UserModel implements Serializable {
     private Integer userId;
@@ -23,7 +22,6 @@ public class UserModel implements Serializable {
 
     private Double balance;
     private String portraitUrl;
-    private List<PrescriptionDO> orderList;
     private String tag;
 
     @NotBlank(message = "请填写真实姓名")
@@ -40,13 +38,12 @@ public class UserModel implements Serializable {
     public UserModel() {
     }
 
-    public UserModel(String username, String password, String email, Double balance, String portraitUrl, List<PrescriptionDO> orderList, String tag, String trueName, String gender, Integer age) {
+    public UserModel(String username, String password, String email, Double balance, String portraitUrl, String tag, String trueName, String gender, Integer age) {
         this.username = username;
         this.password = password;
         this.email = email;
         this.balance = balance;
         this.portraitUrl = portraitUrl;
-        this.orderList = orderList;
         this.tag = tag;
         this.trueName = trueName;
         this.gender = gender;
@@ -99,14 +96,6 @@ public class UserModel implements Serializable {
 
     public void setPortraitUrl(String portraitUrl) {
         this.portraitUrl = portraitUrl;
-    }
-
-    public List<PrescriptionDO> getOrderIdList() {
-        return orderList;
-    }
-
-    public void setOrderIdList(List<PrescriptionDO> orderIdList) {
-        this.orderList = orderIdList;
     }
 
     public String getTag() {

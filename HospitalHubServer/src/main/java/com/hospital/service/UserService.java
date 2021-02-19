@@ -11,4 +11,6 @@ public interface UserService {
 //    void UpdateOrderListById(Integer id) throws BusinessException;
     void register(PatientModel patientModel) throws BusinessException;
     UserModel validateLogin(String accountId, String encodedPassword) throws BusinessException;
+    UserDO getUserByAccountId(String accountId);
+    void changePassword(UserModel userModel);
 }

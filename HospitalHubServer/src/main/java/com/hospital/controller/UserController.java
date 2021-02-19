@@ -11,10 +11,13 @@ import com.hospital.service.model.PatientModel;
 import com.hospital.service.model.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -29,12 +32,16 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private JavaMailSender mailSender;
+
 
     @RequestMapping(value = "/test")
     @ResponseBody
     public CommonReturnType testConnection(){
         return CommonReturnType.create("doctor", "yes");
     }
+
 
     @PostMapping(value = "/login", consumes = CommonReturnType.CONTENT_TYPE_FROMED)
     @ResponseBody
@@ -59,7 +66,59 @@ public class UserController {
     }
 
 
-    //用户注册接口
+    @PostMapping(value = "/change/password", consumes = {CommonReturnType.CONTENT_TYPE_FROMED})
+    @ResponseBody
+    public CommonReturnType changePassword(@RequestParam(name = "encodedOldPassword") String encodedOldPassword,
+                                           @RequestParam(name = "encodedNewPassword") String encodedNewPassword,
+                                           @RequestParam(name = "repeatEncodedNewPassword") String repeatEncodedNewPassword,
+                                           @RequestParam(name = "token") String token) throws BusinessException {
+
+        if(org.apache.commons.lang3.StringUtils.isEmpty(token)){
+            throw new BusinessException(BusinessError.USER_NOT_LOGIN);
+        }
+        if(encodedOldPassword.equals(encodedNewPassword)){
+            throw new BusinessException(BusinessError.USER_PASSWORD_REPEAT);
+        }
+        if(!repeatEncodedNewPassword.equals(encodedNewPassword)){
+            throw new BusinessException(BusinessError.USER_PASSWORD_NOT_CONSISTENT);
+        }
+        UserModel userModel = (UserModel) redisTemplate.opsForValue().get(token);
+        if(userModel == null){
+            throw new BusinessException(BusinessError.USER_NOT_LOGIN);
+        }
+        userService.changePassword(userModel);
+        return CommonReturnType.create("user", "重置成功");
+    }
+
+    @PostMapping(value = "/reset/password", consumes = {CommonReturnType.CONTENT_TYPE_FROMED})
+    @ResponseBody
+    public CommonReturnType resetPassword(@RequestParam(name = "accountId") String accountId,
+                                          @RequestParam(name = "bindEmail") String bindEmail) throws BusinessException {
+
+        //该电话号码是否存在
+        UserDO userDO = userService.getUserByAccountId(accountId);
+        if(userDO == null){
+            throw new BusinessException(BusinessError.USER_NOT_EXIST);
+        }
+        //是否是绑定的邮箱
+        if(!userDO.getEmail().equals(bindEmail)){
+            throw new BusinessException(BusinessError.USER_BIND_EMAIL_NOT_CONSISTENT);
+        }
+        //邮箱格式是否正确
+        if (!bindEmail.matches("\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*")) {
+            throw new BusinessException(BusinessError.USER_EMAIL_FORMAT_NOT_CORRECT);
+        }
+
+        SimpleMailMessage mailMessage = new SimpleMailMessage();
+        mailMessage.setFrom("sdaqzjw@126.com");
+        mailMessage.setTo(bindEmail);
+        mailMessage.setSubject("HospitalHub密码找回");
+        mailMessage.setText("您的密码是 "+deCodeBase64(userDO.getPassword())+" ，请不要泄露给他人");
+        mailSender.send(mailMessage);
+        return CommonReturnType.create("user", "邮件发送成功");
+    }
+
+
     @PostMapping(value = "/register", consumes = {CommonReturnType.CONTENT_TYPE_FROMED})
     @ResponseBody
     public CommonReturnType register(@RequestParam(name = "telephone") String telephone,
@@ -79,7 +138,7 @@ public class UserController {
     邮箱格式验证
      */
         if (!email.matches("\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*")) {
-            throw new BusinessException(BusinessError.USER_EMIAL_FORMAT_NOT_CORRECT);
+            throw new BusinessException(BusinessError.USER_EMAIL_FORMAT_NOT_CORRECT);
         }
 
     /*
@@ -102,10 +161,21 @@ public class UserController {
             throw new BusinessException(BusinessError.USER_PHONE_FORMAT_NOT_CORRECT);
         }
 
-        List<PrescriptionDO> orderList = new ArrayList<>();
-        PatientModel patientModel = new PatientModel(telephone, password, email, 0.00, CommonReturnType.DEFAULT_PORTRAIT_URL, orderList, CommonReturnType.PATIENT, trueName, gender, age, history, patientAddress);
+        PatientModel patientModel = new PatientModel(
+                telephone,
+                enCodeBase64(password),
+                email,
+                0.00,
+                CommonReturnType.DEFAULT_PORTRAIT_URL,
+                CommonReturnType.PATIENT,
+                trueName,
+                gender,
+                age,
+                history,
+                patientAddress);
+
         userService.register(patientModel);
-        return null;
+        return CommonReturnType.create("patient", null);
     }
 
 
@@ -129,6 +199,15 @@ public class UserController {
 //        return CommonReturnType.create("233", 1);
 //    }
 
+    private String enCodeBase64(String password){
+        Base64.Encoder encoder = Base64.getEncoder();
+        return encoder.encodeToString(password.getBytes());
+    }
+
+    private String deCodeBase64(String encryptPassword){
+        Base64.Decoder decoder = Base64.getDecoder();
+        return new String(decoder.decode(encryptPassword));
+    }
 
 
 }

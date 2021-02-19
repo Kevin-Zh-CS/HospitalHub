@@ -10,8 +10,8 @@ public class PatientModel extends UserModel {
 
     public PatientModel(){}
 
-    public PatientModel(String username, String password, String email, Double balance, String portraitUrl, List<PrescriptionDO> orderList, String tag, String trueName, String gender, Integer age, String history, String patientAddress) {
-        super(username, password, email, balance, portraitUrl, orderList, tag, trueName, gender, age);
+    public PatientModel(String username, String password, String email, Double balance, String portraitUrl, String tag, String trueName, String gender, Integer age, String history, String patientAddress) {
+        super(username, password, email, balance, portraitUrl, tag, trueName, gender, age);
         this.history = history;
         this.patientAddress = patientAddress;
     }

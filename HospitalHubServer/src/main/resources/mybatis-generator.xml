@@ -73,7 +73,7 @@
 <!--               enableSelectByExample="false"-->
 <!--               selectByExampleQueryId="false"/>-->
 
-        <table tableName="prescription" domainObjectName="PrescriptionDO"
+        <table tableName="patient" domainObjectName="PatientDO"
                enableCountByExample="false"
                enableUpdateByExample="false"
                enableDeleteByExample="false"
