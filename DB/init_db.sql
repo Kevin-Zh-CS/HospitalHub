@@ -39,9 +39,9 @@ CREATE TABLE hospital
 CREATE TABLE hospital_hub_user
 (
     user_id      SERIAL PRIMARY KEY,
-    username     TEXT          NOT NULL,
-    password     TEXT          NOT NULL UNIQUE,
-    email        TEXT          NOT NULL UNIQUE,
+    username     TEXT          NOT NULL UNIQUE,
+    password     TEXT          NOT NULL,
+    email        TEXT          NOT NULL,
     balance      MONEY         NOT NULL DEFAULT 0.00,
     portrait_url TEXT          NOT NULL DEFAULT 'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2561659095,299912888&fm=26&gp=0.jpg',
     tag          identity_type NOT NULL,
