@@ -13,7 +13,7 @@
     <result column="hospital_id" jdbcType="INTEGER" property="hospitalId" />
     <result column="experience" jdbcType="VARCHAR" property="experience" />
     <result column="education" jdbcType="VARCHAR" property="education" />
-    <result column="arrangement" jdbcType="ARRAY" typeHandler="com.hospital.util.DateTypeHandler" property="arrangement" />
+    <result column="arrangement" jdbcType="ARRAY" typeHandler="com.hospital.util.BooleanTypeHandler" property="arrangement" />
     <result column="score" jdbcType="NUMERIC" property="score" />
     <result column="on_duty" jdbcType="BIT" property="onDuty" />
     <result column="type" jdbcType="VARCHAR" property="type" />
@@ -39,7 +39,7 @@
       waiting)
     values (#{userId,jdbcType=INTEGER}, #{departmentId,jdbcType=INTEGER}, #{major,jdbcType=VARCHAR}, 
       #{hospitalId,jdbcType=INTEGER}, #{experience,jdbcType=VARCHAR}, #{education,jdbcType=VARCHAR}, 
-      #{arrangement,jdbcType=ARRAY,typeHandler=com.hospital.util.DateTypeHandler}, #{score,jdbcType=NUMERIC}, #{onDuty,jdbcType=BIT},
+      #{arrangement,jdbcType=ARRAY,typeHandler=com.hospital.util.BooleanTypeHandler}, #{score,jdbcType=NUMERIC}, #{onDuty,jdbcType=BIT},
       #{type,jdbcType=VARCHAR}, #{capacity,jdbcType=INTEGER}, #{finish,jdbcType=INTEGER}, 
       #{waiting,jdbcType=INTEGER})
   </insert>
@@ -111,7 +111,7 @@
         #{education,jdbcType=VARCHAR},
       </if>
       <if test="arrangement != null">
-        #{arrangement,jdbcType=ARRAY,typeHandler=com.hospital.util.DateTypeHandler},
+        #{arrangement,jdbcType=ARRAY,typeHandler=com.hospital.util.BooleanTypeHandler},
       </if>
       <if test="score != null">
         #{score,jdbcType=NUMERIC},

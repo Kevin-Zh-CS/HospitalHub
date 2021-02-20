@@ -18,4 +18,6 @@ public interface PatientDOMapper {
      * @mbg.generated Thu Feb 18 23:51:30 CST 2021
      */
     int insertSelective(PatientDO record);
+
+    PatientDO selectByUserId(Integer userId);
 }

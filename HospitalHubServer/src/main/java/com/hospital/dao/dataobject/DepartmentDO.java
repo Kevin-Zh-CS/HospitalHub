@@ -8,9 +8,9 @@ public class DepartmentDO {
     private Integer hospitalId;
     private String departmentName;
     private List<Integer> doctorIdList;
-
-    private Integer remain;
-    private Integer waiting;
+    private Integer departmentCapacity;
+    private Integer departmentRemain;
+    private Integer departmentWaiting;
 
     public Integer getDepartmentId() {
         return departmentId;
@@ -33,7 +33,7 @@ public class DepartmentDO {
     }
 
     public void setDepartmentName(String departmentName) {
-        this.departmentName = departmentName == null ? null : departmentName.trim();
+        this.departmentName = departmentName;
     }
 
     public List<Integer> getDoctorIdList() {
@@ -44,19 +44,27 @@ public class DepartmentDO {
         this.doctorIdList = doctorIdList;
     }
 
-    public Integer getRemain() {
-        return remain;
+    public Integer getDepartmentCapacity() {
+        return departmentCapacity;
     }
 
-    public void setRemain(Integer remain) {
-        this.remain = remain;
+    public void setDepartmentCapacity(Integer departmentCapacity) {
+        this.departmentCapacity = departmentCapacity;
     }
 
-    public Integer getWaiting() {
-        return waiting;
+    public Integer getDepartmentRemain() {
+        return departmentRemain;
     }
 
-    public void setWaiting(Integer waiting) {
-        this.waiting = waiting;
+    public void setDepartmentRemain(Integer departmentRemain) {
+        this.departmentRemain = departmentRemain;
+    }
+
+    public Integer getDepartmentWaiting() {
+        return departmentWaiting;
+    }
+
+    public void setDepartmentWaiting(Integer departmentWaiting) {
+        this.departmentWaiting = departmentWaiting;
     }
 }

@@ -59,12 +59,12 @@
 <!--               enableSelectByExample="false"-->
 <!--               selectByExampleQueryId="false"/>-->
 
-<!--        <table tableName="department" domainObjectName="DepartmentDO"-->
-<!--               enableCountByExample="false"-->
-<!--               enableUpdateByExample="false"-->
-<!--               enableDeleteByExample="false"-->
-<!--               enableSelectByExample="false"-->
-<!--               selectByExampleQueryId="false"/>-->
+        <table tableName="department" domainObjectName="DepartmentDO"
+               enableCountByExample="false"
+               enableUpdateByExample="false"
+               enableDeleteByExample="false"
+               enableSelectByExample="false"
+               selectByExampleQueryId="false"/>
 
 <!--        <table tableName="registration" domainObjectName="RegistrationDO"-->
 <!--               enableCountByExample="false"-->
@@ -73,12 +73,12 @@
 <!--               enableSelectByExample="false"-->
 <!--               selectByExampleQueryId="false"/>-->
 
-        <table tableName="patient" domainObjectName="PatientDO"
-               enableCountByExample="false"
-               enableUpdateByExample="false"
-               enableDeleteByExample="false"
-               enableSelectByExample="false"
-               selectByExampleQueryId="false"/>
+<!--        <table tableName="patient" domainObjectName="PatientDO"-->
+<!--               enableCountByExample="false"-->
+<!--               enableUpdateByExample="false"-->
+<!--               enableDeleteByExample="false"-->
+<!--               enableSelectByExample="false"-->
+<!--               selectByExampleQueryId="false"/>-->
 
 
     </context>

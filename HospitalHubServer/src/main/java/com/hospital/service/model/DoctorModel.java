@@ -22,7 +22,7 @@ public class DoctorModel extends UserModel {
     private Boolean onDuty;
     private String type;
 
-    private Integer capacity = 20;//此医生当天最多有多少个号
+    private Integer capacity;//此医生当天最多有多少个号
 
     //left = waiting - finish
     private Integer waiting;//此医生现在排了多少号，当天挂号则+1
