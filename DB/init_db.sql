@@ -75,6 +75,7 @@ CREATE TABLE doctor
     on_duty       BOOLEAN     NOT NULL DEFAULT false,
     type          doctor_type NOT NULL DEFAULT 'normal',
     capacity      INT         NOT NULL DEFAULT 0,
+    waiting       INT         NOT NULL DEFAULT 0,
     finish        INT         NOT NULL DEFAULT 0
 );
 
