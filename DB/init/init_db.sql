@@ -1,5 +1,4 @@
 DROP EXTENSION IF EXISTS pgcrypto;
-SET DATESTYLE TO 'ISO';
 
 DROP TABLE IF EXISTS hospital,
     hospital_hub_user,

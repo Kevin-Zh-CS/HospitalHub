@@ -9,13 +9,15 @@
 ```bash
 $ docker pull postgres
 $ mkdir ${HOME}/pgdata
-$ docker run --name postgres -d  -e POSTGRES_PASSWORD=123456 -v ${HOME}/pgdata/:/var/lib/postgresql/data -p 5432:5432 postgres 
+$ docker run --name postgres -d  -e POSTGRES_PASSWORD=123456 -v ${HOME}/pgdata/:/var/lib/postgresql/data -p 5432:5432 postgres
 $ docker exec -it postgres psql -U postgres -d postgres
 ```
 
 ## Setup Database
 
-Execute `init_pg.sql`, create a database and then switch to that database.
+Execute `/init/init_pg.sql`, create a database and then switch to that database.
+
+Next, execute `/init/init_db.sql`, declare tables.
 
 ## Initialize Values
 
@@ -23,5 +25,11 @@ Execute `init_pg.sql`, create a database and then switch to that database.
 $ python3 gen_sql/main.py
 ```
 
-Then, execute `init_data.sql`, insert some initial values into the database
+Then, execute `/init/init_data.sql`, insert some initial values into the database
 
+## DXY Data
+
+* `DXY/main.py` is the spider script
+* `DXY/rst.txt` saves {tag_id (useless), disease name, corresonding section, brief}
+* `DXY/detail/` saves detailed data of each disease in `HTML` format. 
+* Totally 330 records.
