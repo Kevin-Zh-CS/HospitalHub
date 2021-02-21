@@ -7,7 +7,7 @@
 
         <!-- jdbc连接 -->
         <jdbcConnection driverClass="org.postgresql.Driver"
-                        connectionURL="jdbc:postgresql://47.111.80.33:5432/hospital_hub"
+                        connectionURL="jdbc:postgresql://123.56.170.58:5432/hospital_hub"
                         userId="postgres"
                         password="123456"/>
 
@@ -31,12 +31,12 @@
         </javaClientGenerator>
 
 
-<!--        <table tableName="comment" domainObjectName="CommentDO"-->
-<!--               enableCountByExample="false"-->
-<!--               enableUpdateByExample="false"-->
-<!--               enableDeleteByExample="false"-->
-<!--               enableSelectByExample="false"-->
-<!--               selectByExampleQueryId="false"/>-->
+        <table tableName="comment" domainObjectName="CommentDO"
+               enableCountByExample="false"
+               enableUpdateByExample="false"
+               enableDeleteByExample="false"
+               enableSelectByExample="false"
+               selectByExampleQueryId="false"/>
 
 <!--        <table tableName="process" domainObjectName="ProcessDO"-->
 <!--               enableCountByExample="false"-->
@@ -59,12 +59,12 @@
 <!--               enableSelectByExample="false"-->
 <!--               selectByExampleQueryId="false"/>-->
 
-        <table tableName="department" domainObjectName="DepartmentDO"
-               enableCountByExample="false"
-               enableUpdateByExample="false"
-               enableDeleteByExample="false"
-               enableSelectByExample="false"
-               selectByExampleQueryId="false"/>
+<!--        <table tableName="department" domainObjectName="DepartmentDO"-->
+<!--               enableCountByExample="false"-->
+<!--               enableUpdateByExample="false"-->
+<!--               enableDeleteByExample="false"-->
+<!--               enableSelectByExample="false"-->
+<!--               selectByExampleQueryId="false"/>-->
 
 <!--        <table tableName="registration" domainObjectName="RegistrationDO"-->
 <!--               enableCountByExample="false"-->

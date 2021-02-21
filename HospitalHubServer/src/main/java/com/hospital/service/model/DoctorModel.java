@@ -1,6 +1,5 @@
 package com.hospital.service.model;
 
-import com.hospital.dao.dataobject.CommentDO;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -18,7 +17,8 @@ public class DoctorModel extends UserModel {
     private List<Date> arrangement;
     private BigDecimal score;
     //private List<Integer> commentId;
-    private List<CommentDO> commentDOList;
+    private List<CommentModel> commentDOList;
+
     private Boolean onDuty;
     private String type;
 
@@ -85,11 +85,11 @@ public class DoctorModel extends UserModel {
         this.score = score;
     }
 
-    public List<CommentDO> getCommentDOList() {
+    public List<CommentModel> getCommentDOList() {
         return commentDOList;
     }
 
-    public void setCommentDOList(List<CommentDO> commentDOList) {
+    public void setCommentDOList(List<CommentModel> commentDOList) {
         this.commentDOList = commentDOList;
     }
 

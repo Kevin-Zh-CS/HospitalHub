@@ -5,6 +5,7 @@ import com.hospital.dao.dataobject.*;
 import com.hospital.error.BusinessError;
 import com.hospital.error.BusinessException;
 import com.hospital.service.DoctorService;
+import com.hospital.service.model.CommentModel;
 import com.hospital.service.model.DoctorModel;
 import com.hospital.service.model.RegistrationModel;
 import org.springframework.beans.BeanUtils;
@@ -39,6 +40,7 @@ public class DoctorServiceImpl implements DoctorService {
     @Autowired
     private RegistrationDOMapper registrationDOMapper;
 
+
     @Override
     public DoctorModel getDoctorDetail(Integer doctorId) throws BusinessException {
         DoctorModel doctorModel = new DoctorModel();
@@ -55,7 +57,16 @@ public class DoctorServiceImpl implements DoctorService {
 
         doctorModel.setDepartmentName(departmentDOMapper.selectByPrimaryKey(doctorDO.getDepartmentId()).getDepartmentName());
         doctorModel.setHospitalName(hospitalDOMapper.selectByPrimaryKey(doctorDO.getHospitalId()).getHospitalName());
-        doctorModel.setCommentDOList(commentDOMapper.selectByDoctorId(doctorId));
+        List<CommentDO> commentDOList = commentDOMapper.selectByDoctorId(doctorId);
+        List<CommentModel> commentModelList = commentDOList.stream().map(commentDO -> {
+            CommentModel commentModel = new CommentModel();
+            BeanUtils.copyProperties(commentDO, commentModel);
+            UserDO patient = userDOMapper.selectByPrimaryKey(commentDO.getPatientId());
+            commentModel.setPatientName(patient.getTrueName());
+            commentModel.setPatientPortraitUrl(patient.getPortraitUrl());
+            return commentModel;
+        }).collect(Collectors.toList());
+        doctorModel.setCommentDOList(commentModelList);
         doctorModel.setLeft(doctorDO.getWaiting() - doctorDO.getFinish());
 
         return doctorModel;
