@@ -1,4 +1,4 @@
-# Database Design (Not finished yet)
+# Database Design
 
 *   Database System: PostgreSQL
 *   Environment: Docker
@@ -15,7 +15,9 @@ $ docker exec -it postgres psql -U postgres -d postgres
 
 ## Setup Database
 
-Execute `init_pg.sql`, create a database and then switch to that database.
+Execute `/init/init_pg.sql`, create a database and then switch to that database.
+
+Next, execute `/init/init_db.sql`, declare tables.
 
 ## Initialize Values
 
@@ -23,5 +25,4 @@ Execute `init_pg.sql`, create a database and then switch to that database.
 $ python3 gen_sql/main.py
 ```
 
-Then, execute `init_data.sql`, insert some initial values into the database
-
+Then, execute `/init/init_data.sql`, insert some initial values into the database
