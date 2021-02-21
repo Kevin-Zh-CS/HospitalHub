@@ -26,3 +26,10 @@ $ python3 gen_sql/main.py
 ```
 
 Then, execute `/init/init_data.sql`, insert some initial values into the database
+
+## DXY Data
+
+* `DXY/main.py` is the spider script
+* `DXY/rst.txt` saves {tag_id (useless), disease name, corresonding section, brief}
+* `DXY/detail/` saves detailed data of each disease in `HTML` format. 
+* Totally 330 records.
