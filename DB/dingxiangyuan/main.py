@@ -14,7 +14,7 @@ rst = []
 
 def prepare():
     if os.path.exists('./rst.txt'):
-        rst_file = open('./rst.txt', 'r')
+        rst_file = open('./rst.txt', 'r+')
         for line in rst_file.readlines():
             line_split = line.split()
             dealt_id_list.append(int(line_split[0]))
@@ -35,12 +35,17 @@ def get_diseases(iter_id, output):
 
     name = soup_disease.find('div', class_="high-light tag-content-title")
     section = soup_disease.find('div', class_="tag-content-section")
-    detail = soup_disease.find('div', class_="high-light tag-content-detail")
+    brief = soup_disease.find('div', class_="high-light tag-content-detail")
+    detail = soup_disease.find('div', class_="html-parse tag-html")
 
-    if all(v is not None for v in [name, section, detail]):
+    if all(v is not None for v in [name, section, brief, detail]):
+        html_file = open('./detail/' + str(iter_id) + '.html', 'w+')
+        html_file.write(detail.decode_contents())
+        html_file.close()
+
         name_replace = name.text.replace(' ', '')
         section_replace = section.text.replace('就诊科室：', '')
-        detail_replace = detail.text.replace('‧', '').replace('·', '').replace(' ', '')
+        detail_replace = brief.text.replace('‧', '').replace('·', '').replace(' ', '')
         dealt_id_list.append(int(iter_id))
         rst.append([name_replace, section_replace, detail_replace])
         print("%d\t%d\t%s\t%s\t\t%s\t\t" % (len(rst), iter_id, name_replace, section_replace, detail_replace))
@@ -62,7 +67,10 @@ if __name__ == '__main__':
     diff = list(set(disease_id_list).difference(dealt_id_list))
     while diff:
         for i in diff:
-            get_diseases(i, f)
+            try:
+                get_diseases(i, f)
+            except:
+                print("catch an exception, retrying ...")
         diff = list(set(disease_id_list).difference(dealt_id_list))
 
     f.close()

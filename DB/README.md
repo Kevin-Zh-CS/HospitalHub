@@ -9,7 +9,7 @@
 ```bash
 $ docker pull postgres
 $ mkdir ${HOME}/pgdata
-$ docker run --name postgres -d  -e POSTGRES_PASSWORD=123456 -v ${HOME}/pgdata/:/var/lib/postgresql/data -p 5432:5432 postgres 
+$ docker run --name postgres -d  -e POSTGRES_PASSWORD=123456 -v ${HOME}/pgdata/:/var/lib/postgresql/data -p 5432:5432 postgres
 $ docker exec -it postgres psql -U postgres -d postgres
 ```
 
