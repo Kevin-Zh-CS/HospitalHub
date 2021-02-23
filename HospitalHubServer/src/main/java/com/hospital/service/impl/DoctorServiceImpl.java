@@ -12,6 +12,7 @@ import com.hospital.service.model.UserModel;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -97,6 +98,7 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
+    @Transactional
     public void updateDoctorDetail(UserModel userModel, String username, String email, Integer age, String major, String experience, String education, Integer capacity, List<Boolean> arrangement) {
         UserDO userDO = convertFromModelToDO(userModel);
         DoctorDO doctorDO = doctorDOMapper.selectByPrimaryKey(userDO.getUserId());
@@ -128,8 +130,12 @@ public class DoctorServiceImpl implements DoctorService {
         if(arrangement != null){
             doctorDO.setArrangement(arrangement);
         }
-        userDOMapper.updateByPrimaryKeySelective(userDO);
-        doctorDOMapper.updateByPrimaryKeySelective(doctorDO);
+        if(username != null || email != null || age != null || major != null) {
+            userDOMapper.updateByPrimaryKeySelective(userDO);
+        }
+        if(major != null || experience != null || education != null || capacity != null || arrangement != null) {
+            doctorDOMapper.updateByPrimaryKeySelective(doctorDO);
+        }
     }
 
     private UserDO convertFromModelToDO(UserModel userModel) {
