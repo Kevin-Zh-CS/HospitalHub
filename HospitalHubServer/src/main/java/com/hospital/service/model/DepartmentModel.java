@@ -9,9 +9,9 @@ public class DepartmentModel {
     private String departmentName;
     private List<DoctorModel> doctorModelList;
     private List<Integer> workingIdList;
-    private Integer capacity;
-    private Integer remain;
-    private Integer waiting;
+    private Integer departmentCapacity;
+    private Integer departmentRemain;
+    private Integer departmentWaiting;
 
     public Integer getDepartmentId() {
         return departmentId;
@@ -45,27 +45,27 @@ public class DepartmentModel {
         this.workingIdList = workingIdList;
     }
 
-    public Integer getCapacity() {
-        return capacity;
+    public Integer getDepartmentCapacity() {
+        return departmentCapacity;
     }
 
-    public void setCapacity(Integer capacity) {
-        this.capacity = capacity;
+    public void setDepartmentCapacity(Integer departmentCapacity) {
+        this.departmentCapacity = departmentCapacity;
     }
 
-    public Integer getRemain() {
-        return remain;
+    public Integer getDepartmentRemain() {
+        return departmentRemain;
     }
 
-    public void setRemain(Integer remain) {
-        this.remain = remain;
+    public void setDepartmentRemain(Integer departmentRemain) {
+        this.departmentRemain = departmentRemain;
     }
 
-    public Integer getWaiting() {
-        return waiting;
+    public Integer getDepartmentWaiting() {
+        return departmentWaiting;
     }
 
-    public void setWaiting(Integer waiting) {
-        this.waiting = waiting;
+    public void setDepartmentWaiting(Integer departmentWaiting) {
+        this.departmentWaiting = departmentWaiting;
     }
 }

@@ -1,10 +1,15 @@
 package com.hospital.service.impl;
 
+import com.hospital.dao.DepartmentDOMapper;
 import com.hospital.dao.HospitalDOMapper;
 import com.hospital.dao.PatientDOMapper;
+import com.hospital.dao.dataobject.DepartmentDO;
 import com.hospital.dao.dataobject.HospitalDO;
+import com.hospital.error.BusinessException;
+import com.hospital.service.DoctorService;
 import com.hospital.service.HospitalService;
 import com.hospital.service.model.DepartmentModel;
+import com.hospital.service.model.DoctorModel;
 import com.hospital.service.model.HospitalModel;
 import com.hospital.service.model.UserModel;
 import net.sf.json.JSONObject;
@@ -21,6 +26,9 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -46,6 +54,12 @@ public class HospitalServiceImpl implements HospitalService {
     @Autowired
     private PatientDOMapper patientDOMapper;
 
+    @Autowired
+    private DepartmentDOMapper departmentDOMapper;
+
+    @Autowired
+    private DoctorService doctorService;
+
     @Override
     public List<HospitalDO> getHospitalList() {
         return hospitalDOMapper.getHospitalList();
@@ -59,9 +73,27 @@ public class HospitalServiceImpl implements HospitalService {
     @Override
     public List<DepartmentModel> getDepartmentList(List<Integer> departmentIdList) {
         List<DepartmentModel> departmentModelList = departmentIdList.stream().map(departmentId->{
+            DepartmentDO departmentDO = departmentDOMapper.selectByPrimaryKey(departmentId);
             DepartmentModel departmentModel = new DepartmentModel();
-
-
+            BeanUtils.copyProperties(departmentDO, departmentModel);
+            List<Integer> doctorIdList = departmentDO.getDoctorIdList();
+            List<DoctorModel> doctorModelList = new ArrayList<>();
+            List<Integer> workingList = new ArrayList<>();
+            //获取今天星期几
+            int today = Calendar.getInstance().get(Calendar.DAY_OF_WEEK) - 1;
+            for (Integer integer : doctorIdList) {
+                try {
+                    DoctorModel doctorModel = doctorService.getDoctorDetail(integer);
+                    doctorModelList.add(doctorModel);
+                    List<Boolean> arrangement = doctorModel.getArrangement();
+                    if(arrangement.get(today)){
+                        workingList.add(doctorModel.getUserId());
+                    }
+                } catch (BusinessException e) {
+                    e.printStackTrace();
+                }
+            }
+            departmentModel.setDoctorModelList(doctorModelList);
             return departmentModel;
         }).collect(Collectors.toList());
         return departmentModelList;
