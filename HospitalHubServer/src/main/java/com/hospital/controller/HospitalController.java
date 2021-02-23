@@ -29,15 +29,11 @@ public class HospitalController {
     private HospitalService hospitalService;
 
     @Autowired
-    private HttpServletRequest httpServletRequest;
-
-    @Autowired
     private RedisTemplate redisTemplate;
 
-    @GetMapping("/list")
+    @PostMapping("/list")
     @ResponseBody
-    public CommonReturnType getHospitalList() throws BusinessException {
-        String token = httpServletRequest.getParameterMap().get("token")[0];
+    public CommonReturnType getHospitalList(@RequestParam(name = "token") String token) throws BusinessException {
         if(StringUtils.isEmpty(token)){
             List<HospitalDO> hospitalList = hospitalService.getHospitalList();
             List<HospitalModel> hospitalModelList = hospitalList.stream().map(hospitalDO -> {

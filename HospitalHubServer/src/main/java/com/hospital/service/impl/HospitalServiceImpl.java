@@ -79,9 +79,10 @@ public class HospitalServiceImpl implements HospitalService {
             }
             String hospital_address = hospitalDO.getHospitalAddress();
             String user_url = ADDRESS_TO_LONGITUDEA_URL + "&ak=" + AK + "&address="+ user_address;
+            String hospital_url = ADDRESS_TO_LONGITUDEA_URL + "&ak=" + AK + "&address="+ hospital_address;
             try {
                 String user_json = loadJSON(user_url);
-                String hospital_json = loadJSON(hospital_address);
+                String hospital_json = loadJSON(hospital_url);
                 JSONObject user_obj = JSONObject.fromObject(user_json);
                 JSONObject hospital_obj = JSONObject.fromObject(hospital_json);
                 double user_lng = user_obj.getJSONObject("result").getJSONObject("location").getDouble("lng");
@@ -89,7 +90,7 @@ public class HospitalServiceImpl implements HospitalService {
                 double hospital_lng = user_obj.getJSONObject("result").getJSONObject("location").getDouble("lng");
                 double hospital_lat = user_obj.getJSONObject("result").getJSONObject("location").getDouble("lat");
                 Double distance = getDistance(user_lng, user_lat, hospital_lng, hospital_lat);
-                hospitalModel.setDistance(distance);
+                hospitalModel.setDistance(distance/1000);
             } catch (IOException e) {
                 e.printStackTrace();
             }
