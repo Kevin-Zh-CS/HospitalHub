@@ -26,4 +26,6 @@ public class PatientController {
         return CommonReturnType.create("patient", "挂号成功");
     }
 
+
+
 }
