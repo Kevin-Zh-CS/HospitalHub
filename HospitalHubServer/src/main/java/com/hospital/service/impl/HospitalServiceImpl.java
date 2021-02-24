@@ -65,13 +65,11 @@ public class HospitalServiceImpl implements HospitalService {
         return hospitalDOMapper.getHospitalList();
     }
 
-    @Override
-    public List<Integer> getDepartmentIdList(Integer hospitalId) {
-        return hospitalDOMapper.getDepartmentIdList(hospitalId);
-    }
 
     @Override
-    public List<DepartmentModel> getDepartmentList(List<Integer> departmentIdList) {
+    public List<DepartmentModel> getDepartmentList(Integer hospitalId) {
+        HospitalDO hospitalDO = hospitalDOMapper.selectByPrimaryKey(hospitalId);
+        List<Integer> departmentIdList = hospitalDO.getDepartmentIdList();
         List<DepartmentModel> departmentModelList = departmentIdList.stream().map(departmentId->{
             DepartmentDO departmentDO = departmentDOMapper.selectByPrimaryKey(departmentId);
             DepartmentModel departmentModel = new DepartmentModel();
@@ -94,6 +92,7 @@ public class HospitalServiceImpl implements HospitalService {
                 }
             }
             departmentModel.setDoctorModelList(doctorModelList);
+            departmentModel.setWorkingIdList(workingList);
             return departmentModel;
         }).collect(Collectors.toList());
         return departmentModelList;

@@ -57,10 +57,10 @@ public class UserServiceImpl implements UserService {
     public void uploadImg(MultipartFile file, Integer id, HttpServletRequest request) {
         //获取绝对路径
         String realPath = fileConfig.getFilePath();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd/");
-        String format = sdf.format(new Date());
+//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd/");
+//        String format = sdf.format(new Date());
         //文件存放的目录
-        File folder = new File(realPath + format);
+        File folder = new File(realPath);
         if (!folder.isDirectory()) {
             folder.mkdirs();
         }
@@ -69,7 +69,7 @@ public class UserServiceImpl implements UserService {
         assert oldName != null;
         String suffix = oldName.substring(oldName.lastIndexOf("."));
         //文件新名字
-        String newName = UUID.randomUUID().toString() + suffix;
+        String newName = UUID.randomUUID().toString().replaceAll("-","") + suffix;
         try {
             File targetFile = new File(folder, newName);
             if (!targetFile.exists()) {
@@ -78,7 +78,7 @@ public class UserServiceImpl implements UserService {
                 targetFile.delete();
             }
             file.transferTo(targetFile);
-            String filePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + "/uploadFile/" + format + newName;
+            String filePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + "/uploadFile/" + newName;
             //把这个路径放进数据库里
             UserDO userDO = userDOMapper.selectByPrimaryKey(id);
             userDO.setPortraitUrl(filePath);

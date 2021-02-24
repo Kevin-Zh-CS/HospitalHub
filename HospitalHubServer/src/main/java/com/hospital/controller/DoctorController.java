@@ -60,13 +60,16 @@ public class DoctorController {
                                                @RequestParam(name = "education", required = false) String education,
                                                @RequestParam(name = "capacity", required = false) Integer capacity,
                                                HttpServletRequest httpServletRequest) throws BusinessException {
+
         if(org.apache.commons.lang3.StringUtils.isEmpty(token)){
             throw new BusinessException(BusinessError.USER_NOT_LOGIN);
         }
+
         UserModel userModel = (UserModel) redisTemplate.opsForValue().get(token);
         if(userModel == null){
             throw new BusinessException(BusinessError.USER_NOT_LOGIN);
         }
+
         String parameter = httpServletRequest.getParameter("arrangement[0]");
         List<Boolean> arrangement = null;
         if(parameter != null){
@@ -76,7 +79,7 @@ public class DoctorController {
                 arrangement.add(bool);
             }
         }
-        
+
         doctorService.updateDoctorDetail(userModel, username, email, age, major, experience, education, capacity, arrangement);
         return CommonReturnType.create("doctor", "医生信息更新成功");
     }

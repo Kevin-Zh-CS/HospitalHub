@@ -57,8 +57,8 @@ public class HospitalController {
     @GetMapping("/detail")
     @ResponseBody
     public CommonReturnType getHospitalDetail(@RequestParam(name = "hospitalId") Integer hospitalId){
-        List<Integer> departmentIdList = hospitalService.getDepartmentIdList(hospitalId);
-        List<DepartmentModel> departmentModelList = hospitalService.getDepartmentList(departmentIdList);
+        //List<Integer> departmentIdList = hospitalService.getDepartmentIdList(hospitalId);
+        List<DepartmentModel> departmentModelList = hospitalService.getDepartmentList(hospitalId);
         return CommonReturnType.create("hospital", departmentModelList);
     }
 

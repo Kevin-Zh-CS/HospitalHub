@@ -25,7 +25,7 @@ public class DoctorView {
     private String hospitalName;
     private String experience;
     private String education;
-    private List<Date> arrangement;
+    private List<Boolean> arrangement;
     private BigDecimal score;
     //private List<Integer> commentId;
     private List<CommentModel> commentDOList;
@@ -152,11 +152,11 @@ public class DoctorView {
         this.education = education;
     }
 
-    public List<Date> getArrangement() {
+    public List<Boolean> getArrangement() {
         return arrangement;
     }
 
-    public void setArrangement(List<Date> arrangement) {
+    public void setArrangement(List<Boolean> arrangement) {
         this.arrangement = arrangement;
     }
 
