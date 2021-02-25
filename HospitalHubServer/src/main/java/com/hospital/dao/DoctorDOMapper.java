@@ -20,4 +20,6 @@ public interface DoctorDOMapper {
     int insertSelective(DoctorDO record);
 
     DoctorDO selectByPrimaryKey(Integer doctorId);
+
+    void updateByPrimaryKeySelective(DoctorDO doctorDO);
 }

@@ -10,9 +10,7 @@ import java.util.List;
 public interface HospitalService {
     List<HospitalDO> getHospitalList();
 
-    List<Integer> getDepartmentIdList(Integer hospitalId);
-
-    List<DepartmentModel> getDepartmentList(List<Integer> departmentIdList);
+    List<DepartmentModel> getDepartmentList(Integer hospitalId);
 
     List<HospitalModel> getHospitalModelList(UserModel userModel);
 }

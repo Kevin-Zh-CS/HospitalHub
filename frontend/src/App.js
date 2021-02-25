@@ -4,7 +4,9 @@ import { Panel, PanelType } from 'office-ui-fabric-react/lib/Panel'
 import { Fabric } from 'office-ui-fabric-react/lib/Fabric'
 import 'office-ui-fabric-react/dist/css/fabric.min.css'
 import injectSheet from 'react-jss'
-import {  
+import IconButton from '@material-ui/core/IconButton';
+
+import {
   HashRouter as Router,
   Route,
 } from 'react-router-dom'
@@ -12,7 +14,9 @@ import { initializeIcons } from 'office-ui-fabric-react/lib/Icons';
 
 import Home from './Home'
 import DoctorInfo from './DoctorInfo'
-
+import Login from './components/main/login/Login'
+import Register from './components/main/register/Register'
+import { Typography } from '@material-ui/core'
 initializeIcons();
 const styles = {
   App: {
@@ -25,6 +29,8 @@ const styles = {
     display: 'flex',
     fontSize: 20,
     padding: 5,
+    alignItems: 'center',
+
   },
   Icon: {
     color: '#FFF',
@@ -34,6 +40,15 @@ const styles = {
     display: 'flex',
     cursor: 'pointer',
   },
+  grow: {
+    flexGrow: 1,
+},
+  menuButton: {
+    marginRight: 10,
+},
+  subject:{
+    alignItems: 'center',
+  }
 }
 
 class App extends Component {
@@ -86,8 +101,33 @@ class App extends Component {
           <div className={this.props.classes.App}>
             <header className={this.props.classes.Header}>
               <i className={`${this.props.classes.Icon} ms-Icon ms-Icon--CollapseMenu`} onClick={this.showPanel.bind(this)} aria-hidden="true" />
-              HospitalHub
+              <Typography className={this.props.classes.subject}>Hospital Hub</Typography>
+              <div className={this.props.classes.grow} />
+              <IconButton
+                edge="end"
+                aria-label="register"
+                // aria-controls={menuId}
+                aria-haspopup="true"
+                color="inherit"
+
+              >
+                <Register></Register>
+              </IconButton>
+              <IconButton
+                edge="end"
+                aria-label="login"
+                // aria-controls={menuId}
+                aria-haspopup="true"
+                color="inherit"
+                onClick={() => { }}
+              >
+                <Login></Login>
+
+              </IconButton>
             </header>
+
+
+
             <Panel
               isOpen={this.state.showPanel}
               type={PanelType.smallFixedNear}
@@ -109,6 +149,7 @@ class App extends Component {
             </div>
           </div>
         </Fabric>
+        
       </Router>
     )
   }

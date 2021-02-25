@@ -1,5 +1,6 @@
 package com.hospital.service.impl;
 
+import com.hospital.config.UploadFileConfig;
 import com.hospital.dao.PatientDOMapper;
 import com.hospital.dao.UserDOMapper;
 import com.hospital.dao.dataobject.PatientDO;
@@ -12,11 +13,20 @@ import com.hospital.service.model.UserModel;
 import com.hospital.validator.ValidationResult;
 import com.hospital.validator.ValidatorImpl;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.tomcat.jni.User;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.UUID;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -30,6 +40,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private ValidatorImpl validator;
 
+    @Autowired
+    private UploadFileConfig fileConfig;
+
 //    @Override
 //    public UserModel getUserById(Integer id) throws BusinessException {
 //        UserDO userDO = userDOMapper.selectByPrimaryKey(id);
@@ -41,6 +54,42 @@ public class UserServiceImpl implements UserService {
 //    }
 
     @Override
+    public void uploadImg(MultipartFile file, Integer id, HttpServletRequest request) {
+        //获取绝对路径
+        String realPath = fileConfig.getFilePath();
+//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd/");
+//        String format = sdf.format(new Date());
+        //文件存放的目录
+        File folder = new File(realPath);
+        if (!folder.isDirectory()) {
+            folder.mkdirs();
+        }
+        String oldName = file.getOriginalFilename();
+        //文件后缀
+        assert oldName != null;
+        String suffix = oldName.substring(oldName.lastIndexOf("."));
+        //文件新名字
+        String newName = UUID.randomUUID().toString().replaceAll("-","") + suffix;
+        try {
+            File targetFile = new File(folder, newName);
+            if (!targetFile.exists()) {
+                targetFile.mkdirs();
+            } else {
+                targetFile.delete();
+            }
+            file.transferTo(targetFile);
+            //String filePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + "/uploadFile/" + newName;
+            //把这个路径放进数据库里
+            String filePath = "/tmp/uploadFile/" + newName;
+            UserDO userDO = userDOMapper.selectByPrimaryKey(id);
+            userDO.setPortraitUrl(filePath);
+            userDOMapper.updateByPrimaryKeySelective(userDO);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     public UserDO getUserById(Integer id) throws BusinessException {
         return userDOMapper.selectByPrimaryKey(id);
 
@@ -50,14 +99,14 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void register(PatientModel patientModel) throws BusinessException {
         ValidationResult result = validator.validate(patientModel);
-        if(result.isHasErrors()){
-            throw new BusinessException(BusinessError.PARAMETER_VALIDATION_ERROR,result.getErrorMsg());
+        if (result.isHasErrors()) {
+            throw new BusinessException(BusinessError.PARAMETER_VALIDATION_ERROR, result.getErrorMsg());
         }
         UserDO userDO = new UserDO();
         BeanUtils.copyProperties(patientModel, userDO);
         try {
             userDOMapper.insertSelective(userDO);
-        }catch (DuplicateKeyException e){
+        } catch (DuplicateKeyException e) {
             throw new BusinessException(BusinessError.PARAMETER_VALIDATION_ERROR, "手机号已重复注册");
         }
         patientModel.setUserId(userDO.getUserId());
@@ -69,11 +118,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserModel validateLogin(String accountId, String encodedPassword) throws BusinessException {
         UserDO userDO = userDOMapper.selectByAccountId(accountId);
-        if(userDO == null){
+        if (userDO == null) {
             throw new BusinessException(BusinessError.USER_NOT_EXIST);
         }
         //比对密码
-        if(!StringUtils.equals(encodedPassword, userDO.getPassword())){
+        if (!StringUtils.equals(encodedPassword, userDO.getPassword())) {
             throw new BusinessException(BusinessError.USER_LOGIN_FAIL);
         }
         return convertFromDOToModel(userDO);

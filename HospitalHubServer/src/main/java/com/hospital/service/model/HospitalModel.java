@@ -1,12 +1,10 @@
 package com.hospital.service.model;
 
-import java.util.List;
-
 public class HospitalModel implements Comparable<HospitalModel>{
     private Integer hospitalId;
     private String hospitalName;
     private String hospitalAddress;
-    private List<Integer> departmentIdList;
+    //private List<Integer> departmentIdList;
     private Double distance;
 
     public Integer getHospitalId() {
@@ -33,13 +31,13 @@ public class HospitalModel implements Comparable<HospitalModel>{
         this.hospitalAddress = hospitalAddress;
     }
 
-    public List<Integer> getDepartmentIdList() {
-        return departmentIdList;
-    }
-
-    public void setDepartmentIdList(List<Integer> departmentIdList) {
-        this.departmentIdList = departmentIdList;
-    }
+//    public List<Integer> getDepartmentIdList() {
+//        return departmentIdList;
+//    }
+//
+//    public void setDepartmentIdList(List<Integer> departmentIdList) {
+//        this.departmentIdList = departmentIdList;
+//    }
 
     public Double getDistance() {
         return distance;

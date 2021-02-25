@@ -1,10 +1,15 @@
 package com.hospital.service.impl;
 
+import com.hospital.dao.DepartmentDOMapper;
 import com.hospital.dao.HospitalDOMapper;
 import com.hospital.dao.PatientDOMapper;
+import com.hospital.dao.dataobject.DepartmentDO;
 import com.hospital.dao.dataobject.HospitalDO;
+import com.hospital.error.BusinessException;
+import com.hospital.service.DoctorService;
 import com.hospital.service.HospitalService;
 import com.hospital.service.model.DepartmentModel;
+import com.hospital.service.model.DoctorModel;
 import com.hospital.service.model.HospitalModel;
 import com.hospital.service.model.UserModel;
 import net.sf.json.JSONObject;
@@ -21,6 +26,9 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -46,22 +54,45 @@ public class HospitalServiceImpl implements HospitalService {
     @Autowired
     private PatientDOMapper patientDOMapper;
 
+    @Autowired
+    private DepartmentDOMapper departmentDOMapper;
+
+    @Autowired
+    private DoctorService doctorService;
+
     @Override
     public List<HospitalDO> getHospitalList() {
         return hospitalDOMapper.getHospitalList();
     }
 
-    @Override
-    public List<Integer> getDepartmentIdList(Integer hospitalId) {
-        return hospitalDOMapper.getDepartmentIdList(hospitalId);
-    }
 
     @Override
-    public List<DepartmentModel> getDepartmentList(List<Integer> departmentIdList) {
+    public List<DepartmentModel> getDepartmentList(Integer hospitalId) {
+        HospitalDO hospitalDO = hospitalDOMapper.selectByPrimaryKey(hospitalId);
+        List<Integer> departmentIdList = hospitalDO.getDepartmentIdList();
         List<DepartmentModel> departmentModelList = departmentIdList.stream().map(departmentId->{
+            DepartmentDO departmentDO = departmentDOMapper.selectByPrimaryKey(departmentId);
             DepartmentModel departmentModel = new DepartmentModel();
-
-
+            BeanUtils.copyProperties(departmentDO, departmentModel);
+            List<Integer> doctorIdList = departmentDO.getDoctorIdList();
+            List<DoctorModel> doctorModelList = new ArrayList<>();
+            List<Integer> workingList = new ArrayList<>();
+            //获取今天星期几
+            int today = Calendar.getInstance().get(Calendar.DAY_OF_WEEK) - 1;
+            for (Integer integer : doctorIdList) {
+                try {
+                    DoctorModel doctorModel = doctorService.getDoctorDetail(integer);
+                    doctorModelList.add(doctorModel);
+                    List<Boolean> arrangement = doctorModel.getArrangement();
+                    if(arrangement.get(today)){
+                        workingList.add(doctorModel.getUserId());
+                    }
+                } catch (BusinessException e) {
+                    e.printStackTrace();
+                }
+            }
+            departmentModel.setDoctorModelList(doctorModelList);
+            departmentModel.setWorkingIdList(workingList);
             return departmentModel;
         }).collect(Collectors.toList());
         return departmentModelList;
@@ -79,9 +110,10 @@ public class HospitalServiceImpl implements HospitalService {
             }
             String hospital_address = hospitalDO.getHospitalAddress();
             String user_url = ADDRESS_TO_LONGITUDEA_URL + "&ak=" + AK + "&address="+ user_address;
+            String hospital_url = ADDRESS_TO_LONGITUDEA_URL + "&ak=" + AK + "&address="+ hospital_address;
             try {
                 String user_json = loadJSON(user_url);
-                String hospital_json = loadJSON(hospital_address);
+                String hospital_json = loadJSON(hospital_url);
                 JSONObject user_obj = JSONObject.fromObject(user_json);
                 JSONObject hospital_obj = JSONObject.fromObject(hospital_json);
                 double user_lng = user_obj.getJSONObject("result").getJSONObject("location").getDouble("lng");
@@ -89,7 +121,7 @@ public class HospitalServiceImpl implements HospitalService {
                 double hospital_lng = user_obj.getJSONObject("result").getJSONObject("location").getDouble("lng");
                 double hospital_lat = user_obj.getJSONObject("result").getJSONObject("location").getDouble("lat");
                 Double distance = getDistance(user_lng, user_lat, hospital_lng, hospital_lat);
-                hospitalModel.setDistance(distance);
+                hospitalModel.setDistance(distance/1000);
             } catch (IOException e) {
                 e.printStackTrace();
             }
