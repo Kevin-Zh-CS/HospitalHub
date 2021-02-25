@@ -1,5 +1,7 @@
 .DS_Store
-*/.idea
+.idea
 __pycache__
 node_modules
 frontend/node_modules
+yarn.lock
+package-lock.json
