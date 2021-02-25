@@ -171,29 +171,29 @@ INSERT INTO patient(user_id) SELECT user_id FROM hospital_hub_user WHERE email =
 -- 初始化 comment
 
 INSERT INTO comment(patient_id, doctor_id, content)
-SELECT patient_user.user_id, doctor_user.user_id, '医生很有责任心，解答很到位。'
-FROM hospital_hub_user AS patient_user, hospital_hub_user AS doctor_user
-WHERE patient_user.username = '17400217949' AND doctor_user.username = '17400663207';
-
-INSERT INTO comment(patient_id, doctor_id, content)
-SELECT patient_user.user_id, doctor_user.user_id, '医生很厉害，但是我还有一些不明白的地方，希望下次还能请教医生~'
+SELECT patient_user.user_id, doctor_user.user_id, '专业详实的解答，多谢医生'
 FROM hospital_hub_user AS patient_user, hospital_hub_user AS doctor_user
 WHERE patient_user.username = '14749815233' AND doctor_user.username = '18897834281';
 
 INSERT INTO comment(patient_id, doctor_id, content)
-SELECT patient_user.user_id, doctor_user.user_id, '专业详实的解答，多谢医生'
+SELECT patient_user.user_id, doctor_user.user_id, '耐心、专业！'
 FROM hospital_hub_user AS patient_user, hospital_hub_user AS doctor_user
-WHERE patient_user.username = '14749815233' AND doctor_user.username = '14532187706';
+WHERE patient_user.username = '14749815233' AND doctor_user.username = '17403957784';
 
 INSERT INTO comment(patient_id, doctor_id, content)
-SELECT patient_user.user_id, doctor_user.user_id, '谢谢医生，祝医生新年快乐！'
+SELECT patient_user.user_id, doctor_user.user_id, '非常感谢医生，回复的速度真的很快！而且很详细。'
 FROM hospital_hub_user AS patient_user, hospital_hub_user AS doctor_user
-WHERE patient_user.username = '17400217949' AND doctor_user.username = '18897834281';
+WHERE patient_user.username = '14749815233' AND doctor_user.username = '18897834281';
 
 INSERT INTO comment(patient_id, doctor_id, content)
 SELECT patient_user.user_id, doctor_user.user_id, '耐心、专业！'
 FROM hospital_hub_user AS patient_user, hospital_hub_user AS doctor_user
-WHERE patient_user.username = '17404133919' AND doctor_user.username = '14554580678';
+WHERE patient_user.username = '17404133919' AND doctor_user.username = '18897834281';
+
+INSERT INTO comment(patient_id, doctor_id, content)
+SELECT patient_user.user_id, doctor_user.user_id, '耐心、专业！'
+FROM hospital_hub_user AS patient_user, hospital_hub_user AS doctor_user
+WHERE patient_user.username = '15280924959' AND doctor_user.username = '17400663207';
 
 -- 初始化 registration
 DO
@@ -208,7 +208,7 @@ $$
         SELECT patient_user.user_id, doctor_user.user_id, hospital_id, department_id
         INTO tmp_patient_id, tmp_doctor_id, tmp_hospital_id, tmp_department_id
         FROM hospital_hub_user AS patient_user, hospital_hub_user AS doctor_user, doctor
-        WHERE patient_user.username = '17404133919' AND doctor_user.username = '17403957784' AND doctor.user_id = doctor_user.user_id;
+        WHERE patient_user.username = '17400217949' AND doctor_user.username = '14554580678' AND doctor.user_id = doctor_user.user_id;
 
         INSERT INTO registration(patient_id, doctor_id, hospital_id, department_id) VALUES(tmp_patient_id, tmp_doctor_id, tmp_hospital_id, tmp_department_id)
         RETURNING registration_id INTO tmp_registration_id;
@@ -232,7 +232,7 @@ $$
         SELECT patient_user.user_id, doctor_user.user_id, hospital_id, department_id
         INTO tmp_patient_id, tmp_doctor_id, tmp_hospital_id, tmp_department_id
         FROM hospital_hub_user AS patient_user, hospital_hub_user AS doctor_user, doctor
-        WHERE patient_user.username = '17404133919' AND doctor_user.username = '17403957784' AND doctor.user_id = doctor_user.user_id;
+        WHERE patient_user.username = '15280924959' AND doctor_user.username = '18897834281' AND doctor.user_id = doctor_user.user_id;
 
         INSERT INTO registration(patient_id, doctor_id, hospital_id, department_id) VALUES(tmp_patient_id, tmp_doctor_id, tmp_hospital_id, tmp_department_id)
         RETURNING registration_id INTO tmp_registration_id;
@@ -256,7 +256,7 @@ $$
         SELECT patient_user.user_id, doctor_user.user_id, hospital_id, department_id
         INTO tmp_patient_id, tmp_doctor_id, tmp_hospital_id, tmp_department_id
         FROM hospital_hub_user AS patient_user, hospital_hub_user AS doctor_user, doctor
-        WHERE patient_user.username = '14749815233' AND doctor_user.username = '14532187706' AND doctor.user_id = doctor_user.user_id;
+        WHERE patient_user.username = '17400217949' AND doctor_user.username = '14554580678' AND doctor.user_id = doctor_user.user_id;
 
         INSERT INTO registration(patient_id, doctor_id, hospital_id, department_id) VALUES(tmp_patient_id, tmp_doctor_id, tmp_hospital_id, tmp_department_id)
         RETURNING registration_id INTO tmp_registration_id;
@@ -280,7 +280,7 @@ $$
         SELECT patient_user.user_id, doctor_user.user_id, hospital_id, department_id
         INTO tmp_patient_id, tmp_doctor_id, tmp_hospital_id, tmp_department_id
         FROM hospital_hub_user AS patient_user, hospital_hub_user AS doctor_user, doctor
-        WHERE patient_user.username = '14749815233' AND doctor_user.username = '14532187706' AND doctor.user_id = doctor_user.user_id;
+        WHERE patient_user.username = '17404133919' AND doctor_user.username = '14532187706' AND doctor.user_id = doctor_user.user_id;
 
         INSERT INTO registration(patient_id, doctor_id, hospital_id, department_id) VALUES(tmp_patient_id, tmp_doctor_id, tmp_hospital_id, tmp_department_id)
         RETURNING registration_id INTO tmp_registration_id;
@@ -304,7 +304,7 @@ $$
         SELECT patient_user.user_id, doctor_user.user_id, hospital_id, department_id
         INTO tmp_patient_id, tmp_doctor_id, tmp_hospital_id, tmp_department_id
         FROM hospital_hub_user AS patient_user, hospital_hub_user AS doctor_user, doctor
-        WHERE patient_user.username = '17400217949' AND doctor_user.username = '18897834281' AND doctor.user_id = doctor_user.user_id;
+        WHERE patient_user.username = '17400217949' AND doctor_user.username = '14554580678' AND doctor.user_id = doctor_user.user_id;
 
         INSERT INTO registration(patient_id, doctor_id, hospital_id, department_id) VALUES(tmp_patient_id, tmp_doctor_id, tmp_hospital_id, tmp_department_id)
         RETURNING registration_id INTO tmp_registration_id;
@@ -316,3 +316,13 @@ $$
 $$;
 
 
+
+-- 初始化 medicine
+INSERT INTO medicine(medicine_name, package_quantity, medicine_price) VALUES ('双氯芬酸钾胶囊', '25mg * 20粒', 18.0);
+INSERT INTO medicine(medicine_name, package_quantity, medicine_price) VALUES ('克霉唑片', '1片', 49.0);
+INSERT INTO medicine(medicine_name, package_quantity, medicine_price) VALUES ('盐酸米诺环素胶囊', '50mg * 20粒', 56.0);
+INSERT INTO medicine(medicine_name, package_quantity, medicine_price) VALUES ('酒石酸美托洛尔片', '25mg * 20片', 8.8);
+INSERT INTO medicine(medicine_name, package_quantity, medicine_price) VALUES ('盐酸艾司洛尔注射液', '10ml:0.1g * 5支', 447.0);
+INSERT INTO medicine(medicine_name, package_quantity, medicine_price) VALUES ('999三九感冒灵颗粒', '10g * 9袋', 36.6);
+INSERT INTO medicine(medicine_name, package_quantity, medicine_price) VALUES ('连花清瘟胶囊', '48粒', 25.8);
+INSERT INTO medicine(medicine_name, package_quantity, medicine_price) VALUES ('福元/易下开塞露', '20ml * 20支', 11.0);

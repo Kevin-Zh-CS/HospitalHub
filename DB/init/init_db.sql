@@ -1,4 +1,5 @@
-DROP EXTENSION IF EXISTS pgcrypto;
+DROP
+    EXTENSION IF EXISTS pgcrypto;
 
 DROP TABLE IF EXISTS hospital,
     hospital_hub_user,
@@ -18,7 +19,8 @@ DROP TYPE IF EXISTS order_type;
 
 
 -- 使用 pgcrypto 作为密码加密解密的模块
-CREATE EXTENSION pgcrypto;
+CREATE
+    EXTENSION pgcrypto;
 
 -- 创建自定义枚举类型
 CREATE TYPE gender_type AS ENUM ('unknown', 'male','female');
@@ -32,7 +34,7 @@ CREATE TABLE hospital
     hospital_id        SERIAL PRIMARY KEY,
     hospital_name      TEXT  NOT NULL DEFAULT '',
     hospital_address   TEXT  NOT NULL DEFAULT '',
-    department_id_list INT[] NOT NULL DEFAULT array []::INT[]
+    department_id_list INT[] NOT NULL DEFAULT array []:: INT[]
 );
 
 CREATE TABLE hospital_hub_user
@@ -41,7 +43,7 @@ CREATE TABLE hospital_hub_user
     username     TEXT          NOT NULL UNIQUE,
     password     TEXT          NOT NULL,
     email        TEXT          NOT NULL,
-    balance      MONEY         NOT NULL DEFAULT 0.00,
+    balance      FLOAT8        NOT NULL DEFAULT 0.00,
     portrait_url TEXT          NOT NULL DEFAULT 'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2561659095,299912888&fm=26&gp=0.jpg',
     tag          identity_type NOT NULL,
     true_name    TEXT          NOT NULL DEFAULT '',
@@ -55,7 +57,7 @@ CREATE TABLE department
     department_id       SERIAL PRIMARY KEY,
     hospital_id         INT  NOT NULL REFERENCES hospital,
     department_name     TEXT NOT NULL DEFAULT '',
-    doctor_id_list      INT[]         DEFAULT ARRAY []::INT[],
+    doctor_id_list      INT[]         DEFAULT ARRAY []:: INT[],
     department_capacity INT  NOT NULL DEFAULT 0,
     department_remain   INT  NOT NULL DEFAULT 0,
     department_waiting  INT  NOT NULL DEFAULT 0
@@ -98,7 +100,7 @@ CREATE TABLE registration
     doctor_id         INT       NOT NULL REFERENCES hospital_hub_user (user_id),
     hospital_id       INT       NOT NULL REFERENCES hospital,
     department_id     INT       NOT NULL REFERENCES department,
-    registration_time TIMESTAMP NOT NULL             DEFAULT now()::timestamp(0)
+    registration_time TIMESTAMP NOT NULL             DEFAULT now():: timestamp(0)
 );
 
 
@@ -108,7 +110,7 @@ CREATE TABLE comment
     patient_id   INT       NOT NULL REFERENCES hospital_hub_user (user_id),
     doctor_id    INT       NOT NULL REFERENCES hospital_hub_user (user_id),
     content      TEXT      NOT NULL DEFAULT '',
-    publish_time TIMESTAMP NOT NULL DEFAULT now()::timestamp(0)
+    publish_time TIMESTAMP NOT NULL DEFAULT now():: timestamp(0)
 );
 
 
@@ -129,9 +131,19 @@ CREATE TABLE prescription
     registration_id     TEXT       NOT NULL REFERENCES registration,
     patient_id          INT        NOT NULL REFERENCES hospital_hub_user (user_id),
     doctor_id           INT        NOT NULL REFERENCES hospital_hub_user (user_id),
-    prescription_time   TIMESTAMP  NOT NULL DEFAULT now()::timestamp(0),
+    prescription_time   TIMESTAMP  NOT NULL DEFAULT now():: timestamp(0),
     prescription_detail TEXT       NOT NULL DEFAULT '',
     status              order_type NOT NULL DEFAULT 'unpaid',
     medicine_id         TEXT       NOT NULL DEFAULT '',
-    total_price         MONEY      NOT NULL DEFAULT 0.00
+    total_price         FLOAT8     NOT NULL DEFAULT 0.00
+);
+
+
+CREATE TABLE medicine
+(
+    medicine_id      SERIAL PRIMARY KEY,
+    medicine_name    TEXT   NOT NULL DEFAULT '',
+    package_quantity TEXT   NOT NULL DEFAULT '',
+    medicine_price   FLOAT8 NOT NULL DEFAULT 0.00,
+    UNIQUE (medicine_name, package_quantity)
 );
