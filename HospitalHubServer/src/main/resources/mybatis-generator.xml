@@ -7,9 +7,9 @@
 
         <!-- jdbc连接 -->
         <jdbcConnection driverClass="org.postgresql.Driver"
-                        connectionURL="jdbc:postgresql://123.56.170.58:5432/hospital_hub"
+                        connectionURL="jdbc:postgresql://47.111.80.33:5432/hospital_hub"
                         userId="postgres"
-                        password="123456"/>
+                        password="PostgresRedis"/>
 
         <!-- 生成实体类地址 -->
         <javaModelGenerator targetPackage="com.hospital.dao.dataobject"
