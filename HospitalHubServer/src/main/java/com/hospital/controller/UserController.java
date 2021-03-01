@@ -1,7 +1,6 @@
 package com.hospital.controller;
 
 import com.alibaba.druid.util.StringUtils;
-import com.hospital.dao.dataobject.PrescriptionDO;
 import com.hospital.dao.dataobject.UserDO;
 import com.hospital.error.BusinessError;
 import com.hospital.error.BusinessException;
@@ -15,6 +14,10 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Base64;
@@ -86,6 +89,7 @@ public class UserController {
         if(userModel == null){
             throw new BusinessException(BusinessError.USER_NOT_LOGIN);
         }
+        userModel.setPassword(encodedNewPassword);
         userService.changePassword(userModel);
         return CommonReturnType.create("user", "重置成功");
     }
@@ -179,7 +183,14 @@ public class UserController {
     }
 
 
-
+    @PostMapping("/uploadImg")
+    @ResponseBody
+    public CommonReturnType uploadImg(@RequestParam("file") MultipartFile file,
+                                      @RequestParam(name = "id") Integer id,
+                                      HttpServletRequest request) {
+        userService.uploadImg(file, id, request);
+        return CommonReturnType.create("user", "头像上传成功");
+    }
 
 
     @GetMapping("/get")

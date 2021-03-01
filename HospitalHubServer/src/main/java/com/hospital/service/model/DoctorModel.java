@@ -1,6 +1,5 @@
 package com.hospital.service.model;
 
-import com.hospital.dao.dataobject.CommentDO;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -15,14 +14,15 @@ public class DoctorModel extends UserModel {
     private String hospitalName;
     private String experience;
     private String education;
-    private List<Date> arrangement;
+    private List<Boolean> arrangement;
     private BigDecimal score;
     //private List<Integer> commentId;
-    private List<CommentDO> commentDOList;
+    private List<CommentModel> commentDOList;
+
     private Boolean onDuty;
     private String type;
 
-    private Integer capacity = 20;//此医生当天最多有多少个号
+    private Integer capacity;//此医生当天最多有多少个号
 
     //left = waiting - finish
     private Integer waiting;//此医生现在排了多少号，当天挂号则+1
@@ -69,11 +69,11 @@ public class DoctorModel extends UserModel {
         this.education = education;
     }
 
-    public List<Date> getArrangement() {
+    public List<Boolean> getArrangement() {
         return arrangement;
     }
 
-    public void setArrangement(List<Date> arrangement) {
+    public void setArrangement(List<Boolean> arrangement) {
         this.arrangement = arrangement;
     }
 
@@ -85,11 +85,11 @@ public class DoctorModel extends UserModel {
         this.score = score;
     }
 
-    public List<CommentDO> getCommentDOList() {
+    public List<CommentModel> getCommentDOList() {
         return commentDOList;
     }
 
-    public void setCommentDOList(List<CommentDO> commentDOList) {
+    public void setCommentDOList(List<CommentModel> commentDOList) {
         this.commentDOList = commentDOList;
     }
 

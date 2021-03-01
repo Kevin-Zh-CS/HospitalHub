@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import Container from './components/main/container/Container'
+
 const env = require('./.env.js')
 const url = env.url;
 
@@ -33,7 +35,7 @@ class Home extends Component {
         justifyContent: 'center',
       }}
       >
-        Welcome to Hospital Hub.
+        <Container/>
       </div>
     )
   }

@@ -1,6 +1,7 @@
 package com.hospital.dao.dataobject;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 public class DoctorDO {
 
@@ -10,7 +11,7 @@ public class DoctorDO {
     private Integer hospitalId;
     private String experience;
     private String education;
-    private Object arrangement;
+    private List<Boolean> arrangement;
     private BigDecimal score;
     private String type;
     private Integer capacity;
@@ -86,12 +87,12 @@ public class DoctorDO {
     }
 
 
-    public Object getArrangement() {
+    public List<Boolean> getArrangement() {
         return arrangement;
     }
 
 
-    public void setArrangement(Object arrangement) {
+    public void setArrangement(List<Boolean> arrangement) {
         this.arrangement = arrangement;
     }
 
