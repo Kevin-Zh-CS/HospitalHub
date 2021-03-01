@@ -11,7 +11,7 @@ import {
 import { initializeIcons } from 'office-ui-fabric-react/lib/Icons';
 
 import Home from './Home'
-import DoctorInfo from './DoctorInfo'
+import DoctorProfile from './DoctorProfile'
 
 initializeIcons();
 const styles = {
@@ -56,7 +56,7 @@ class App extends Component {
         },
         {
           name: '医生详情',
-          url: '#/DoctorInfo',
+          url: '#/DoctorProfile',
         },
         {
           name: '工作台',
@@ -103,7 +103,7 @@ class App extends Component {
             />
             <div className={this.props.classes.Content}>
               <Route exact path="/" component={Home} />
-              <Route path="/DoctorPath" component={DoctorInfo} />
+              <Route path="/DoctorProfile" component={DoctorProfile} />
               {/* <Route path="/account" component={Account} />  */}
               {/* <Route path="/bookmanage" component={BookManage} /> */}
             </div>
