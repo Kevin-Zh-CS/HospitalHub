@@ -80,7 +80,7 @@ public class UserServiceImpl implements UserService {
             file.transferTo(targetFile);
             //String filePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + "/uploadFile/" + newName;
             //把这个路径放进数据库里
-            String filePath = "/tmp/uploadFile/" + newName;
+            String filePath = "/usr/uploadFile/" + newName;
             UserDO userDO = userDOMapper.selectByPrimaryKey(id);
             userDO.setPortraitUrl(filePath);
             userDOMapper.updateByPrimaryKeySelective(userDO);

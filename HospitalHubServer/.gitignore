@@ -32,3 +32,5 @@ build/
 ### Project ###
 init_db.sql
 model.md
+src/main/resources/mybatis-generator
+src/main/resources/application.properties
