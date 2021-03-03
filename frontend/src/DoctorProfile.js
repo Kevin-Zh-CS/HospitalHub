@@ -7,6 +7,13 @@ import LocationCityIcon from '@material-ui/icons/LocationCity';
 import EmojiObjectsIcon from '@material-ui/icons/EmojiObjects';
 import AccountBalanceIcon from '@material-ui/icons/AccountBalance';
 import EmailIcon from '@material-ui/icons/Email';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import Divider from '@material-ui/core/Divider';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import Typography from '@material-ui/core/Typography';
+
 
 const env = require('./.env.js')
 const url = env.url;
@@ -72,12 +79,37 @@ function Label(props) {
   </Box>)
 }
 
-function Comments(comments) {
-  if (comments.length === 0) {
+function Comments(props) {
+  if (props.comments.length === 0) {
     return (<Box>暂无评论</Box>)
   } else {
-    return (<Box>暂无评论</Box>)
-    // TODO LIST
+    return (
+      <List subheader={<li />}>
+        {props.comments.map((comment) => (
+          <ListItem alignItems="flex-start">
+            <ListItemAvatar>
+              <Avatar alt={comment.patientName} src={comment.patientPortraitUrl} />
+            </ListItemAvatar>
+            <ListItemText
+              primary={comment.content}
+              secondary={
+                <React.Fragment>
+                  <Typography
+                    component="span"
+                    variant="body2"
+                    color="textPrimary"
+                  >
+                    {comment.patientName}
+                  </Typography>
+                  {" "}
+                  {comment.publishTime}
+                </React.Fragment>
+              }
+            />
+          </ListItem>
+        ))}
+      </List>
+    )
   }
 }
 
@@ -238,10 +270,10 @@ class DoctorProfile extends Component {
               <Label content={this.state.doctor.department}>
                 <AccountBalanceIcon></AccountBalanceIcon>
               </Label>
-              <Label content={this.state.doctor.experience}>
+              <Label content={this.state.doctor.experience || "暂无"}>
                 <EmojiObjectsIcon></EmojiObjectsIcon>
               </Label>
-              <Label content={this.state.doctor.education}>
+              <Label content={this.state.doctor.education || "暂无"}>
                 <LocationCityIcon></LocationCityIcon>
               </Label>
               <Label content={this.state.doctor.email}>
@@ -257,7 +289,17 @@ class DoctorProfile extends Component {
             <div style={{display:"flex", flexDirection:"column", borderBottom:"1px", borderColor:"black",width:"100%"}}>
                 <Today online={this.state.doctor.status} waiting={this.state.waiting} remain={this.state.doctor.left}></Today>
             </div>
-            <Comments></Comments>
+            <Box marginTop="1.2em">
+              <Box>
+              <Typography
+                   variant="h5" component="h2"
+                    color="textPrimary"
+                  >
+                用户评价
+              </Typography>
+              </Box>
+              <Comments comments={this.state.comments}></Comments>
+            </Box>
           </Box>
       </div>
     )

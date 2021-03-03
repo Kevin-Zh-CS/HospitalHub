@@ -5,3 +5,5 @@ node_modules
 frontend/node_modules
 yarn.lock
 package-lock.json
+HospitalHubServer/src/main/resources/mybatis-generator
+HospitalHubServer/src/main/resources/application.properties
