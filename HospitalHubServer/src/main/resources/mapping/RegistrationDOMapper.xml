@@ -151,4 +151,11 @@
     where doctor_id = #{doctorId,jdbcType=INTEGER} and to_char(registration_time, 'YYYY-MM-DD') = to_char(to_date(#{time},'YYYY-MM-DD'), 'YYYY-MM-DD')
   </select>
 
+  <select id="selectByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from registration
+    where patient_id = #{userId,jdbcType=INTEGER} or doctor_id = #{userId,jdbcType=INTEGER}
+  </select>
+
 </mapper>

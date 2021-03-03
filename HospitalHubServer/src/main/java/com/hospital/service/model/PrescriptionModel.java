@@ -1,62 +1,56 @@
-package com.hospital.dao.dataobject;
+package com.hospital.service.model;
+
+import com.hospital.dao.dataobject.MedicineDO;
 
 import java.util.Date;
 import java.util.List;
 
-public class PrescriptionDO {
-
+public class PrescriptionModel {
     private Integer prescriptionId;
     private String registrationId;
-    private Integer patientId;
-    private Integer doctorId;
+    //private Integer patientId;
+    private String patientName;
+    //private Integer doctorId;
+    private String doctorName;
+
     private Date prescriptionTime;
     private String prescriptionDetail;
     private String status;
-    private List<Integer> medicineList;
+
+    //private List<Integer> medicineList;
+    private List<MedicineDO> medicineDOList;
     private Double totalPrice;
-
-    public List<Integer> getMedicineList() {
-        return medicineList;
-    }
-
-    public void setMedicineList(List<Integer> medicineList) {
-        this.medicineList = medicineList;
-    }
 
     public Integer getPrescriptionId() {
         return prescriptionId;
     }
 
-
     public void setPrescriptionId(Integer prescriptionId) {
         this.prescriptionId = prescriptionId;
     }
-
 
     public String getRegistrationId() {
         return registrationId;
     }
 
     public void setRegistrationId(String registrationId) {
-        this.registrationId = registrationId == null ? null : registrationId.trim();
+        this.registrationId = registrationId;
     }
 
-    public Integer getPatientId() {
-        return patientId;
+    public String getPatientName() {
+        return patientName;
     }
 
-
-    public void setPatientId(Integer patientId) {
-        this.patientId = patientId;
+    public void setPatientName(String patientName) {
+        this.patientName = patientName;
     }
 
-    public Integer getDoctorId() {
-        return doctorId;
+    public String getDoctorName() {
+        return doctorName;
     }
 
-
-    public void setDoctorId(Integer doctorId) {
-        this.doctorId = doctorId;
+    public void setDoctorName(String doctorName) {
+        this.doctorName = doctorName;
     }
 
     public Date getPrescriptionTime() {
@@ -67,13 +61,12 @@ public class PrescriptionDO {
         this.prescriptionTime = prescriptionTime;
     }
 
-
     public String getPrescriptionDetail() {
         return prescriptionDetail;
     }
 
     public void setPrescriptionDetail(String prescriptionDetail) {
-        this.prescriptionDetail = prescriptionDetail == null ? null : prescriptionDetail.trim();
+        this.prescriptionDetail = prescriptionDetail;
     }
 
     public String getStatus() {
@@ -81,9 +74,16 @@ public class PrescriptionDO {
     }
 
     public void setStatus(String status) {
-        this.status = status == null ? null : status.trim();
+        this.status = status;
     }
 
+    public List<MedicineDO> getMedicineDOList() {
+        return medicineDOList;
+    }
+
+    public void setMedicineDOList(List<MedicineDO> medicineDOList) {
+        this.medicineDOList = medicineDOList;
+    }
 
     public Double getTotalPrice() {
         return totalPrice;

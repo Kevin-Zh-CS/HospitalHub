@@ -1,19 +1,18 @@
 package com.hospital.service.impl;
 
 import com.hospital.config.UploadFileConfig;
-import com.hospital.dao.PatientDOMapper;
-import com.hospital.dao.UserDOMapper;
-import com.hospital.dao.dataobject.PatientDO;
-import com.hospital.dao.dataobject.UserDO;
+import com.hospital.dao.*;
+import com.hospital.dao.dataobject.*;
 import com.hospital.error.BusinessError;
 import com.hospital.error.BusinessException;
 import com.hospital.service.UserService;
 import com.hospital.service.model.PatientModel;
+import com.hospital.service.model.PrescriptionModel;
+import com.hospital.service.model.RegistrationModel;
 import com.hospital.service.model.UserModel;
 import com.hospital.validator.ValidationResult;
 import com.hospital.validator.ValidatorImpl;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.tomcat.jni.User;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
@@ -24,9 +23,9 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -36,6 +35,21 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private PatientDOMapper patientDOMapper;
+
+    @Autowired
+    private PrescriptionDOMapper prescriptionDOMapper;
+
+    @Autowired
+    private MedicineDOMapper medicineDOMapper;
+
+    @Autowired
+    private RegistrationDOMapper registrationDOMapper;
+
+    @Autowired
+    private DepartmentDOMapper departmentDOMapper;
+
+    @Autowired
+    private HospitalDOMapper hospitalDOMapper;
 
     @Autowired
     private ValidatorImpl validator;
@@ -52,6 +66,39 @@ public class UserServiceImpl implements UserService {
 //        return convertFromDOToModel(userDO);
 //
 //    }
+
+    @Override
+    public List<PrescriptionModel> getPrescriptionList(Integer userId) {
+        List<PrescriptionDO> prescriptionDOList = prescriptionDOMapper.selectByUserId(userId);
+        List<PrescriptionModel> prescriptionModelList = prescriptionDOList.stream().map(prescriptionDO -> {
+            PrescriptionModel prescriptionModel = new PrescriptionModel();
+            BeanUtils.copyProperties(prescriptionDO, prescriptionModel);
+            prescriptionModel.setDoctorName(userDOMapper.selectByPrimaryKey(prescriptionDO.getDoctorId()).getTrueName());
+            prescriptionModel.setPatientName(userDOMapper.selectByPrimaryKey(prescriptionDO.getPatientId()).getTrueName());
+            List<MedicineDO> medicineDOList = prescriptionDO.getMedicineList().stream().map(medicineId -> medicineDOMapper.selectByPrimaryKey(medicineId)).collect(Collectors.toList());
+            prescriptionModel.setMedicineDOList(medicineDOList);
+            return prescriptionModel;
+        }).collect(Collectors.toList());
+        return prescriptionModelList;
+    }
+
+    @Override
+    public List<RegistrationModel> getRegistrationModelList(Integer userId) {
+        List<RegistrationDO> registrationDOList = registrationDOMapper.selectByUserId(userId);
+        List<RegistrationModel> registrationModelList = registrationDOList.stream().map(registrationDO -> {
+            RegistrationModel registrationModel = new RegistrationModel();
+            BeanUtils.copyProperties(registrationDO, registrationModel);
+            UserDO userDO = userDOMapper.selectByPrimaryKey(registrationDO.getPatientId());
+            registrationModel.setTrueName(userDO.getTrueName());
+            registrationModel.setAge(userDO.getAge());
+            registrationModel.setGender(userDO.getGender());
+            registrationModel.setDoctorName(userDOMapper.selectByPrimaryKey(registrationDO.getDoctorId()).getTrueName());
+            registrationModel.setDepartmentName(departmentDOMapper.selectByPrimaryKey(registrationDO.getDepartmentId()).getDepartmentName());
+            registrationModel.setHospitalName(hospitalDOMapper.selectByPrimaryKey(registrationDO.getHospitalId()).getHospitalName());
+            return registrationModel;
+        }).collect(Collectors.toList());
+        return registrationModelList;
+    }
 
     @Override
     public void uploadImg(MultipartFile file, Integer id, HttpServletRequest request) {

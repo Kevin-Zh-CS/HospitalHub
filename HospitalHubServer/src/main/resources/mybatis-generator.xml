@@ -9,7 +9,7 @@
         <jdbcConnection driverClass="org.postgresql.Driver"
                         connectionURL="jdbc:postgresql://47.111.80.33:5432/hospital_hub"
                         userId="postgres"
-                        password="***************"/>
+                        password="RedisPostgres"/>
 
         <!-- 生成实体类地址 -->
         <javaModelGenerator targetPackage="com.hospital.dao.dataobject"
@@ -31,7 +31,14 @@
         </javaClientGenerator>
 
 
-        <table tableName="comment" domainObjectName="CommentDO"
+        <table tableName="medicine" domainObjectName="MedicineDO"
+               enableCountByExample="false"
+               enableUpdateByExample="false"
+               enableDeleteByExample="false"
+               enableSelectByExample="false"
+               selectByExampleQueryId="false"/>
+
+        <table tableName="prescription" domainObjectName="PrescriptionDO"
                enableCountByExample="false"
                enableUpdateByExample="false"
                enableDeleteByExample="false"

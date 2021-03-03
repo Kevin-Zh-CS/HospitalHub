@@ -13,4 +13,5 @@ public interface HospitalService {
     List<DepartmentModel> getDepartmentList(Integer hospitalId);
 
     List<HospitalModel> getHospitalModelList(UserModel userModel);
+
 }

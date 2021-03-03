@@ -14,7 +14,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
     指定静态资源的映射。下面的意思是当我们访问/uploadFile/**的请求时，
     系统会把该请求映射到指定的文件目录。
     比如访问http://localhost:8080/uploadFile/**时，
-    系统会到/tmp/uploadFile/下去找相应的文件。
+    系统会到/usr/uploadFile/下去找相应的文件。
      */
 
     @Override

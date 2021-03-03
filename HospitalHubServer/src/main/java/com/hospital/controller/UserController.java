@@ -7,6 +7,8 @@ import com.hospital.error.BusinessException;
 import com.hospital.response.CommonReturnType;
 import com.hospital.service.UserService;
 import com.hospital.service.model.PatientModel;
+import com.hospital.service.model.PrescriptionModel;
+import com.hospital.service.model.RegistrationModel;
 import com.hospital.service.model.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -17,9 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 import java.util.UUID;
@@ -66,6 +66,36 @@ public class UserController {
         redisTemplate.opsForValue().set(uuidToken, userModel);
         redisTemplate.expire(uuidToken, 1, TimeUnit.HOURS);
         return CommonReturnType.create(userModel.getTag(), uuidToken);
+    }
+
+    @PostMapping("/prescription/list")
+    @ResponseBody
+    public CommonReturnType getPrescriptionList(@RequestParam(name = "token") String token) throws BusinessException {
+        if(org.apache.commons.lang3.StringUtils.isEmpty(token)){
+            throw new BusinessException(BusinessError.USER_NOT_LOGIN);
+        }
+
+        UserModel userModel = (UserModel) redisTemplate.opsForValue().get(token);
+        if(userModel == null){
+            throw new BusinessException(BusinessError.USER_NOT_LOGIN);
+        }
+        List<PrescriptionModel> prescriptionModelList = userService.getPrescriptionList(userModel.getUserId());
+        return CommonReturnType.create("user", prescriptionModelList);
+    }
+
+    @PostMapping("/registration/list")
+    @ResponseBody
+    public CommonReturnType getRegistrationList(@RequestParam(name = "token") String token) throws BusinessException {
+        if(org.apache.commons.lang3.StringUtils.isEmpty(token)){
+            throw new BusinessException(BusinessError.USER_NOT_LOGIN);
+        }
+
+        UserModel userModel = (UserModel) redisTemplate.opsForValue().get(token);
+        if(userModel == null){
+            throw new BusinessException(BusinessError.USER_NOT_LOGIN);
+        }
+        List<RegistrationModel> registrationModelList = userService.getRegistrationModelList(userModel.getUserId());
+        return CommonReturnType.create("user", registrationModelList);
     }
 
 
