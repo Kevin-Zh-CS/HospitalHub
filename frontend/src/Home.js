@@ -13,7 +13,7 @@ function Departments(props) {
 }
 
 function Hospitals(props) {
-
+  return (<div/>)
 }
 
 
