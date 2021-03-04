@@ -6,6 +6,15 @@ import 'office-ui-fabric-react/dist/css/fabric.min.css'
 import injectSheet from 'react-jss'
 import IconButton from '@material-ui/core/IconButton';
 
+// login using 
+import Login from 'ant-design-pro/lib/Login';
+import { Alert, Checkbox } from 'antd';
+
+const { Tab, UserName, Password, Mobile, Captcha, Submit } = Login;
+
+
+
+
 import {
   HashRouter as Router,
   Route,
