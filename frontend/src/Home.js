@@ -4,16 +4,28 @@ import Container from './components/main/container/Container'
 const env = require('./.env.js')
 const url = env.url;
 
+function Departments(props) {
+  return (
+    <>
+
+    </>
+  )
+}
+
+function Hospitals(props) {
+
+}
+
+
 class Home extends Component {
   constructor() {
     super()
     this.state = {
-      bk_count: 0,
-      cd_count: 0,
-      br_count: 0
+      departmentList: ["骨科", "外科"],
+      hospitalList:["杭州第一人民医院", "杭州骨科"]
     }
   }
-  async componentWillMount() {
+  async componentDidMount() {
     const raw = await fetch(url + '/api/count')
     const json = await raw.json()
     if (json.err) {
@@ -28,14 +40,13 @@ class Home extends Component {
   }
   render() {
     return (
-      <div style={{
-        textAlign: 'center',
-        fontSize: 50,
-        display: 'flex',
-        justifyContent: 'center',
-      }}
-      >
-        <Container/>
+      <div>
+        <Departments>
+
+        </Departments>
+        <Hospitals>
+
+        </Hospitals>
       </div>
     )
   }

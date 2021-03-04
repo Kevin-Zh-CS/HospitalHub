@@ -16,6 +16,7 @@ import Home from './Home'
 import DoctorProfile from './DoctorProfile'
 import Login from './components/main/login/Login'
 import Register from './components/main/register/Register'
+import Footer from './components/main/footer/Footer'
 import { Typography } from '@material-ui/core'
 
 initializeIcons();
@@ -110,24 +111,19 @@ class App extends Component {
                 // aria-controls={menuId}
                 aria-haspopup="true"
                 color="inherit"
-
               >
-                <Register></Register>
+              <Register></Register>
               </IconButton>
               <IconButton
                 edge="end"
                 aria-label="login"
-                // aria-controls={menuId}
                 aria-haspopup="true"
                 color="inherit"
                 onClick={() => { }}
               >
                 <Login></Login>
-
               </IconButton>
             </header>
-
-
 
             <Panel
               isOpen={this.state.showPanel}
@@ -145,12 +141,9 @@ class App extends Component {
             <div className={this.props.classes.Content}>
               <Route exact path="/" component={Home} />
               <Route path="/DoctorProfile" component={DoctorProfile} />
-              {/* <Route path="/account" component={Account} />  */}
-              {/* <Route path="/bookmanage" component={BookManage} /> */}
             </div>
           </div>
         </Fabric>
-        
       </Router>
     )
   }

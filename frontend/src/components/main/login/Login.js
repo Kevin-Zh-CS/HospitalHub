@@ -22,6 +22,9 @@ import Divider from '@material-ui/core/Divider';
 import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import Button from '@material-ui/core/Button';
+
+const url = "http://47.111.80.33:9800"
+
 const useStyles = makeStyles((theme) => ({
   button: {
     margin: theme.spacing(4),
@@ -82,6 +85,40 @@ export default function Login() {
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
+
+  Login = async () => {
+    const raw = await fetch(url + "/doctor/detail?id=" + this.props.location.pathname.split('/')[2],  {
+      method: "GET",
+      headers: {
+        'content-type': 'text/html'
+      },
+      body: {
+        'accountId': this.state.username,
+        'encodedPassword': btoa(this.state.password)
+      }
+    })
+    let body = await raw.json()
+    let data = body.data
+    if (body.status === "fail") alert("load fail")
+    console.log(data)
+    this.setState({
+      doctor:{
+        id: data.userId,
+        name: data.trueName,
+        department: data.departmentName,
+        education: data.education,
+        email: data.email,
+        experience: data.experience,
+        gender: data.gender,
+        avatarURL: data.portraitUrl,
+        status: data.arrangement[0],
+        score: data.score,
+        left: data.left
+      },
+      comments: data.commentDOList,
+      waiting: data.waiting
+    })
+  }
 
 
 
@@ -151,6 +188,7 @@ export default function Login() {
                   color="primary"
                   className={classes.button}
                   endIcon={<ArrowDropUpIcon />}
+                  onClick={Login}
                 >
                   登陆
             </Button>

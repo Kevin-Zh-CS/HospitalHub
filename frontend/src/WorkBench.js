@@ -9,8 +9,8 @@ class WorkBench extends Component {
         
     }
 
-    constructor() {
-        super()
+    constructor(props) {
+        super(props)
     
         this.state = {
           doctor: {
