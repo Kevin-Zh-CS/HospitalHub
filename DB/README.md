@@ -9,7 +9,7 @@
 ```bash
 $ docker pull postgres
 $ mkdir ${HOME}/pgdata
-$ docker run --name postgres -d  -e POSTGRES_PASSWORD=123456 -v ${HOME}/pgdata/:/var/lib/postgresql/data -p 5432:5432 postgres
+$ docker run --name postgres -d  -e POSTGRES_PASSWORD=RedisPostgres -v ${HOME}/pgdata/:/var/lib/postgresql/data -p 5432:5432 postgres
 $ docker exec -it postgres psql -U postgres -d postgres
 ```
 
@@ -31,5 +31,3 @@ Then, execute `/init/init_data.sql`, insert some initial values into the databas
 
 * `DXY/main.py` is the spider script
 * `DXY/rst.txt` saves {tag_id (useless), disease name, corresonding section, brief}
-* `DXY/detail/` saves detailed data of each disease in `HTML` format. 
-* Totally 330 records.

@@ -1,4 +1,5 @@
-from gen_user import user_data
+from gen_user import patient_data
+from gen_user import doctor_data
 from random import choice
 
 sql_wildcard = '''DO
@@ -29,6 +30,6 @@ $$;\n
 def gen(sql_file, n):
     sql_file.write("\n-- 初始化 registration\n")
     for it in range(n):
-        sql_file.write(sql_wildcard.format(patient_username=choice(user_data[6:10])[0],
-                                           doctor_username=choice(user_data[0:5])[0]))
+        sql_file.write(sql_wildcard.format(patient_username=choice(patient_data)[0],
+                                           doctor_username=choice(doctor_data)[0]))
         sql_file.write('\n')
