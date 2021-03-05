@@ -9,7 +9,8 @@ DROP TABLE IF EXISTS hospital,
     process,
     comment,
     registration,
-    prescription CASCADE;
+    prescription,
+    medicine CASCADE;
 
 
 DROP TYPE IF EXISTS gender_type;
@@ -134,16 +135,17 @@ CREATE TABLE prescription
     prescription_time   TIMESTAMP  NOT NULL DEFAULT now():: timestamp(0),
     prescription_detail TEXT       NOT NULL DEFAULT '',
     status              order_type NOT NULL DEFAULT 'unpaid',
-    medicine_id         TEXT       NOT NULL DEFAULT '',
+    medicine_list       INT[]      NOT NULL DEFAULT ARRAY []:: INT[],
     total_price         FLOAT8     NOT NULL DEFAULT 0.00
 );
 
 
 CREATE TABLE medicine
 (
-    medicine_id      SERIAL PRIMARY KEY,
-    medicine_name    TEXT   NOT NULL DEFAULT '',
-    package_quantity TEXT   NOT NULL DEFAULT '',
-    medicine_price   FLOAT8 NOT NULL DEFAULT 0.00,
+    medicine_id        SERIAL PRIMARY KEY,
+    medicine_image_url TEXT   NOT NULL DEFAULT '',
+    medicine_name      TEXT   NOT NULL DEFAULT '',
+    package_quantity   TEXT   NOT NULL DEFAULT '',
+    medicine_price     FLOAT8 NOT NULL DEFAULT 0.00,
     UNIQUE (medicine_name, package_quantity)
 );
