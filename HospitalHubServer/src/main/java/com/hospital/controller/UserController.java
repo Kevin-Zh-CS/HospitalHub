@@ -68,7 +68,7 @@ public class UserController {
         return CommonReturnType.create(userModel.getTag(), uuidToken);
     }
 
-    @PostMapping("/prescription/list")
+    @PostMapping(value = "/prescription/list", consumes = {CommonReturnType.CONTENT_TYPE_FROMED})
     @ResponseBody
     public CommonReturnType getPrescriptionList(@RequestParam(name = "token") String token) throws BusinessException {
         if(org.apache.commons.lang3.StringUtils.isEmpty(token)){
@@ -83,7 +83,7 @@ public class UserController {
         return CommonReturnType.create("user", prescriptionModelList);
     }
 
-    @PostMapping("/registration/list")
+    @PostMapping(value = "/registration/list", consumes = {CommonReturnType.CONTENT_TYPE_FROMED})
     @ResponseBody
     public CommonReturnType getRegistrationList(@RequestParam(name = "token") String token) throws BusinessException {
         if(org.apache.commons.lang3.StringUtils.isEmpty(token)){
@@ -213,7 +213,7 @@ public class UserController {
     }
 
 
-    @PostMapping("/uploadImg")
+    @PostMapping(value = "/uploadImg", consumes = {CommonReturnType.CONTENT_TYPE_FROMED})
     @ResponseBody
     public CommonReturnType uploadImg(@RequestParam("file") MultipartFile file,
                                       @RequestParam(name = "id") Integer id,

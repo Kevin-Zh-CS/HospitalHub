@@ -1,12 +1,7 @@
 package com.hospital.service.impl;
 
-import com.hospital.dao.DoctorDOMapper;
-import com.hospital.dao.PrescriptionDOMapper;
-import com.hospital.dao.UserDOMapper;
-import com.hospital.dao.dataobject.DoctorDO;
-import com.hospital.dao.dataobject.PrescriptionDO;
-import com.hospital.dao.dataobject.RegistrationDO;
-import com.hospital.dao.dataobject.UserDO;
+import com.hospital.dao.*;
+import com.hospital.dao.dataobject.*;
 import com.hospital.error.BusinessError;
 import com.hospital.error.BusinessException;
 import com.hospital.service.PatientService;
@@ -31,20 +26,33 @@ public class PatientServiceImpl implements PatientService {
     @Autowired
     private PrescriptionDOMapper prescriptionDOMapper;
 
+    @Autowired
+    private RegistrationDOMapper registrationDOMapper;
+
+    @Autowired
+    private DepartmentDOMapper departmentDOMapper;
 
     @Override
+    @Transactional
     public void register(UserModel userModel, Integer doctorId) throws ParseException {
         RegistrationDO registrationDO = new RegistrationDO();
         registrationDO.setPatientId(userModel.getUserId());
         registrationDO.setDoctorId(doctorId);
         DoctorDO doctorDO = doctorDOMapper.selectByPrimaryKey(doctorId);
+        DepartmentDO departmentDO = departmentDOMapper.selectByPrimaryKey(doctorDO.getDepartmentId());
+        doctorDO.setWaiting(doctorDO.getWaiting() + 1);
+        departmentDO.setDepartmentWaiting(departmentDO.getDepartmentWaiting() + 1);
         registrationDO.setDepartmentId(doctorDO.getDepartmentId());
         registrationDO.setHospitalId(doctorDO.getHospitalId());
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
         Date date = dateFormat.parse(dateFormat.format(new Date()));
         registrationDO.setRegistrationTime(date);// new Date()为获取当前系统时间
 
-        //TODO: 挂号单单号的创建
+        //DONE: 挂号单单号的创建
+        registrationDOMapper.insertSelective(registrationDO);
+        doctorDOMapper.updateByPrimaryKeySelective(doctorDO);
+        departmentDOMapper.updateByPrimaryKeySelective(departmentDO);
+
 
     }
 

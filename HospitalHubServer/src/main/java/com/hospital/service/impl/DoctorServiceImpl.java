@@ -14,6 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -42,6 +45,8 @@ public class DoctorServiceImpl implements DoctorService {
     @Autowired
     private RegistrationDOMapper registrationDOMapper;
 
+    @Autowired
+    private MedicineDOMapper medicineDOMapper;
 
     @Override
     public DoctorModel getDoctorDetail(Integer doctorId) throws BusinessException {
@@ -152,6 +157,25 @@ public class DoctorServiceImpl implements DoctorService {
             return doctorModel;
         }).collect(Collectors.toList());
         return doctorModelList;
+    }
+
+    @Override
+    public void generateOrder(String prescriptionDetail, String registrationId, Integer[] medicineIdArray) throws ParseException {
+        PrescriptionDO prescriptionDO = new PrescriptionDO();
+        RegistrationDO registrationDO = registrationDOMapper.selectByPrimaryKey(registrationId);
+        prescriptionDO.setPatientId(registrationDO.getPatientId());
+        prescriptionDO.setDoctorId(registrationDO.getDoctorId());
+        prescriptionDO.setRegistrationId(registrationId);
+        prescriptionDO.setPrescriptionDetail(prescriptionDetail);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
+        prescriptionDO.setPrescriptionTime(dateFormat.parse(dateFormat.format(new Date())));
+        prescriptionDO.setMedicineList(Arrays.asList(medicineIdArray));
+        Double totalPrice = 0.0;
+        for (Integer medicineId : medicineIdArray) {
+            totalPrice += medicineDOMapper.selectByPrimaryKey(medicineId).getMedicinePrice();
+        }
+        prescriptionDO.setTotalPrice(totalPrice);
+        prescriptionDOMapper.insertSelective(prescriptionDO);
     }
 
     private UserDO convertFromModelToDO(UserModel userModel) {

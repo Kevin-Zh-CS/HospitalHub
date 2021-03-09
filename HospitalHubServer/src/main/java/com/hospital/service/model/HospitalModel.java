@@ -1,11 +1,20 @@
 package com.hospital.service.model;
 
-public class HospitalModel implements Comparable<HospitalModel>{
+public class HospitalModel implements Comparable<HospitalModel> {
     private Integer hospitalId;
+    private String hospitalUrl;
     private String hospitalName;
     private String hospitalAddress;
     //private List<Integer> departmentIdList;
     private Double distance;
+
+    public String getHospitalUrl() {
+        return hospitalUrl;
+    }
+
+    public void setHospitalUrl(String hospitalUrl) {
+        this.hospitalUrl = hospitalUrl;
+    }
 
     public Integer getHospitalId() {
         return hospitalId;

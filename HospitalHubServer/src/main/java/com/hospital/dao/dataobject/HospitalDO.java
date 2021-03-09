@@ -5,9 +5,18 @@ import java.util.List;
 public class HospitalDO {
 
     private Integer hospitalId;
+    private String hospitalUrl;
     private String hospitalName;
     private String hospitalAddress;
     private List<Integer> departmentIdList;
+
+    public String getHospitalUrl() {
+        return hospitalUrl;
+    }
+
+    public void setHospitalUrl(String hospitalUrl) {
+        this.hospitalUrl = hospitalUrl;
+    }
 
     public Integer getHospitalId() {
         return hospitalId;

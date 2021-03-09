@@ -1,6 +1,7 @@
 package com.hospital.controller;
 
 import com.hospital.controller.view.DoctorView;
+import com.hospital.dao.dataobject.PrescriptionDO;
 import com.hospital.error.BusinessError;
 import com.hospital.error.BusinessException;
 import com.hospital.response.CommonReturnType;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -53,6 +55,18 @@ public class DoctorController {
         return CommonReturnType.create("doctor", doctorViewList);
     }
 
+    @PostMapping(value = "/order", consumes = {CommonReturnType.CONTENT_TYPE_FROMED})
+    @ResponseBody
+    public CommonReturnType generateOrder(@RequestParam(name = "prescriptionDetail") String prescriptionDetail,
+                                          @RequestParam(name = "registrationId") String registrationId,
+                                          Integer[] medicineIdArray) throws BusinessException, ParseException {
+
+
+
+        doctorService.generateOrder(prescriptionDetail, registrationId, medicineIdArray);
+
+        return CommonReturnType.create("doctor","处方创建成功");
+    }
 
 
 
