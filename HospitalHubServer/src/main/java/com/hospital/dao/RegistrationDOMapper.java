@@ -58,4 +58,6 @@ public interface RegistrationDOMapper {
 
     List<RegistrationDO> selectByIdAndTime(@Param("doctorId") Integer doctorId,
                                            @Param("time") Date time);
+
+    List<RegistrationDO> selectByUserId(Integer userId);
 }

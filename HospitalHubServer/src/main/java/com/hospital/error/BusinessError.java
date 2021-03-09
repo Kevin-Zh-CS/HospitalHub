@@ -16,6 +16,7 @@ public enum BusinessError implements CommonError {
     USER_PHONE_FORMAT_NOT_CORRECT(20006, "电话格式不正确"),
     USER_PASSWORD_REPEAT(20007, "新旧密码不得重复"),
     USER_BIND_EMAIL_NOT_CONSISTENT(20008, "该邮箱与绑定的邮箱不一致"),
+    USER_NOT_ENOUGH_MONEY(20009, "用户余额不足"),
     //30000开头为交易信息错误
     STOCK_NOT_ENOUgH(30001,"库存不足")
     ;

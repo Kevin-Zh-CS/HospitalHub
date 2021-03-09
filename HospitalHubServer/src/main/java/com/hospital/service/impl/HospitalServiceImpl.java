@@ -130,6 +130,7 @@ public class HospitalServiceImpl implements HospitalService {
         return hospitalModelList;
     }
 
+
     private Double getDistance(double user_lng, double user_lat, double hospital_lng, double hospital_lat) {
         GlobalCoordinates source = new GlobalCoordinates(user_lat, user_lng);
         GlobalCoordinates target = new GlobalCoordinates(hospital_lat, hospital_lng);

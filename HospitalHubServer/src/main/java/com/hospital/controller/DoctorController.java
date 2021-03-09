@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @CrossOrigin(allowCredentials = "true", allowedHeaders = "*")
 @RequestMapping("/doctor")
@@ -39,6 +40,21 @@ public class DoctorController {
         BeanUtils.copyProperties(doctorModel, doctorView);
         return CommonReturnType.create("doctor", doctorView);
     }
+
+    @GetMapping("/list")
+    @ResponseBody
+    public CommonReturnType getDetailList(@RequestParam(name = "departmentId") Integer departmentId)  {
+        List<DoctorModel> doctorModelList = doctorService.getDoctorDetailList(departmentId);
+        List<DoctorView> doctorViewList = doctorModelList.stream().map(doctorModel -> {
+            DoctorView doctorView = new DoctorView();
+            BeanUtils.copyProperties(doctorModel, doctorView);
+            return doctorView;
+        }).collect(Collectors.toList());
+        return CommonReturnType.create("doctor", doctorViewList);
+    }
+
+
+
 
     @GetMapping("/registration/list")
     @ResponseBody

@@ -138,6 +138,22 @@ public class DoctorServiceImpl implements DoctorService {
         }
     }
 
+    @Override
+    public List<DoctorModel> getDoctorDetailList(Integer departmentId) {
+        DepartmentDO departmentDO = departmentDOMapper.selectByPrimaryKey(departmentId);
+        List<Integer> doctorIdList = departmentDO.getDoctorIdList();
+        List<DoctorModel> doctorModelList = doctorIdList.stream().map(doctorId -> {
+            DoctorModel doctorModel = null;
+            try {
+                doctorModel = getDoctorDetail(doctorId);
+            } catch (BusinessException e) {
+                e.printStackTrace();
+            }
+            return doctorModel;
+        }).collect(Collectors.toList());
+        return doctorModelList;
+    }
+
     private UserDO convertFromModelToDO(UserModel userModel) {
         if (userModel == null) {
             return null;

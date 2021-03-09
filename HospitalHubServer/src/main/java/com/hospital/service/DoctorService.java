@@ -14,4 +14,6 @@ public interface DoctorService {
     List<RegistrationModel> getRegistrationList(Integer doctorId, Date time);
 
     void updateDoctorDetail(UserModel userModel, String username, String email, Integer age, String major, String experience, String education, Integer capacity, List<Boolean> arrangement);
+
+    List<DoctorModel> getDoctorDetailList(Integer departmentId);
 }
