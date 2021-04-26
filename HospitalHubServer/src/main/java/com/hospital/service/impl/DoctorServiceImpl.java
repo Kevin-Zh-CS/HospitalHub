@@ -82,7 +82,7 @@ public class DoctorServiceImpl implements DoctorService {
     @Override
     public List<RegistrationModel> getRegistrationList(Integer doctorId, Date time) {
         List<RegistrationDO> registrationDOList = registrationDOMapper.selectByIdAndTime(doctorId, time);
-        List<RegistrationModel> registrationModelList = registrationDOList.stream().map(registrationDO -> {
+        List<RegistrationModel> registrationModelList = registrationDOList.parallelStream().map(registrationDO -> {
             RegistrationModel registrationModel = new RegistrationModel();
             UserDO userDO = userDOMapper.selectByPrimaryKey(registrationDO.getPatientId());
 
