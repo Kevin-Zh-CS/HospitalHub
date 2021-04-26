@@ -1,9 +1,9 @@
 -- 初始化 hospital
-INSERT INTO hospital(hospital_name, hospital_address) VALUES('浙大校医院', '浙江省杭州市西湖区余杭塘路388号');
-INSERT INTO hospital(hospital_name, hospital_address) VALUES('上海市第九人民医院', '上海市虹口区周家嘴路525号');
-INSERT INTO hospital(hospital_name, hospital_address) VALUES('解放军三〇七医院', '北京市丰台区东大街8号');
-INSERT INTO hospital(hospital_name, hospital_address) VALUES('上海市第六人民医院', '中国上海市徐汇区田林宜山路600号');
-INSERT INTO hospital(hospital_name, hospital_address) VALUES('浙江省第一医院', '浙江省杭州市上城区庆春路79号');
+INSERT INTO hospital(hospital_name, hospital_address, hospital_url) VALUES('浙大校医院', '浙江省杭州市西湖区余杭塘路388号', 'http://www.yihurenli.com/upload/201611/25/201611250908590213.jpg');
+INSERT INTO hospital(hospital_name, hospital_address, hospital_url) VALUES('上海市第九人民医院', '上海市虹口区周家嘴路525号', 'https://img.ivfazl.com/uploads/allimg/1911/5-191101111443N6.jpg');
+INSERT INTO hospital(hospital_name, hospital_address, hospital_url) VALUES('解放军三〇七医院', '北京市丰台区东大街8号', 'http://www.mztj.cn/upimg/userup/1303/060RU43332.jpg');
+INSERT INTO hospital(hospital_name, hospital_address, hospital_url) VALUES('上海市第六人民医院', '中国上海市徐汇区田林宜山路600号', 'https://www.shsmu.edu.cn/images/banner6.jpg');
+INSERT INTO hospital(hospital_name, hospital_address, hospital_url) VALUES('浙江省第一医院', '浙江省杭州市上城区庆春路79号', 'http://ssparking.com/upload/2016-5/2016052339510465.jpg');
 
 -- 初始化 department
 INSERT INTO department(hospital_id, department_name) SELECT hospital_id, '牙科' FROM hospital;
@@ -35,12 +35,12 @@ $$
         SELECT department.department_id, hospital.hospital_id
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
-        WHERE department_name = '皮肤科'
-          AND hospital_name = '浙江省第一医院'
+        WHERE department_name = '外科'
+          AND hospital_name = '上海市第六人民医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,false,false,true,true,false,true}', '皮肤科', '在来安县中医院工作27年', '贵阳护理职业学院本科毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,false,false,true,true,false,true}', '外科', '在来安县中医院工作27年', '贵阳护理职业学院本科毕业', 1.7397782486735496, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -62,12 +62,12 @@ $$
         SELECT department.department_id, hospital.hospital_id
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
-        WHERE department_name = '牙科'
-          AND hospital_name = '上海市第六人民医院'
+        WHERE department_name = '精神科'
+          AND hospital_name = '浙大校医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,false,false,true,true,true,true}', '牙科', '在牡丹江市肿瘤医院牡丹江市结核病防治院工作7年', '湖南师范大学医学院硕士毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,false,false,true,true,true,true}', '精神科', '在牡丹江市肿瘤医院牡丹江市结核病防治院工作7年', '湖南师范大学医学院硕士毕业', 7.01598655843941, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -83,18 +83,18 @@ $$
 
     BEGIN
         INSERT INTO hospital_hub_user(username, password, email, tag, true_name, age, gender) VALUES('13715863029', 
-        crypt('ylw4LVUb0DPu', gen_salt('bf')), 'eEKyhIOqD@ta.com', 'doctor', '吴换', 49, 'male')
+        crypt('ylw4LVUb0DPu', gen_salt('bf')), 'eEKyhIOqD@ta.com', 'doctor', '吴欢', 49, 'male')
         RETURNING user_id INTO tmp_doctor_id;
         
         SELECT department.department_id, hospital.hospital_id
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
         WHERE department_name = '外科'
-          AND hospital_name = '上海市第六人民医院'
+          AND hospital_name = '浙大校医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,false,false,true,true,false,false}', '外科', '在濮阳市人民医院工作18年', '江苏建康职业学院博士毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,false,false,true,true,false,false}', '外科', '在濮阳市人民医院工作18年', '江苏建康职业学院博士毕业', 5.406075857775295, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -110,18 +110,18 @@ $$
 
     BEGIN
         INSERT INTO hospital_hub_user(username, password, email, tag, true_name, age, gender) VALUES('15920538971', 
-        crypt('LGWesT', gen_salt('bf')), 'LlDpXHn@YB.com', 'doctor', '朱捎勋', 43, 'male')
+        crypt('LGWesT', gen_salt('bf')), 'LlDpXHn@YB.com', 'doctor', '朱勋', 43, 'male')
         RETURNING user_id INTO tmp_doctor_id;
         
         SELECT department.department_id, hospital.hospital_id
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
-        WHERE department_name = '妇科'
-          AND hospital_name = '解放军三〇七医院'
+        WHERE department_name = '牙科'
+          AND hospital_name = '上海市第六人民医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,true,false,true,false,false,true}', '妇科', '在门头沟区色树坟中心卫生院工作14年', '江西卫生职业学院硕士毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,true,false,true,false,false,true}', '牙科', '在门头沟区色树坟中心卫生院工作14年', '江西卫生职业学院硕士毕业', 2.160073829016342, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -137,18 +137,18 @@ $$
 
     BEGIN
         INSERT INTO hospital_hub_user(username, password, email, tag, true_name, age, gender) VALUES('13191405276', 
-        crypt('Mka8IEw', gen_salt('bf')), 'xsHbYUmKA@Fl.com', 'doctor', '邵稆', 42, 'male')
+        crypt('Mka8IEw', gen_salt('bf')), 'xsHbYUmKA@Fl.com', 'doctor', '邵可', 42, 'male')
         RETURNING user_id INTO tmp_doctor_id;
         
         SELECT department.department_id, hospital.hospital_id
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
-        WHERE department_name = '内科'
+        WHERE department_name = '精神科'
           AND hospital_name = '上海市第六人民医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,true,false,true,true,true,false}', '内科', '在河南省第一监狱医院工作11年', '武汉大学口腔医学院博士毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,true,false,true,true,true,false}', '精神科', '在河南省第一监狱医院工作11年', '武汉大学口腔医学院博士毕业', 6.823006944280291, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -171,11 +171,11 @@ $$
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
         WHERE department_name = '外科'
-          AND hospital_name = '上海市第六人民医院'
+          AND hospital_name = '上海市第九人民医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,false,true,true,true,true,true}', '外科', '在雄县中医院工作28年', '西北民族大学本科毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,false,true,true,true,true,true}', '外科', '在雄县中医院工作28年', '西北民族大学本科毕业', 6.965776596805162, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -191,18 +191,18 @@ $$
 
     BEGIN
         INSERT INTO hospital_hub_user(username, password, email, tag, true_name, age, gender) VALUES('13250637142', 
-        crypt('8E3lBSmOV', gen_salt('bf')), '4dPVY0iD@0Pq.com', 'doctor', '屈虱齿', 41, 'male')
+        crypt('8E3lBSmOV', gen_salt('bf')), '4dPVY0iD@0Pq.com', 'doctor', '屈林', 41, 'male')
         RETURNING user_id INTO tmp_doctor_id;
         
         SELECT department.department_id, hospital.hospital_id
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
-        WHERE department_name = '皮肤科'
-          AND hospital_name = '浙大校医院'
+        WHERE department_name = '精神科'
+          AND hospital_name = '上海市第九人民医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,false,false,true,false,false,true}', '皮肤科', '在商丘市第一人民医院工作12年', '兰州大学医学院硕士毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,false,false,true,false,false,true}', '精神科', '在商丘市第一人民医院工作12年', '兰州大学医学院硕士毕业', 7.8658061120276725, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -224,12 +224,12 @@ $$
         SELECT department.department_id, hospital.hospital_id
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
-        WHERE department_name = '牙科'
-          AND hospital_name = '解放军三〇七医院'
+        WHERE department_name = '内科'
+          AND hospital_name = '上海市第九人民医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,false,true,false,true,false,false}', '牙科', '在陕西省红十字医院工作15年', '湘南医学高等专科学校专科毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,false,true,false,true,false,false}', '内科', '在陕西省红十字医院工作15年', '湘南医学高等专科学校专科毕业', 9.689108403910147, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -251,12 +251,12 @@ $$
         SELECT department.department_id, hospital.hospital_id
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
-        WHERE department_name = '妇科'
-          AND hospital_name = '上海市第六人民医院'
+        WHERE department_name = '内科'
+          AND hospital_name = '浙江省第一医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,false,false,true,false,true,false}', '妇科', '在神木县妇幼保健站工作19年', '湖南中医药大学湘杏学院本科毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,false,false,true,false,true,false}', '内科', '在神木县妇幼保健站工作19年', '湖南中医药大学湘杏学院本科毕业', 5.137604955495015, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -272,18 +272,18 @@ $$
 
     BEGIN
         INSERT INTO hospital_hub_user(username, password, email, tag, true_name, age, gender) VALUES('18903471592', 
-        crypt('NXiOzgdI9STh', gen_salt('bf')), 'Ivh8jxrG@3cW.com', 'doctor', '贝喷饧', 43, 'male')
+        crypt('NXiOzgdI9STh', gen_salt('bf')), 'Ivh8jxrG@3cW.com', 'doctor', '贝鹏', 43, 'male')
         RETURNING user_id INTO tmp_doctor_id;
         
         SELECT department.department_id, hospital.hospital_id
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
-        WHERE department_name = '妇科'
-          AND hospital_name = '解放军三〇七医院'
+        WHERE department_name = '精神科'
+          AND hospital_name = '浙江省第一医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,true,false,true,true,true,true}', '妇科', '在义乌市新法风湿病医院工作14年', '河北联合大学冀唐学院硕士毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,true,false,true,true,true,true}', '精神科', '在义乌市新法风湿病医院工作14年', '河北联合大学冀唐学院硕士毕业', 2.733807435506617, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -306,11 +306,11 @@ $$
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
         WHERE department_name = '皮肤科'
-          AND hospital_name = '解放军三〇七医院'
+          AND hospital_name = '浙大校医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,true,true,false,true,true,true}', '皮肤科', '在克拉玛依市金龙医院工作19年', '湖北中医药高等专科学校专科毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,true,true,false,true,true,true}', '皮肤科', '在克拉玛依市金龙医院工作19年', '湖北中医药高等专科学校专科毕业', 4.528301342805996, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -326,18 +326,18 @@ $$
 
     BEGIN
         INSERT INTO hospital_hub_user(username, password, email, tag, true_name, age, gender) VALUES('18274310928', 
-        crypt('EMhGm90', gen_salt('bf')), '4LgEFMPy@px.com', 'doctor', '祁魇', 49, 'male')
+        crypt('EMhGm90', gen_salt('bf')), '4LgEFMPy@px.com', 'doctor', '祁辛', 49, 'male')
         RETURNING user_id INTO tmp_doctor_id;
         
         SELECT department.department_id, hospital.hospital_id
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
-        WHERE department_name = '精神科'
-          AND hospital_name = '解放军三〇七医院'
+        WHERE department_name = '牙科'
+          AND hospital_name = '浙江省第一医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,true,true,true,false,false,true}', '精神科', '在西平县人民医院工作20年', '西北民族大学本科毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,true,true,true,false,false,true}', '牙科', '在西平县人民医院工作20年', '西北民族大学本科毕业', 5.897394885440043, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -360,11 +360,11 @@ $$
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
         WHERE department_name = '外科'
-          AND hospital_name = '上海市第六人民医院'
+          AND hospital_name = '浙江省第一医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,false,true,true,false,true,true}', '外科', '在鸡西市城子河区人民医院工作21年', '南京大学医学院硕士毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,false,true,true,false,true,true}', '外科', '在鸡西市城子河区人民医院工作21年', '南京大学医学院硕士毕业', 4.7840518390394235, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -380,18 +380,18 @@ $$
 
     BEGIN
         INSERT INTO hospital_hub_user(username, password, email, tag, true_name, age, gender) VALUES('15706394271', 
-        crypt('3Q7ZRMvS4', gen_salt('bf')), '6eGHj@sRf.com', 'doctor', '汪苈', 52, 'male')
+        crypt('3Q7ZRMvS4', gen_salt('bf')), '6eGHj@sRf.com', 'doctor', '汪陵', 52, 'male')
         RETURNING user_id INTO tmp_doctor_id;
         
         SELECT department.department_id, hospital.hospital_id
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
-        WHERE department_name = '皮肤科'
+        WHERE department_name = '精神科'
           AND hospital_name = '浙江省第一医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,true,false,false,false,false,true}', '皮肤科', '在阿克苏市兵团农一师九团职工医院工作27年', '沧州医学高等专科学校专科毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,true,false,false,false,false,true}', '精神科', '在阿克苏市兵团农一师九团职工医院工作27年', '沧州医学高等专科学校专科毕业', 7.1932148200105495, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -413,12 +413,12 @@ $$
         SELECT department.department_id, hospital.hospital_id
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
-        WHERE department_name = '精神科'
-          AND hospital_name = '解放军三〇七医院'
+        WHERE department_name = '牙科'
+          AND hospital_name = '浙江省第一医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,true,false,false,false,true,false}', '精神科', '在亳州市恒康医院工作8年', '泰山医学院硕士毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,true,false,false,false,true,false}', '牙科', '在亳州市恒康医院工作8年', '泰山医学院硕士毕业', 5.628951129953304, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -434,18 +434,18 @@ $$
 
     BEGIN
         INSERT INTO hospital_hub_user(username, password, email, tag, true_name, age, gender) VALUES('15235876294', 
-        crypt('VPGE7e9g6', gen_salt('bf')), 'Duph5Ol@xUe.com', 'doctor', '熊苟坎', 60, 'male')
+        crypt('VPGE7e9g6', gen_salt('bf')), 'Duph5Ol@xUe.com', 'doctor', '熊卫龙', 60, 'male')
         RETURNING user_id INTO tmp_doctor_id;
         
         SELECT department.department_id, hospital.hospital_id
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
-        WHERE department_name = '精神科'
-          AND hospital_name = '上海市第六人民医院'
+        WHERE department_name = '内科'
+          AND hospital_name = '浙江省第一医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,false,true,true,true,true,false}', '精神科', '在温州市中西医结合医院工作30年', '甘肃卫生职业学院本科毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,false,true,true,true,true,false}', '内科', '在温州市中西医结合医院工作30年', '甘肃卫生职业学院本科毕业', 5.175985454388247, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -471,8 +471,8 @@ $$
           AND hospital_name = '解放军三〇七医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,true,true,true,false,false,true}', '牙科', '在盘县特区中医院工作9年', '遵义医药高等专科学校专科毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,true,true,true,false,false,true}', '牙科', '在盘县特区中医院工作9年', '遵义医药高等专科学校专科毕业', 1.2424561189170675, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -494,12 +494,12 @@ $$
         SELECT department.department_id, hospital.hospital_id
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
-        WHERE department_name = '内科'
-          AND hospital_name = '浙大校医院'
+        WHERE department_name = '牙科'
+          AND hospital_name = '浙江省第一医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,false,true,true,false,false,false}', '内科', '在辽阳县中医院工作24年', '四川医科大学本科毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,false,true,true,false,false,false}', '牙科', '在辽阳县中医院工作24年', '四川医科大学本科毕业', 6.586540403966312, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -521,12 +521,12 @@ $$
         SELECT department.department_id, hospital.hospital_id
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
-        WHERE department_name = '妇科'
-          AND hospital_name = '浙大校医院'
+        WHERE department_name = '牙科'
+          AND hospital_name = '上海市第六人民医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,false,false,false,false,false,false}', '妇科', '在九台市铁北医院工作13年', '皖西卫生职业学院博士毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,false,false,false,false,false,false}', '牙科', '在九台市铁北医院工作13年', '皖西卫生职业学院博士毕业', 1.5892611372917833, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -548,12 +548,12 @@ $$
         SELECT department.department_id, hospital.hospital_id
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
-        WHERE department_name = '妇科'
-          AND hospital_name = '解放军三〇七医院'
+        WHERE department_name = '牙科'
+          AND hospital_name = '浙江省第一医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,false,false,true,false,true,true}', '妇科', '在内蒙古平计矿务局总医院工作18年', '贵阳市卫生学校硕士毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,false,false,true,false,true,true}', '牙科', '在内蒙古平计矿务局总医院工作18年', '贵阳市卫生学校硕士毕业', 4.192093283031069, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -575,12 +575,12 @@ $$
         SELECT department.department_id, hospital.hospital_id
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
-        WHERE department_name = '妇科'
-          AND hospital_name = '上海市第九人民医院'
+        WHERE department_name = '外科'
+          AND hospital_name = '解放军三〇七医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,true,false,true,true,false,true}', '妇科', '在成都口腔医院工作31年', '沈阳医学院本科毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,true,false,true,true,false,true}', '外科', '在成都口腔医院工作31年', '沈阳医学院本科毕业', 3.5152793372515423, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -596,18 +596,18 @@ $$
 
     BEGIN
         INSERT INTO hospital_hub_user(username, password, email, tag, true_name, age, gender) VALUES('18019368750', 
-        crypt('rZme0nUPVL', gen_salt('bf')), 'TAm0jEhe@LpM.com', 'doctor', '计擦', 52, 'male')
+        crypt('rZme0nUPVL', gen_salt('bf')), 'TAm0jEhe@LpM.com', 'doctor', '计思文', 52, 'male')
         RETURNING user_id INTO tmp_doctor_id;
         
         SELECT department.department_id, hospital.hospital_id
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
-        WHERE department_name = '牙科'
-          AND hospital_name = '浙大校医院'
+        WHERE department_name = '精神科'
+          AND hospital_name = '解放军三〇七医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,false,true,true,false,true,false}', '牙科', '在陆良县妇幼保健院工作20年', '华中科技大学同济医学院硕士毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,false,true,true,false,true,false}', '精神科', '在陆良县妇幼保健院工作20年', '华中科技大学同济医学院硕士毕业', 6.286189569184758, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -630,11 +630,11 @@ $$
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
         WHERE department_name = '外科'
-          AND hospital_name = '上海市第九人民医院'
+          AND hospital_name = '上海市第六人民医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,false,true,true,false,false,true}', '外科', '在井陉矿务局医院工作28年', '云南大学医学院本科毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,false,true,true,false,false,true}', '外科', '在井陉矿务局医院工作28年', '云南大学医学院本科毕业', 7.0542685512368255, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -650,18 +650,18 @@ $$
 
     BEGIN
         INSERT INTO hospital_hub_user(username, password, email, tag, true_name, age, gender) VALUES('18518207469', 
-        crypt('UIzEphd', gen_salt('bf')), 'jYCp0mWNz@o1.com', 'doctor', '计拽', 54, 'male')
+        crypt('UIzEphd', gen_salt('bf')), 'jYCp0mWNz@o1.com', 'doctor', '朱昱铭', 54, 'male')
         RETURNING user_id INTO tmp_doctor_id;
         
         SELECT department.department_id, hospital.hospital_id
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
-        WHERE department_name = '妇科'
+        WHERE department_name = '内科'
           AND hospital_name = '浙大校医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,true,false,true,false,false,false}', '妇科', '在津市市中医院工作23年', '广东药学院硕士毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,true,false,true,false,false,false}', '内科', '在津市市中医院工作23年', '广东药学院硕士毕业', 5.055864120359704, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -683,12 +683,12 @@ $$
         SELECT department.department_id, hospital.hospital_id
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
-        WHERE department_name = '妇科'
-          AND hospital_name = '解放军三〇七医院'
+        WHERE department_name = '外科'
+          AND hospital_name = '浙大校医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,false,true,true,true,false,false}', '妇科', '在沈阳市房天职工医院工作18年', '安徽医学高等专科学校专科毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,false,true,true,true,false,false}', '外科', '在沈阳市房天职工医院工作18年', '安徽医学高等专科学校专科毕业', 5.9372621755664365, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -710,12 +710,12 @@ $$
         SELECT department.department_id, hospital.hospital_id
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
-        WHERE department_name = '牙科'
+        WHERE department_name = '皮肤科'
           AND hospital_name = '浙江省第一医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,true,true,true,true,false,true}', '牙科', '在三门县妇幼保健站工作19年', '大庆医学高等专科学校专科毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,true,true,true,true,false,true}', '皮肤科', '在三门县妇幼保健站工作19年', '大庆医学高等专科学校专科毕业', 8.581343842294181, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -737,12 +737,12 @@ $$
         SELECT department.department_id, hospital.hospital_id
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
-        WHERE department_name = '内科'
+        WHERE department_name = '妇科'
           AND hospital_name = '浙江省第一医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,false,true,true,false,false,true}', '内科', '在封开县第二人民医院工作23年', '天津第二医学院硕士毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,false,true,true,false,false,true}', '妇科', '在封开县第二人民医院工作23年', '天津第二医学院硕士毕业', 5.903856116278384, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -764,12 +764,12 @@ $$
         SELECT department.department_id, hospital.hospital_id
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
-        WHERE department_name = '皮肤科'
-          AND hospital_name = '解放军三〇七医院'
+        WHERE department_name = '外科'
+          AND hospital_name = '浙大校医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,false,true,false,true,true,false}', '皮肤科', '在永和县人民医院工作12年', '三峡大学医学院本科毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,false,true,false,true,true,false}', '外科', '在永和县人民医院工作12年', '三峡大学医学院本科毕业', 7.689349513207003, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -791,12 +791,12 @@ $$
         SELECT department.department_id, hospital.hospital_id
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
-        WHERE department_name = '妇科'
+        WHERE department_name = '精神科'
           AND hospital_name = '解放军三〇七医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,false,true,false,true,false,true}', '妇科', '在中国人民解放军总后勤部第三职工医院工作17年', '包头医学院硕士毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,false,true,false,true,false,true}', '精神科', '在中国人民解放军总后勤部第三职工医院工作17年', '包头医学院硕士毕业', 6.120194666623628, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -819,11 +819,11 @@ $$
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
         WHERE department_name = '妇科'
-          AND hospital_name = '浙大校医院'
+          AND hospital_name = '上海市第六人民医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,false,false,true,true,true,false}', '妇科', '在中国人民解放军第二一五医院工作11年', '贵阳中医学院博士毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,false,false,true,true,true,false}', '妇科', '在中国人民解放军第二一五医院工作11年', '贵阳中医学院博士毕业', 7.061370479704012, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -845,12 +845,12 @@ $$
         SELECT department.department_id, hospital.hospital_id
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
-        WHERE department_name = '牙科'
+        WHERE department_name = '外科'
           AND hospital_name = '上海市第九人民医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,true,true,true,true,true,true}', '牙科', '在中国中医研究院眼科医院工作19年', '南通大学医学院博士毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,true,true,true,true,true,true}', '外科', '在中国中医研究院眼科医院工作19年', '南通大学医学院博士毕业', 4.775462610722435, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -872,12 +872,12 @@ $$
         SELECT department.department_id, hospital.hospital_id
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
-        WHERE department_name = '外科'
-          AND hospital_name = '上海市第六人民医院'
+        WHERE department_name = '精神科'
+          AND hospital_name = '解放军三〇七医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,true,true,true,false,true,true}', '外科', '在云梦县中医院工作7年', '济宁医学院博士毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,true,true,true,false,true,true}', '精神科', '在云梦县中医院工作7年', '济宁医学院博士毕业', 6.727444749690875, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -899,12 +899,12 @@ $$
         SELECT department.department_id, hospital.hospital_id
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
-        WHERE department_name = '内科'
+        WHERE department_name = '妇科'
           AND hospital_name = '解放军三〇七医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,false,false,true,false,true,true}', '内科', '在盘锦市兴隆台区人民医院工作31年', '浙江医药高等专科学校专科毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,false,false,true,false,true,true}', '妇科', '在盘锦市兴隆台区人民医院工作31年', '浙江医药高等专科学校专科毕业', 2.4391371778104984, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -927,11 +927,11 @@ $$
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
         WHERE department_name = '内科'
-          AND hospital_name = '上海市第六人民医院'
+          AND hospital_name = '上海市第九人民医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,true,false,false,false,true,false}', '内科', '在怀化市精神病医院工作20年', '惠州卫生职业技术学院博士毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,true,false,false,false,true,false}', '内科', '在怀化市精神病医院工作20年', '惠州卫生职业技术学院博士毕业', 2.9542759355990915, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -953,12 +953,12 @@ $$
         SELECT department.department_id, hospital.hospital_id
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
-        WHERE department_name = '内科'
-          AND hospital_name = '解放军三〇七医院'
+        WHERE department_name = '精神科'
+          AND hospital_name = '上海市第九人民医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,true,false,true,true,false,true}', '内科', '在昌乐县中医院工作26年', '上海健康职业技术学院本科毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,true,false,true,true,false,true}', '精神科', '在昌乐县中医院工作26年', '上海健康职业技术学院本科毕业', 3.631260945809524, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -980,12 +980,12 @@ $$
         SELECT department.department_id, hospital.hospital_id
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
-        WHERE department_name = '外科'
-          AND hospital_name = '浙大校医院'
+        WHERE department_name = '牙科'
+          AND hospital_name = '浙江省第一医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,false,false,false,true,false,true}', '外科', '在北安市结核病医院工作27年', '中国人民解放军白求恩军医学院博士毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,false,false,false,true,false,true}', '牙科', '在北安市结核病医院工作27年', '中国人民解放军白求恩军医学院博士毕业', 9.36023362905799, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -1008,11 +1008,11 @@ $$
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
         WHERE department_name = '精神科'
-          AND hospital_name = '解放军三〇七医院'
+          AND hospital_name = '浙大校医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,false,true,false,false,true,false}', '精神科', '在西吉县妇幼保健所工作24年', '鸡西煤炭医学高等专科学校专科毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,false,true,false,false,true,false}', '精神科', '在西吉县妇幼保健所工作24年', '鸡西煤炭医学高等专科学校专科毕业', 2.952298047519837, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -1034,12 +1034,12 @@ $$
         SELECT department.department_id, hospital.hospital_id
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
-        WHERE department_name = '皮肤科'
-          AND hospital_name = '浙江省第一医院'
+        WHERE department_name = '妇科'
+          AND hospital_name = '浙大校医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,false,false,false,false,false,true}', '皮肤科', '在晴隆县人民医院工作13年', '中国医科大学临床医药学院博士毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,false,false,false,false,false,true}', '妇科', '在晴隆县人民医院工作13年', '中国医科大学临床医药学院博士毕业', 9.118713249494379, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -1061,12 +1061,12 @@ $$
         SELECT department.department_id, hospital.hospital_id
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
-        WHERE department_name = '外科'
-          AND hospital_name = '上海市第六人民医院'
+        WHERE department_name = '内科'
+          AND hospital_name = '解放军三〇七医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,true,false,false,true,false,true}', '外科', '在韶关市福康医院工作19年', '南通大学医学院博士毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,true,false,false,true,false,true}', '内科', '在韶关市福康医院工作19年', '南通大学医学院博士毕业', 3.0727570527451067, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -1088,12 +1088,12 @@ $$
         SELECT department.department_id, hospital.hospital_id
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
-        WHERE department_name = '精神科'
-          AND hospital_name = '解放军三〇七医院'
+        WHERE department_name = '牙科'
+          AND hospital_name = '浙大校医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,false,false,true,false,false,true}', '精神科', '在长宁区同仁医院工作21年', '山东大学口腔医学院博士毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,false,false,true,false,false,true}', '牙科', '在长宁区同仁医院工作21年', '山东大学口腔医学院博士毕业', 6.263858657913087, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -1116,11 +1116,11 @@ $$
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
         WHERE department_name = '外科'
-          AND hospital_name = '解放军三〇七医院'
+          AND hospital_name = '浙江省第一医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,true,true,false,false,false,true}', '外科', '在常德市鼎城区肿瘤医院工作19年', '西藏藏医学院硕士毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,true,true,false,false,false,true}', '外科', '在常德市鼎城区肿瘤医院工作19年', '西藏藏医学院硕士毕业', 2.202938797696264, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -1143,11 +1143,11 @@ $$
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
         WHERE department_name = '外科'
-          AND hospital_name = '浙江省第一医院'
+          AND hospital_name = '上海市第九人民医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,true,true,true,false,false,false}', '外科', '在安化县联合医院工作15年', '山东大学齐鲁医学部硕士毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,true,true,true,false,false,false}', '外科', '在安化县联合医院工作15年', '山东大学齐鲁医学部硕士毕业', 3.0357357749922427, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -1169,12 +1169,12 @@ $$
         SELECT department.department_id, hospital.hospital_id
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
-        WHERE department_name = '外科'
-          AND hospital_name = '上海市第六人民医院'
+        WHERE department_name = '妇科'
+          AND hospital_name = '上海市第九人民医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,false,true,false,false,false,true}', '外科', '在石家庄市第五医院（原石家庄市传染病医院）工作20年', '第二军医大学博士毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,false,true,false,false,false,true}', '妇科', '在石家庄市第五医院（原石家庄市传染病医院）工作20年', '第二军医大学博士毕业', 4.982881843419125, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -1196,12 +1196,12 @@ $$
         SELECT department.department_id, hospital.hospital_id
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
-        WHERE department_name = '内科'
+        WHERE department_name = '外科'
           AND hospital_name = '上海市第六人民医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,true,false,true,false,false,true}', '内科', '在衡水市远大集团友谊医院(原衡水市棉纺厂职工医院)工作20年', '首都医科大学博士毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,true,false,true,false,false,true}', '外科', '在衡水市远大集团友谊医院(原衡水市棉纺厂职工医院)工作20年', '首都医科大学博士毕业', 3.3281789272906313, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -1223,12 +1223,12 @@ $$
         SELECT department.department_id, hospital.hospital_id
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
-        WHERE department_name = '内科'
+        WHERE department_name = '外科'
           AND hospital_name = '浙大校医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,false,true,false,true,true,true}', '内科', '在库伦旗蒙医医院工作12年', '菏泽医学专科学校专科毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,false,true,false,true,true,true}', '外科', '在库伦旗蒙医医院工作12年', '菏泽医学专科学校专科毕业', 1.8831787334179593, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -1250,12 +1250,12 @@ $$
         SELECT department.department_id, hospital.hospital_id
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
-        WHERE department_name = '内科'
-          AND hospital_name = '解放军三〇七医院'
+        WHERE department_name = '皮肤科'
+          AND hospital_name = '浙大校医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,false,true,false,true,false,true}', '内科', '在汨罗市第二人民医院工作16年', '辽宁医学院医疗学院本科毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,false,true,false,true,false,true}', '皮肤科', '在汨罗市第二人民医院工作16年', '辽宁医学院医疗学院本科毕业', 4.980418404588791, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -1277,12 +1277,12 @@ $$
         SELECT department.department_id, hospital.hospital_id
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
-        WHERE department_name = '精神科'
-          AND hospital_name = '上海市第九人民医院'
+        WHERE department_name = '皮肤科'
+          AND hospital_name = '解放军三〇七医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,true,true,true,true,true,true}', '精神科', '在永胜县妇幼保健院工作8年', '北华大学护理学院硕士毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,true,true,true,true,true,true}', '皮肤科', '在永胜县妇幼保健院工作8年', '北华大学护理学院硕士毕业', 9.781657041021393, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -1304,12 +1304,12 @@ $$
         SELECT department.department_id, hospital.hospital_id
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
-        WHERE department_name = '皮肤科'
-          AND hospital_name = '浙江省第一医院'
+        WHERE department_name = '牙科'
+          AND hospital_name = '浙大校医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,true,false,false,true,false,true}', '皮肤科', '在新疆伊宁市痔瘘医院工作30年', '河北联合大学冀唐学院本科毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,true,false,false,true,false,true}', '牙科', '在新疆伊宁市痔瘘医院工作30年', '河北联合大学冀唐学院本科毕业', 4.01122320143236, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -1332,11 +1332,11 @@ $$
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
         WHERE department_name = '皮肤科'
-          AND hospital_name = '浙大校医院'
+          AND hospital_name = '上海市第九人民医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,true,true,false,false,false,true}', '皮肤科', '在滨州市结核医院滨州市肿瘤医院工作17年', '盐城卫生职业技术学院硕士毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,true,true,false,false,false,true}', '皮肤科', '在滨州市结核医院滨州市肿瘤医院工作17年', '盐城卫生职业技术学院硕士毕业', 4.8588103927435125, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -1358,12 +1358,12 @@ $$
         SELECT department.department_id, hospital.hospital_id
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
-        WHERE department_name = '皮肤科'
-          AND hospital_name = '解放军三〇七医院'
+        WHERE department_name = '妇科'
+          AND hospital_name = '上海市第九人民医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,true,false,true,true,true,false}', '皮肤科', '在睢宁县传染病院工作18年', '江苏大学医学院博士毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,true,false,true,true,true,false}', '妇科', '在睢宁县传染病院工作18年', '江苏大学医学院博士毕业', 3.2045715877362824, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -1385,12 +1385,12 @@ $$
         SELECT department.department_id, hospital.hospital_id
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
-        WHERE department_name = '内科'
+        WHERE department_name = '皮肤科'
           AND hospital_name = '上海市第九人民医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,true,true,true,true,true,false}', '内科', '在呼市妇幼保健院工作16年', '甘肃中医药大学硕士毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,true,true,true,true,true,false}', '皮肤科', '在呼市妇幼保健院工作16年', '甘肃中医药大学硕士毕业', 1.940800259963601, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -1412,12 +1412,12 @@ $$
         SELECT department.department_id, hospital.hospital_id
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
-        WHERE department_name = '牙科'
+        WHERE department_name = '妇科'
           AND hospital_name = '上海市第六人民医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,true,false,false,true,false,true}', '牙科', '在察右后旗蒙医院工作24年', '牡丹江医学院本科毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,true,false,false,true,false,true}', '妇科', '在察右后旗蒙医院工作24年', '牡丹江医学院本科毕业', 4.664210314906777, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -1439,12 +1439,12 @@ $$
         SELECT department.department_id, hospital.hospital_id
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
-        WHERE department_name = '妇科'
-          AND hospital_name = '上海市第六人民医院'
+        WHERE department_name = '精神科'
+          AND hospital_name = '浙大校医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,true,false,false,false,false,false}', '妇科', '在安阳市灯塔医院工作6年', '重庆医科大学博士毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,true,false,false,false,false,false}', '精神科', '在安阳市灯塔医院工作6年', '重庆医科大学博士毕业', 3.787349381370947, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -1466,12 +1466,12 @@ $$
         SELECT department.department_id, hospital.hospital_id
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
-        WHERE department_name = '妇科'
-          AND hospital_name = '浙大校医院'
+        WHERE department_name = '皮肤科'
+          AND hospital_name = '解放军三〇七医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,true,false,false,false,true,true}', '妇科', '在保靖县妇幼保健站工作32年', '邢台医学高等专科学校专科毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,true,false,false,false,true,true}', '皮肤科', '在保靖县妇幼保健站工作32年', '邢台医学高等专科学校专科毕业', 6.354357917955987, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -1494,11 +1494,11 @@ $$
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
         WHERE department_name = '外科'
-          AND hospital_name = '上海市第六人民医院'
+          AND hospital_name = '解放军三〇七医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,false,true,false,true,false,true}', '外科', '在铁岭市银州区中西医结合医院工作28年', '大连医科大学本科毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,false,true,false,true,false,true}', '外科', '在铁岭市银州区中西医结合医院工作28年', '大连医科大学本科毕业', 3.2359479566588636, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -1514,18 +1514,18 @@ $$
 
     BEGIN
         INSERT INTO hospital_hub_user(username, password, email, tag, true_name, age, gender) VALUES('15603928476', 
-        crypt('lsW2Ui804r', gen_salt('bf')), 'lcA6HMshF@ncG.com', 'doctor', '伏壤砒', 39, 'male')
+        crypt('lsW2Ui804r', gen_salt('bf')), 'lcA6HMshF@ncG.com', 'doctor', '伏壤习', 39, 'male')
         RETURNING user_id INTO tmp_doctor_id;
         
         SELECT department.department_id, hospital.hospital_id
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
-        WHERE department_name = '妇科'
+        WHERE department_name = '外科'
           AND hospital_name = '上海市第九人民医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,true,false,false,true,true,false}', '妇科', '在烟台桃村中心医院(原：栖霞市第二人民医院)工作7年', '第二军医大学南京军医学院博士毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,true,false,false,true,true,false}', '外科', '在烟台桃村中心医院(原：栖霞市第二人民医院)工作7年', '第二军医大学南京军医学院博士毕业', 2.276459537011221, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -1547,12 +1547,12 @@ $$
         SELECT department.department_id, hospital.hospital_id
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
-        WHERE department_name = '牙科'
-          AND hospital_name = '浙大校医院'
+        WHERE department_name = '精神科'
+          AND hospital_name = '浙江省第一医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,true,true,true,false,false,true}', '牙科', '在房山区燕山医院工作6年', '南方医科大学博士毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,true,true,true,false,false,true}', '精神科', '在房山区燕山医院工作6年', '南方医科大学博士毕业', 1.579905989190241, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -1574,12 +1574,12 @@ $$
         SELECT department.department_id, hospital.hospital_id
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
-        WHERE department_name = '皮肤科'
-          AND hospital_name = '解放军三〇七医院'
+        WHERE department_name = '外科'
+          AND hospital_name = '浙江省第一医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,true,true,true,true,false,false}', '皮肤科', '在新疆疏附县人民医院工作14年', '柳州医学高等专科学校专科毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,true,true,true,true,false,false}', '外科', '在新疆疏附县人民医院工作14年', '柳州医学高等专科学校专科毕业', 9.055758676059547, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -1601,12 +1601,12 @@ $$
         SELECT department.department_id, hospital.hospital_id
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
-        WHERE department_name = '内科'
-          AND hospital_name = '浙江省第一医院'
+        WHERE department_name = '精神科'
+          AND hospital_name = '上海市第九人民医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,false,false,true,true,false,true}', '内科', '在江津市工人医院工作28年', '江西中医药高等专科学校专科毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,false,false,true,true,false,true}', '精神科', '在江津市工人医院工作28年', '江西中医药高等专科学校专科毕业', 2.620481934172218, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -1628,12 +1628,12 @@ $$
         SELECT department.department_id, hospital.hospital_id
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
-        WHERE department_name = '妇科'
-          AND hospital_name = '浙江省第一医院'
+        WHERE department_name = '精神科'
+          AND hospital_name = '解放军三〇七医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,false,true,true,true,false,true}', '妇科', '在方城县公疗医院工作23年', '辽宁中医药大学杏林学院硕士毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,false,true,true,true,false,true}', '精神科', '在方城县公疗医院工作23年', '辽宁中医药大学杏林学院硕士毕业', 4.904451797212828, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -1655,12 +1655,12 @@ $$
         SELECT department.department_id, hospital.hospital_id
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
-        WHERE department_name = '外科'
-          AND hospital_name = '解放军三〇七医院'
+        WHERE department_name = '内科'
+          AND hospital_name = '上海市第六人民医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,false,false,false,false,true,false}', '外科', '在黑龙江省亚布力林业局职工医院工作15年', '遵义医学院本科毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,false,false,false,false,true,false}', '内科', '在黑龙江省亚布力林业局职工医院工作15年', '遵义医学院本科毕业', 9.86936997023241, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -1682,12 +1682,12 @@ $$
         SELECT department.department_id, hospital.hospital_id
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
-        WHERE department_name = '精神科'
-          AND hospital_name = '浙江省第一医院'
+        WHERE department_name = '外科'
+          AND hospital_name = '解放军三〇七医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,true,false,true,true,true,false}', '精神科', '在哈尔滨市道里区公费医疗医院工作6年', '广西中医药大学博士毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,true,false,true,true,true,false}', '外科', '在哈尔滨市道里区公费医疗医院工作6年', '广西中医药大学博士毕业', 6.828370010766341, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -1709,12 +1709,12 @@ $$
         SELECT department.department_id, hospital.hospital_id
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
-        WHERE department_name = '外科'
-          AND hospital_name = '解放军三〇七医院'
+        WHERE department_name = '精神科'
+          AND hospital_name = '上海市第九人民医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,false,false,false,false,true,false}', '外科', '在大渡口区人民医院工作17年', '西北民族大学硕士毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,false,false,false,false,true,false}', '精神科', '在大渡口区人民医院工作17年', '西北民族大学硕士毕业', 3.6882268424655713, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -1736,12 +1736,12 @@ $$
         SELECT department.department_id, hospital.hospital_id
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
-        WHERE department_name = '内科'
-          AND hospital_name = '解放军三〇七医院'
+        WHERE department_name = '精神科'
+          AND hospital_name = '上海市第六人民医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,false,true,true,true,true,true}', '内科', '在安达市妇幼保健院工作15年', '白城医学高等专科学校专科毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,false,true,true,true,true,true}', '精神科', '在安达市妇幼保健院工作15年', '白城医学高等专科学校专科毕业', 2.8274403526429523, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -1764,11 +1764,11 @@ $$
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
         WHERE department_name = '精神科'
-          AND hospital_name = '浙江省第一医院'
+          AND hospital_name = '浙大校医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,false,false,false,false,false,true}', '精神科', '在宁波市保黎医院宁波市第四医院工作17年', '皖南医学院博士毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,false,false,false,false,false,true}', '精神科', '在宁波市保黎医院宁波市第四医院工作17年', '皖南医学院博士毕业', 4.88662655758193, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -1784,18 +1784,18 @@ $$
 
     BEGIN
         INSERT INTO hospital_hub_user(username, password, email, tag, true_name, age, gender) VALUES('18832967508', 
-        crypt('cYxH7C', gen_salt('bf')), 'hkvyNrzep@N2b.com', 'doctor', '舒旄', 56, 'male')
+        crypt('cYxH7C', gen_salt('bf')), 'hkvyNrzep@N2b.com', 'doctor', '舒纬', 56, 'male')
         RETURNING user_id INTO tmp_doctor_id;
         
         SELECT department.department_id, hospital.hospital_id
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
-        WHERE department_name = '皮肤科'
-          AND hospital_name = '浙江省第一医院'
+        WHERE department_name = '精神科'
+          AND hospital_name = '上海市第六人民医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,false,true,true,false,true,false}', '皮肤科', '在十八站林业局职工医院工作24年', '山西医科大学晋祠学院硕士毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,false,true,true,false,true,false}', '精神科', '在十八站林业局职工医院工作24年', '山西医科大学晋祠学院硕士毕业', 6.941046975262477, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -1817,12 +1817,12 @@ $$
         SELECT department.department_id, hospital.hospital_id
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
-        WHERE department_name = '内科'
-          AND hospital_name = '浙大校医院'
+        WHERE department_name = '妇科'
+          AND hospital_name = '上海市第九人民医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,true,true,false,true,true,false}', '内科', '在南海市南庄医院工作25年', '湖南师范大学医学院博士毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,true,true,false,true,true,false}', '妇科', '在南海市南庄医院工作25年', '湖南师范大学医学院博士毕业', 2.3130754442730286, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -1844,12 +1844,12 @@ $$
         SELECT department.department_id, hospital.hospital_id
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
-        WHERE department_name = '牙科'
-          AND hospital_name = '上海市第九人民医院'
+        WHERE department_name = '内科'
+          AND hospital_name = '浙大校医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,false,true,true,true,false,true}', '牙科', '在长沙市骨质增生病专科医院工作31年', '邵阳医学高等专科学校专科毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,false,true,true,true,false,true}', '内科', '在长沙市骨质增生病专科医院工作31年', '邵阳医学高等专科学校专科毕业', 2.1623761821078316, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -1871,12 +1871,12 @@ $$
         SELECT department.department_id, hospital.hospital_id
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
-        WHERE department_name = '外科'
-          AND hospital_name = '上海市第九人民医院'
+        WHERE department_name = '牙科'
+          AND hospital_name = '浙大校医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,true,false,false,false,false,true}', '外科', '在绍兴市中医院工作13年', '福建医科大学博士毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,true,false,false,false,false,true}', '牙科', '在绍兴市中医院工作13年', '福建医科大学博士毕业', 8.076695680296766, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -1898,12 +1898,12 @@ $$
         SELECT department.department_id, hospital.hospital_id
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
-        WHERE department_name = '内科'
-          AND hospital_name = '上海市第九人民医院'
+        WHERE department_name = '精神科'
+          AND hospital_name = '浙大校医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,true,false,true,true,true,true}', '内科', '在刚察县人民医院工作12年', '华中科技大学同济医学院博士毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,true,false,true,true,true,true}', '精神科', '在刚察县人民医院工作12年', '华中科技大学同济医学院博士毕业', 2.7068779401213283, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -1925,12 +1925,12 @@ $$
         SELECT department.department_id, hospital.hospital_id
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
-        WHERE department_name = '内科'
-          AND hospital_name = '浙大校医院'
+        WHERE department_name = '牙科'
+          AND hospital_name = '上海市第六人民医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,false,true,false,false,false,false}', '内科', '在周口市皮肤病医院工作8年', '山东大学医学院硕士毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,false,true,false,false,false,false}', '牙科', '在周口市皮肤病医院工作8年', '山东大学医学院硕士毕业', 3.0119175421560116, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -1953,11 +1953,11 @@ $$
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
         WHERE department_name = '精神科'
-          AND hospital_name = '浙大校医院'
+          AND hospital_name = '解放军三〇七医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,false,false,false,true,false,false}', '精神科', '在东莞市工人医院工作27年', '中国人民武装警察部队医学院本科毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,false,false,false,true,false,false}', '精神科', '在东莞市工人医院工作27年', '中国人民武装警察部队医学院本科毕业', 2.5112351883805935, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -1980,11 +1980,11 @@ $$
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
         WHERE department_name = '外科'
-          AND hospital_name = '解放军三〇七医院'
+          AND hospital_name = '浙江省第一医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,false,false,false,true,true,true}', '外科', '在大洼县妇幼保健站工作25年', '兰州大学医学院硕士毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,false,false,false,true,true,true}', '外科', '在大洼县妇幼保健站工作25年', '兰州大学医学院硕士毕业', 2.1872281042804236, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -2007,11 +2007,11 @@ $$
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
         WHERE department_name = '外科'
-          AND hospital_name = '浙江省第一医院'
+          AND hospital_name = '上海市第六人民医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,false,false,false,false,false,false}', '外科', '在文登市肿瘤医院工作25年', '广东医学院本科毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,false,false,false,false,false,false}', '外科', '在文登市肿瘤医院工作25年', '广东医学院本科毕业', 5.6102467637331666, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -2033,12 +2033,12 @@ $$
         SELECT department.department_id, hospital.hospital_id
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
-        WHERE department_name = '外科'
-          AND hospital_name = '浙大校医院'
+        WHERE department_name = '牙科'
+          AND hospital_name = '上海市第六人民医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,true,true,true,true,true,true}', '外科', '在赤峰市元宝山区第一医院工作18年', '哈尔滨医科大学博士毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,true,true,true,true,true,true}', '牙科', '在赤峰市元宝山区第一医院工作18年', '哈尔滨医科大学博士毕业', 4.445389710759606, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -2060,12 +2060,12 @@ $$
         SELECT department.department_id, hospital.hospital_id
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
-        WHERE department_name = '外科'
-          AND hospital_name = '上海市第九人民医院'
+        WHERE department_name = '精神科'
+          AND hospital_name = '浙大校医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,false,true,false,false,false,true}', '外科', '在綦江县肿瘤康复医院工作26年', '承德护理职业学院博士毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,false,true,false,false,false,true}', '精神科', '在綦江县肿瘤康复医院工作26年', '承德护理职业学院博士毕业', 7.149248512798456, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -2087,12 +2087,12 @@ $$
         SELECT department.department_id, hospital.hospital_id
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
-        WHERE department_name = '内科'
-          AND hospital_name = '上海市第九人民医院'
+        WHERE department_name = '妇科'
+          AND hospital_name = '解放军三〇七医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,false,false,true,false,false,false}', '内科', '在枣庄市峄城区人民医院工作17年', '汕头大学医学院本科毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,false,false,true,false,false,false}', '妇科', '在枣庄市峄城区人民医院工作17年', '汕头大学医学院本科毕业', 4.590338239201041, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -2114,12 +2114,12 @@ $$
         SELECT department.department_id, hospital.hospital_id
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
-        WHERE department_name = '外科'
-          AND hospital_name = '浙大校医院'
+        WHERE department_name = '牙科'
+          AND hospital_name = '解放军三〇七医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,false,true,true,true,true,false}', '外科', '在临县第二人民医院工作14年', '邢台医学高等专科学校专科毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,false,true,true,true,true,false}', '牙科', '在临县第二人民医院工作14年', '邢台医学高等专科学校专科毕业', 9.114029205981144, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -2141,12 +2141,12 @@ $$
         SELECT department.department_id, hospital.hospital_id
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
-        WHERE department_name = '皮肤科'
+        WHERE department_name = '精神科'
           AND hospital_name = '浙大校医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,false,false,false,true,false,true}', '皮肤科', '在黑水县妇幼保健站工作32年', '上海医药高等专科学校专科毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,false,false,false,true,false,true}', '精神科', '在黑水县妇幼保健站工作32年', '上海医药高等专科学校专科毕业', 4.687820217667535, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -2168,12 +2168,12 @@ $$
         SELECT department.department_id, hospital.hospital_id
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
-        WHERE department_name = '皮肤科'
-          AND hospital_name = '解放军三〇七医院'
+        WHERE department_name = '内科'
+          AND hospital_name = '上海市第九人民医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,true,false,true,false,false,true}', '皮肤科', '在朔州复退军人精神病院工作25年', '湖北理工学院医学院博士毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,true,false,true,false,false,true}', '内科', '在朔州复退军人精神病院工作25年', '湖北理工学院医学院博士毕业', 9.983224242855433, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -2196,11 +2196,11 @@ $$
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
         WHERE department_name = '外科'
-          AND hospital_name = '上海市第六人民医院'
+          AND hospital_name = '解放军三〇七医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,false,true,true,true,false,false}', '外科', '在南乐县精神病医院工作24年', '皖南医学院硕士毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,false,true,true,true,false,false}', '外科', '在南乐县精神病医院工作24年', '皖南医学院硕士毕业', 5.203072493707039, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -2223,11 +2223,11 @@ $$
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
         WHERE department_name = '外科'
-          AND hospital_name = '解放军三〇七医院'
+          AND hospital_name = '浙大校医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,true,true,false,false,true,false}', '外科', '在中国人民解放军空军水上村医院工作18年', '深圳大学医学部本科毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,true,true,false,false,true,false}', '外科', '在中国人民解放军空军水上村医院工作18年', '深圳大学医学部本科毕业', 3.035943723302365, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -2249,12 +2249,12 @@ $$
         SELECT department.department_id, hospital.hospital_id
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
-        WHERE department_name = '精神科'
-          AND hospital_name = '浙江省第一医院'
+        WHERE department_name = '妇科'
+          AND hospital_name = '解放军三〇七医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,true,true,false,true,true,true}', '精神科', '在庐江县中医院工作14年', '深圳大学医学部博士毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,true,true,false,true,true,true}', '妇科', '在庐江县中医院工作14年', '深圳大学医学部博士毕业', 6.549672421583965, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -2276,12 +2276,12 @@ $$
         SELECT department.department_id, hospital.hospital_id
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
-        WHERE department_name = '外科'
-          AND hospital_name = '浙江省第一医院'
+        WHERE department_name = '皮肤科'
+          AND hospital_name = '解放军三〇七医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,false,true,false,false,false,false}', '外科', '在淮阳县中医院工作19年', '南通大学医学院硕士毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,false,true,false,false,false,false}', '皮肤科', '在淮阳县中医院工作19年', '南通大学医学院硕士毕业', 4.693170241684365, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -2303,12 +2303,12 @@ $$
         SELECT department.department_id, hospital.hospital_id
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
-        WHERE department_name = '牙科'
-          AND hospital_name = '浙江省第一医院'
+        WHERE department_name = '皮肤科'
+          AND hospital_name = '上海市第六人民医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,false,true,false,false,false,true}', '牙科', '在莆田市肿瘤防治院工作31年', '南通大学医学院本科毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,false,true,false,false,false,true}', '皮肤科', '在莆田市肿瘤防治院工作31年', '南通大学医学院本科毕业', 5.06606305729607, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -2330,12 +2330,12 @@ $$
         SELECT department.department_id, hospital.hospital_id
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
-        WHERE department_name = '内科'
-          AND hospital_name = '解放军三〇七医院'
+        WHERE department_name = '牙科'
+          AND hospital_name = '上海市第六人民医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,false,false,true,false,false,true}', '内科', '在合肥市第二人民医院工作18年', '四川护理职业学院硕士毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,false,false,true,false,false,true}', '牙科', '在合肥市第二人民医院工作18年', '四川护理职业学院硕士毕业', 4.781881380326492, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -2357,12 +2357,12 @@ $$
         SELECT department.department_id, hospital.hospital_id
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
-        WHERE department_name = '外科'
-          AND hospital_name = '解放军三〇七医院'
+        WHERE department_name = '内科'
+          AND hospital_name = '浙大校医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,false,false,true,false,true,false}', '外科', '在沂南县中医院工作24年', '柳州医学高等专科学校专科毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,false,false,true,false,true,false}', '内科', '在沂南县中医院工作24年', '柳州医学高等专科学校专科毕业', 9.122729249256338, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -2385,11 +2385,11 @@ $$
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
         WHERE department_name = '皮肤科'
-          AND hospital_name = '上海市第六人民医院'
+          AND hospital_name = '浙大校医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,true,false,true,false,false,true}', '皮肤科', '在许昌市第二人民医院工作8年', '大同医学高等专科学校专科毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,true,false,true,false,false,true}', '皮肤科', '在许昌市第二人民医院工作8年', '大同医学高等专科学校专科毕业', 2.074503794956422, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -2411,12 +2411,12 @@ $$
         SELECT department.department_id, hospital.hospital_id
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
-        WHERE department_name = '外科'
-          AND hospital_name = '上海市第六人民医院'
+        WHERE department_name = '内科'
+          AND hospital_name = '浙江省第一医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,true,true,true,true,true,false}', '外科', '在克拉玛依市人民医院工作29年', '新疆维吾尔医学专科学校专科毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,true,true,true,true,true,false}', '内科', '在克拉玛依市人民医院工作29年', '新疆维吾尔医学专科学校专科毕业', 1.414097591364635, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -2438,12 +2438,12 @@ $$
         SELECT department.department_id, hospital.hospital_id
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
-        WHERE department_name = '牙科'
-          AND hospital_name = '浙江省第一医院'
+        WHERE department_name = '妇科'
+          AND hospital_name = '浙大校医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,true,true,true,false,false,false}', '牙科', '在东北制药总厂职工医院工作24年', '四川大学本科毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,true,true,true,false,false,false}', '妇科', '在东北制药总厂职工医院工作24年', '四川大学本科毕业', 7.690101779893828, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -2465,12 +2465,12 @@ $$
         SELECT department.department_id, hospital.hospital_id
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
-        WHERE department_name = '妇科'
-          AND hospital_name = '上海市第九人民医院'
+        WHERE department_name = '内科'
+          AND hospital_name = '解放军三〇七医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,false,true,false,false,true,true}', '妇科', '在河东区中医院工作27年', '北华大学医学院博士毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,false,true,false,false,true,true}', '内科', '在河东区中医院工作27年', '北华大学医学院博士毕业', 2.0350413125470013, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -2492,12 +2492,12 @@ $$
         SELECT department.department_id, hospital.hospital_id
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
-        WHERE department_name = '皮肤科'
-          AND hospital_name = '上海市第六人民医院'
+        WHERE department_name = '妇科'
+          AND hospital_name = '浙大校医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,false,false,false,true,true,false}', '皮肤科', '在宁安县人民医院工作23年', '南京海军医学高等专科学校专科毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,false,false,false,true,true,false}', '妇科', '在宁安县人民医院工作23年', '南京海军医学高等专科学校专科毕业', 3.6631618255457306, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -2519,12 +2519,12 @@ $$
         SELECT department.department_id, hospital.hospital_id
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
-        WHERE department_name = '内科'
-          AND hospital_name = '浙江省第一医院'
+        WHERE department_name = '妇科'
+          AND hospital_name = '上海市第九人民医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,true,true,false,true,true,true}', '内科', '在新乡医学院第一附属医院工作26年', '安徽中医药高等专科学校专科毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,true,true,false,true,true,true}', '妇科', '在新乡医学院第一附属医院工作26年', '安徽中医药高等专科学校专科毕业', 8.284067768797346, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -2546,12 +2546,12 @@ $$
         SELECT department.department_id, hospital.hospital_id
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
-        WHERE department_name = '牙科'
-          AND hospital_name = '解放军三〇七医院'
+        WHERE department_name = '皮肤科'
+          AND hospital_name = '浙江省第一医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,true,false,true,true,false,true}', '牙科', '在藁城市糖尿病医院工作14年', '辽宁医药职业学院本科毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,true,false,true,true,false,true}', '皮肤科', '在藁城市糖尿病医院工作14年', '辽宁医药职业学院本科毕业', 5.0275298795476004, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -2573,12 +2573,12 @@ $$
         SELECT department.department_id, hospital.hospital_id
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
-        WHERE department_name = '皮肤科'
-          AND hospital_name = '上海市第九人民医院'
+        WHERE department_name = '牙科'
+          AND hospital_name = '浙江省第一医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,false,false,true,false,false,true}', '皮肤科', '在新丰县中医院工作26年', '湘南学院硕士毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,false,false,true,false,false,true}', '牙科', '在新丰县中医院工作26年', '湘南学院硕士毕业', 5.2632323434349875, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -2600,12 +2600,12 @@ $$
         SELECT department.department_id, hospital.hospital_id
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
-        WHERE department_name = '妇科'
-          AND hospital_name = '解放军三〇七医院'
+        WHERE department_name = '皮肤科'
+          AND hospital_name = '上海市第六人民医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,false,false,false,true,true,false}', '妇科', '在漂塘钨矿职工医院工作4年', '江苏建康职业学院博士毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,false,false,false,true,true,false}', '皮肤科', '在漂塘钨矿职工医院工作4年', '江苏建康职业学院博士毕业', 2.4026435841093887, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -2627,12 +2627,12 @@ $$
         SELECT department.department_id, hospital.hospital_id
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
-        WHERE department_name = '牙科'
+        WHERE department_name = '内科'
           AND hospital_name = '浙江省第一医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,true,true,false,false,false,true}', '牙科', '在江永县中医院工作32年', '湖北民族学院医学院本科毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,true,true,false,false,false,true}', '内科', '在江永县中医院工作32年', '湖北民族学院医学院本科毕业', 1.294411451873076, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -2648,18 +2648,18 @@ $$
 
     BEGIN
         INSERT INTO hospital_hub_user(username, password, email, tag, true_name, age, gender) VALUES('13261894237', 
-        crypt('md2uW9', gen_salt('bf')), 'Ay7q1I@m7.com', 'doctor', '项湔荪', 52, 'male')
+        crypt('md2uW9', gen_salt('bf')), 'Ay7q1I@m7.com', 'doctor', '项前荪', 52, 'male')
         RETURNING user_id INTO tmp_doctor_id;
         
         SELECT department.department_id, hospital.hospital_id
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
-        WHERE department_name = '妇科'
-          AND hospital_name = '上海市第六人民医院'
+        WHERE department_name = '精神科'
+          AND hospital_name = '浙大校医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,false,false,false,false,false,false}', '妇科', '在瓦房店市第五人民医院工作22年', '南方医科大学博士毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,false,false,false,false,false,false}', '精神科', '在瓦房店市第五人民医院工作22年', '南方医科大学博士毕业', 2.819591694430467, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -2681,12 +2681,12 @@ $$
         SELECT department.department_id, hospital.hospital_id
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
-        WHERE department_name = '精神科'
-          AND hospital_name = '解放军三〇七医院'
+        WHERE department_name = '皮肤科'
+          AND hospital_name = '浙江省第一医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,true,true,false,false,true,false}', '精神科', '在重庆沙坪坝区井口医院工作28年', '四川护理职业学院博士毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,true,true,false,false,true,false}', '皮肤科', '在重庆沙坪坝区井口医院工作28年', '四川护理职业学院博士毕业', 1.5309542871120976, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -2708,12 +2708,12 @@ $$
         SELECT department.department_id, hospital.hospital_id
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
-        WHERE department_name = '皮肤科'
-          AND hospital_name = '上海市第九人民医院'
+        WHERE department_name = '牙科'
+          AND hospital_name = '浙江省第一医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,true,true,true,true,true,true}', '皮肤科', '在河南省第六建筑工程公司职工医院工作9年', '四川医科大学博士毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,true,true,true,true,true,true}', '牙科', '在河南省第六建筑工程公司职工医院工作9年', '四川医科大学博士毕业', 6.36566803066767, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -2735,12 +2735,12 @@ $$
         SELECT department.department_id, hospital.hospital_id
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
-        WHERE department_name = '皮肤科'
-          AND hospital_name = '浙大校医院'
+        WHERE department_name = '外科'
+          AND hospital_name = '上海市第九人民医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,false,true,false,true,true,true}', '皮肤科', '在西安华厦医院工作16年', '浙江中医药大学滨江学院硕士毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,false,true,false,true,true,true}', '外科', '在西安华厦医院工作16年', '浙江中医药大学滨江学院硕士毕业', 6.6841608445118705, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -2762,12 +2762,12 @@ $$
         SELECT department.department_id, hospital.hospital_id
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
-        WHERE department_name = '内科'
-          AND hospital_name = '上海市第九人民医院'
+        WHERE department_name = '精神科'
+          AND hospital_name = '浙江省第一医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,false,true,true,true,true,false}', '内科', '任浙江省第一医院医师5年', '浙江大学医学院博士毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,false,true,true,true,true,false}', '精神科', '任浙江省第一医院医师5年', '浙江大学医学院博士毕业', 3.9969623203505273, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -2789,12 +2789,12 @@ $$
         SELECT department.department_id, hospital.hospital_id
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
-        WHERE department_name = '牙科'
-          AND hospital_name = '上海市第九人民医院'
+        WHERE department_name = '皮肤科'
+          AND hospital_name = '上海市第六人民医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,true,false,true,false,false,false}', '牙科', '在青海省中医院青海省中西医结合医院工作4年', '苏州大学医学部硕士毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,true,false,true,false,false,false}', '皮肤科', '在青海省中医院青海省中西医结合医院工作4年', '苏州大学医学部硕士毕业', 4.758162674874929, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -2816,12 +2816,12 @@ $$
         SELECT department.department_id, hospital.hospital_id
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
-        WHERE department_name = '皮肤科'
-          AND hospital_name = '浙大校医院'
+        WHERE department_name = '外科'
+          AND hospital_name = '上海市第九人民医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,true,true,false,true,true,true}', '皮肤科', '在哈尔滨市老年病医院工作11年', '运城护理职业学院硕士毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,true,true,false,true,true,true}', '外科', '在哈尔滨市老年病医院工作11年', '运城护理职业学院硕士毕业', 2.318860801076752, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -2843,12 +2843,12 @@ $$
         SELECT department.department_id, hospital.hospital_id
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
-        WHERE department_name = '内科'
+        WHERE department_name = '外科'
           AND hospital_name = '浙大校医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,false,true,true,false,true,false}', '内科', '在万州区侨康医院工作12年', '沈阳药科大学硕士毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,false,true,true,false,true,false}', '外科', '在万州区侨康医院工作12年', '沈阳药科大学硕士毕业', 2.066894908412147, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -2870,12 +2870,12 @@ $$
         SELECT department.department_id, hospital.hospital_id
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
-        WHERE department_name = '皮肤科'
-          AND hospital_name = '上海市第六人民医院'
+        WHERE department_name = '妇科'
+          AND hospital_name = '解放军三〇七医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,true,true,false,true,false,true}', '皮肤科', '在盈江县妇幼保健站工作12年', '深圳大学医学部本科毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,true,true,false,true,false,true}', '妇科', '在盈江县妇幼保健站工作12年', '深圳大学医学部本科毕业', 4.354838775814017, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -2898,11 +2898,11 @@ $$
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
         WHERE department_name = '内科'
-          AND hospital_name = '浙江省第一医院'
+          AND hospital_name = '解放军三〇七医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,false,false,false,false,false,true}', '内科', '在鞍山市第四医院鞍山市肿瘤医院工作27年', '贵阳市卫生学校博士毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,false,false,false,false,false,true}', '内科', '在鞍山市第四医院鞍山市肿瘤医院工作27年', '贵阳市卫生学校博士毕业', 3.4271589267541214, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -2924,12 +2924,12 @@ $$
         SELECT department.department_id, hospital.hospital_id
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
-        WHERE department_name = '妇科'
+        WHERE department_name = '精神科'
           AND hospital_name = '浙江省第一医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,true,false,false,true,false,false}', '妇科', '在临汾铁路医院工作31年', '中国人民解放军福州医学高等专科学校专科毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,true,false,false,true,false,false}', '精神科', '在临汾铁路医院工作31年', '中国人民解放军福州医学高等专科学校专科毕业', 2.6204175253959145, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -2951,12 +2951,12 @@ $$
         SELECT department.department_id, hospital.hospital_id
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
-        WHERE department_name = '皮肤科'
-          AND hospital_name = '上海市第九人民医院'
+        WHERE department_name = '牙科'
+          AND hospital_name = '上海市第六人民医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,false,true,true,false,true,false}', '皮肤科', '在兴化市第二人民医院工作26年', '广西中医药大学硕士毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,false,true,true,false,true,false}', '牙科', '在兴化市第二人民医院工作26年', '广西中医药大学硕士毕业', 3.997969518949499, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -2978,12 +2978,12 @@ $$
         SELECT department.department_id, hospital.hospital_id
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
-        WHERE department_name = '外科'
+        WHERE department_name = '精神科'
           AND hospital_name = '浙江省第一医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,false,true,false,true,true,false}', '外科', '在海伦市结核病防治所工作9年', '山西医科大学博士毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,false,true,false,true,true,false}', '精神科', '在海伦市结核病防治所工作9年', '山西医科大学博士毕业', 9.110497562206143, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -3005,12 +3005,12 @@ $$
         SELECT department.department_id, hospital.hospital_id
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
-        WHERE department_name = '内科'
+        WHERE department_name = '皮肤科'
           AND hospital_name = '浙大校医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,false,true,false,true,false,false}', '内科', '在江浦县人民医院工作23年', '揭阳医学高等专科学校专科毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,false,true,false,true,false,false}', '皮肤科', '在江浦县人民医院工作23年', '揭阳医学高等专科学校专科毕业', 5.001531621808836, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -3032,12 +3032,12 @@ $$
         SELECT department.department_id, hospital.hospital_id
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
-        WHERE department_name = '皮肤科'
-          AND hospital_name = '浙江省第一医院'
+        WHERE department_name = '妇科'
+          AND hospital_name = '解放军三〇七医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,false,true,true,false,true,false}', '皮肤科', '在伊克昭盟妇幼保健院工作27年', '运城护理职业学院硕士毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,false,true,true,false,true,false}', '妇科', '在伊克昭盟妇幼保健院工作27年', '运城护理职业学院硕士毕业', 7.283234649981522, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -3059,12 +3059,12 @@ $$
         SELECT department.department_id, hospital.hospital_id
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
-        WHERE department_name = '妇科'
-          AND hospital_name = '浙江省第一医院'
+        WHERE department_name = '皮肤科'
+          AND hospital_name = '解放军三〇七医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,true,false,true,true,false,true}', '妇科', '在宿州市妇幼保健站工作6年', '成都中医药大学硕士毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,true,false,true,true,false,true}', '皮肤科', '在宿州市妇幼保健站工作6年', '成都中医药大学硕士毕业', 3.601238485477003, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -3086,12 +3086,12 @@ $$
         SELECT department.department_id, hospital.hospital_id
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
-        WHERE department_name = '外科'
-          AND hospital_name = '上海市第九人民医院'
+        WHERE department_name = '精神科'
+          AND hospital_name = '解放军三〇七医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,false,true,false,false,false,true}', '外科', '在邗江县中医院工作25年', '中国医科大学临床医药学院本科毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,false,true,false,false,false,true}', '精神科', '在邗江县中医院工作25年', '中国医科大学临床医药学院本科毕业', 8.80372642867138, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -3113,12 +3113,12 @@ $$
         SELECT department.department_id, hospital.hospital_id
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
-        WHERE department_name = '妇科'
-          AND hospital_name = '上海市第九人民医院'
+        WHERE department_name = '牙科'
+          AND hospital_name = '浙大校医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,false,false,false,false,false,true}', '妇科', '在安康市中医院工作9年', '井冈山大学临床医学院本科毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,false,false,false,false,false,true}', '牙科', '在安康市中医院工作9年', '井冈山大学临床医学院本科毕业', 8.144342577330708, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -3140,12 +3140,12 @@ $$
         SELECT department.department_id, hospital.hospital_id
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
-        WHERE department_name = '精神科'
-          AND hospital_name = '上海市第九人民医院'
+        WHERE department_name = '内科'
+          AND hospital_name = '浙江省第一医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,true,false,false,false,false,true}', '精神科', '在西安市眼科医院工作12年', '甘肃医学院博士毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{true,true,false,false,false,false,true}', '内科', '在西安市眼科医院工作12年', '甘肃医学院博士毕业', 5.538031711088989, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -3167,12 +3167,12 @@ $$
         SELECT department.department_id, hospital.hospital_id
         INTO tmp_department_id, tmp_hospital_id
         FROM  department, hospital
-        WHERE department_name = '妇科'
-          AND hospital_name = '浙大校医院'
+        WHERE department_name = '内科'
+          AND hospital_name = '解放军三〇七医院'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,false,false,false,true,false,true}', '妇科', '在清涧县妇幼保健站工作12年', '中国医科大学临床医药学院硕士毕业');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{false,false,false,false,true,false,true}', '内科', '在清涧县妇幼保健站工作12年', '中国医科大学临床医药学院硕士毕业', 2.5621270024126988, 10);
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -3205,29 +3205,29 @@ INSERT INTO patient(user_id) SELECT user_id FROM hospital_hub_user WHERE email =
 -- 初始化 comment
 
 INSERT INTO comment(patient_id, doctor_id, content)
+SELECT patient_user.user_id, doctor_user.user_id, '专业详实的解答，多谢医生'
+FROM hospital_hub_user AS patient_user, hospital_hub_user AS doctor_user
+WHERE patient_user.username = '17404133919' AND doctor_user.username = '13261894237';
+
+INSERT INTO comment(patient_id, doctor_id, content)
 SELECT patient_user.user_id, doctor_user.user_id, '谢谢医生！'
 FROM hospital_hub_user AS patient_user, hospital_hub_user AS doctor_user
-WHERE patient_user.username = '17404133919' AND doctor_user.username = '13275241603';
-
-INSERT INTO comment(patient_id, doctor_id, content)
-SELECT patient_user.user_id, doctor_user.user_id, '非常感谢医生，回复的速度真的很快！而且很详细。'
-FROM hospital_hub_user AS patient_user, hospital_hub_user AS doctor_user
-WHERE patient_user.username = '14749815233' AND doctor_user.username = '15914739058';
-
-INSERT INTO comment(patient_id, doctor_id, content)
-SELECT patient_user.user_id, doctor_user.user_id, '无比赞，谢谢医生的解惑。'
-FROM hospital_hub_user AS patient_user, hospital_hub_user AS doctor_user
-WHERE patient_user.username = '17404133919' AND doctor_user.username = '13637025698';
+WHERE patient_user.username = '17404133919' AND doctor_user.username = '13307651894';
 
 INSERT INTO comment(patient_id, doctor_id, content)
 SELECT patient_user.user_id, doctor_user.user_id, '医生很厉害，但是我还有一些不明白的地方，希望下次还能请教医生~'
 FROM hospital_hub_user AS patient_user, hospital_hub_user AS doctor_user
-WHERE patient_user.username = '14749815233' AND doctor_user.username = '18505976812';
+WHERE patient_user.username = '17404133919' AND doctor_user.username = '15234276081';
 
 INSERT INTO comment(patient_id, doctor_id, content)
-SELECT patient_user.user_id, doctor_user.user_id, '谢谢医生，祝医生新年快乐！'
+SELECT patient_user.user_id, doctor_user.user_id, '医生很厉害，但是我还有一些不明白的地方，希望下次还能请教医生~'
 FROM hospital_hub_user AS patient_user, hospital_hub_user AS doctor_user
-WHERE patient_user.username = '17400217949' AND doctor_user.username = '15328965143';
+WHERE patient_user.username = '15280924959' AND doctor_user.username = '15880214693';
+
+INSERT INTO comment(patient_id, doctor_id, content)
+SELECT patient_user.user_id, doctor_user.user_id, '非常感谢医生，回复的速度真的很快！而且很详细。'
+FROM hospital_hub_user AS patient_user, hospital_hub_user AS doctor_user
+WHERE patient_user.username = '14749815233' AND doctor_user.username = '13310368794';
 
 -- 初始化 registration
 DO
@@ -3242,14 +3242,29 @@ $$
         SELECT patient_user.user_id, doctor_user.user_id, hospital_id, department_id
         INTO tmp_patient_id, tmp_doctor_id, tmp_hospital_id, tmp_department_id
         FROM hospital_hub_user AS patient_user, hospital_hub_user AS doctor_user, doctor
-        WHERE patient_user.username = '16741957248' AND doctor_user.username = '15201724695' AND doctor.user_id = doctor_user.user_id;
+        WHERE patient_user.username = '14749815233' AND doctor_user.username = '15115674329' AND doctor.user_id = doctor_user.user_id;
 
         INSERT INTO registration(patient_id, doctor_id, hospital_id, department_id) VALUES(tmp_patient_id, tmp_doctor_id, tmp_hospital_id, tmp_department_id)
         RETURNING registration_id INTO tmp_registration_id;
         
         INSERT INTO process(registration_id, doctor_id) VALUES(tmp_registration_id, tmp_doctor_id);
 
-        INSERT INTO prescription(registration_id, patient_id, doctor_id) VALUES (tmp_registration_id, tmp_patient_id, tmp_doctor_id);
+        INSERT INTO prescription(registration_id, patient_id, doctor_id, prescription_detail) VALUES (tmp_registration_id, tmp_patient_id, tmp_doctor_id, '
+临床诊断：胃、十二指肠溃疡
+处方1 R：奥美拉唑肠溶片 10mg×28片
+Sig： 20mg q.d p.o
+复方铝酸铋颗粒 1.3g×18包×2盒
+Sig： 1.3g t.i.d p.o
+克拉霉素缓释片 0.5g×3片×4盒
+Sig： 0.5g q.d p.o
+即：止酸剂（H2受体拮抗剂或质子泵抑制剂）+胃黏膜保护剂（如复方铝酸铋颗粒、枸橼酸铋钾胶囊） + 抗菌药（如甲硝唑、克拉霉素、阿莫西林等）。甲硝唑等应在餐后服用，以避免出现胃肠刺激症状；食物会延缓克拉霉素的吸收，因此在餐前空腹服用效果最佳；而阿莫西林不受食物影响，服用时间无限制。
+处方1 R：奥美拉唑肠溶片 10mg×28片
+Sig： 20mg q.d p.o
+克拉霉素缓释片 0.5g×3片×4盒
+Sig： 0.5g q.d p.o
+甲硝唑片 0.2×72片
+Sig： 0.4g t.i.d p.o
+    ');
     END
 $$;
 
@@ -3266,14 +3281,20 @@ $$
         SELECT patient_user.user_id, doctor_user.user_id, hospital_id, department_id
         INTO tmp_patient_id, tmp_doctor_id, tmp_hospital_id, tmp_department_id
         FROM hospital_hub_user AS patient_user, hospital_hub_user AS doctor_user, doctor
-        WHERE patient_user.username = '17404133919' AND doctor_user.username = '13387610534' AND doctor.user_id = doctor_user.user_id;
+        WHERE patient_user.username = '17404133919' AND doctor_user.username = '15201724695' AND doctor.user_id = doctor_user.user_id;
 
         INSERT INTO registration(patient_id, doctor_id, hospital_id, department_id) VALUES(tmp_patient_id, tmp_doctor_id, tmp_hospital_id, tmp_department_id)
         RETURNING registration_id INTO tmp_registration_id;
         
         INSERT INTO process(registration_id, doctor_id) VALUES(tmp_registration_id, tmp_doctor_id);
 
-        INSERT INTO prescription(registration_id, patient_id, doctor_id) VALUES (tmp_registration_id, tmp_patient_id, tmp_doctor_id);
+        INSERT INTO prescription(registration_id, patient_id, doctor_id, prescription_detail) VALUES (tmp_registration_id, tmp_patient_id, tmp_doctor_id, '
+临床诊断：牙周炎
+R： 替硝唑片 0.5×6片
+Sig： 0.5 q.12h p.o
+阿莫西林胶囊 0.25×24粒
+Sig： 0.5 q.8h p.o
+    ');
     END
 $$;
 
@@ -3290,14 +3311,21 @@ $$
         SELECT patient_user.user_id, doctor_user.user_id, hospital_id, department_id
         INTO tmp_patient_id, tmp_doctor_id, tmp_hospital_id, tmp_department_id
         FROM hospital_hub_user AS patient_user, hospital_hub_user AS doctor_user, doctor
-        WHERE patient_user.username = '16741957248' AND doctor_user.username = '14735162490' AND doctor.user_id = doctor_user.user_id;
+        WHERE patient_user.username = '17404133919' AND doctor_user.username = '18903471592' AND doctor.user_id = doctor_user.user_id;
 
         INSERT INTO registration(patient_id, doctor_id, hospital_id, department_id) VALUES(tmp_patient_id, tmp_doctor_id, tmp_hospital_id, tmp_department_id)
         RETURNING registration_id INTO tmp_registration_id;
         
         INSERT INTO process(registration_id, doctor_id) VALUES(tmp_registration_id, tmp_doctor_id);
 
-        INSERT INTO prescription(registration_id, patient_id, doctor_id) VALUES (tmp_registration_id, tmp_patient_id, tmp_doctor_id);
+        INSERT INTO prescription(registration_id, patient_id, doctor_id, prescription_detail) VALUES (tmp_registration_id, tmp_patient_id, tmp_doctor_id, '
+临床诊断：食道癌晚期
+R： Inj N. S 500ml
+注射用顺铂 10mg×2支 ×5
+氟尿嘧啶注射液 0.25×4支
+Sig： i.v.gtt q.d.
+临用前以0.9%氯化钠注射液溶解，氟尿嘧啶按1000mg/m2.d，顺铂按20mg/m2.d，连用5天。间隔3-4周可重复用药。为防止其肾脏毒性，在用药前后，可采用大量输液的水化疗法，以降低顺铂的血浆浓度，增加其肾脏清除率；并可加用甘露醇，以加速肾脏的排泄功能，减少顺铂在肾小管中的积聚。
+    ');
     END
 $$;
 
@@ -3314,14 +3342,21 @@ $$
         SELECT patient_user.user_id, doctor_user.user_id, hospital_id, department_id
         INTO tmp_patient_id, tmp_doctor_id, tmp_hospital_id, tmp_department_id
         FROM hospital_hub_user AS patient_user, hospital_hub_user AS doctor_user, doctor
-        WHERE patient_user.username = '16741957248' AND doctor_user.username = '13250637142' AND doctor.user_id = doctor_user.user_id;
+        WHERE patient_user.username = '16741957248' AND doctor_user.username = '13789250374' AND doctor.user_id = doctor_user.user_id;
 
         INSERT INTO registration(patient_id, doctor_id, hospital_id, department_id) VALUES(tmp_patient_id, tmp_doctor_id, tmp_hospital_id, tmp_department_id)
         RETURNING registration_id INTO tmp_registration_id;
         
         INSERT INTO process(registration_id, doctor_id) VALUES(tmp_registration_id, tmp_doctor_id);
 
-        INSERT INTO prescription(registration_id, patient_id, doctor_id) VALUES (tmp_registration_id, tmp_patient_id, tmp_doctor_id);
+        INSERT INTO prescription(registration_id, patient_id, doctor_id, prescription_detail) VALUES (tmp_registration_id, tmp_patient_id, tmp_doctor_id, '
+临床诊断： 社区获得性肺炎
+R： 皮试阴性 阿莫西林胶囊 0.25×24粒
+Sig： 0.5 q.8h p.o
+阿奇霉素分散片 0.25×6片
+Sig： 0.5 q.d p.o
+社区获得性肺炎应选用能覆盖肺炎链球菌、流感嗜血杆菌的药物，如广谱青霉素类抗菌药阿莫西林，需要时加用对肺炎支原体、肺炎衣原体、军团菌属等细胞内病原体有效的药物 ,如大环内酯类抗菌药。
+    ');
     END
 $$;
 
@@ -3338,25 +3373,33 @@ $$
         SELECT patient_user.user_id, doctor_user.user_id, hospital_id, department_id
         INTO tmp_patient_id, tmp_doctor_id, tmp_hospital_id, tmp_department_id
         FROM hospital_hub_user AS patient_user, hospital_hub_user AS doctor_user, doctor
-        WHERE patient_user.username = '16741957248' AND doctor_user.username = '15618362709' AND doctor.user_id = doctor_user.user_id;
+        WHERE patient_user.username = '15280924959' AND doctor_user.username = '15549625187' AND doctor.user_id = doctor_user.user_id;
 
         INSERT INTO registration(patient_id, doctor_id, hospital_id, department_id) VALUES(tmp_patient_id, tmp_doctor_id, tmp_hospital_id, tmp_department_id)
         RETURNING registration_id INTO tmp_registration_id;
         
         INSERT INTO process(registration_id, doctor_id) VALUES(tmp_registration_id, tmp_doctor_id);
 
-        INSERT INTO prescription(registration_id, patient_id, doctor_id) VALUES (tmp_registration_id, tmp_patient_id, tmp_doctor_id);
+        INSERT INTO prescription(registration_id, patient_id, doctor_id, prescription_detail) VALUES (tmp_registration_id, tmp_patient_id, tmp_doctor_id, '
+临床诊断：原发性肾病综合征
+R： 黄 芪9 当 归6 白花蛇舌草9 穴 富3
+生 地3 白 术3 山萸肉3 茯 苓6
+白茅根6 川 芎6 丹 参3 红 花3
+三 付
+用 法：每日一付 水煎服.
+草药处方的书写，须按照“君、臣、佐、使”的顺序排列；对调剂、煎煮的特殊要求的，应在药品右上方注明，并加括号，如布包、先煎、后下等；对饮片的产地、炮制有特殊要求的，要在药品名称之前写明；毒性中药饮片，在处方未注明“生用”的，应给付炮制品。
+    ');
     END
 $$;
 
 
 
 -- 初始化 medicine
-INSERT INTO medicine(medicine_name, package_quantity, medicine_price) VALUES ('双氯芬酸钾胶囊', '25mg * 20粒', 18.0);
-INSERT INTO medicine(medicine_name, package_quantity, medicine_price) VALUES ('克霉唑片', '1片', 49.0);
-INSERT INTO medicine(medicine_name, package_quantity, medicine_price) VALUES ('盐酸米诺环素胶囊', '50mg * 20粒', 56.0);
-INSERT INTO medicine(medicine_name, package_quantity, medicine_price) VALUES ('酒石酸美托洛尔片', '25mg * 20片', 8.8);
-INSERT INTO medicine(medicine_name, package_quantity, medicine_price) VALUES ('盐酸艾司洛尔注射液', '10ml:0.1g * 5支', 447.0);
-INSERT INTO medicine(medicine_name, package_quantity, medicine_price) VALUES ('999三九感冒灵颗粒', '10g * 9袋', 36.6);
-INSERT INTO medicine(medicine_name, package_quantity, medicine_price) VALUES ('连花清瘟胶囊', '48粒', 25.8);
-INSERT INTO medicine(medicine_name, package_quantity, medicine_price) VALUES ('福元/易下开塞露', '20ml * 20支', 11.0);
+INSERT INTO medicine(medicine_image_url, medicine_name, package_quantity, medicine_price) VALUES ('http://pimg.39.net/yaopin/20190902/10/2019090228_996010_505911.jpg', '双氯芬酸钾胶囊', '25mg * 20粒', 18.0);
+INSERT INTO medicine(medicine_image_url, medicine_name, package_quantity, medicine_price) VALUES ('https://img.360kad.com/UploadFiles/Medication/2018/10/201810170927249493.jpg', '克霉唑片', '1片', 49.0);
+INSERT INTO medicine(medicine_image_url, medicine_name, package_quantity, medicine_price) VALUES ('https://i1.kknews.cc/SIG=109cc4p/ctp-vzntr/6o6867126nsq4325o1q94op884r03o70.jpg', '盐酸米诺环素胶囊', '50mg * 20粒', 56.0);
+INSERT INTO medicine(medicine_image_url, medicine_name, package_quantity, medicine_price) VALUES ('https://lh3.googleusercontent.com/proxy/LGYrDRV3WuvpmbRRS0KEQzEAklgFmCp2iubtZuJYzjeS2_5OgCYbIGkuGf2vK7pgyirhN8z1v-zYt01luaNVj3ICeGUUCKE8k56KW3BAJQ', '酒石酸美托洛尔片', '25mg * 20片', 8.8);
+INSERT INTO medicine(medicine_image_url, medicine_name, package_quantity, medicine_price) VALUES ('http://img01.yun300.cn/repository/image/-TyvVUqzTPW4H1DBx3FAaA.jpg_1180xa.jpg?tenantId=140926&viewType=1&k=1607611065000', '盐酸艾司洛尔注射液', '10ml:0.1g * 5支', 447.0);
+INSERT INTO medicine(medicine_image_url, medicine_name, package_quantity, medicine_price) VALUES ('https://img11.360buyimg.com/n1/jfs/t3442/132/400670862/359727/a9de758e/58087364Nb760df76.jpg', '999三九感冒灵颗粒', '10g * 9袋', 36.6);
+INSERT INTO medicine(medicine_image_url, medicine_name, package_quantity, medicine_price) VALUES ('https://cdn-a.william-reed.com/var/wrbm_gb_food_pharma/storage/images/publications/food-beverage-nutrition/nutraingredients-asia.com/article/2020/06/08/node_3209580/11459307-1-eng-GB/_1_wrbm_large.png', '连花清瘟胶囊', '48粒', 25.8);
+INSERT INTO medicine(medicine_image_url, medicine_name, package_quantity, medicine_price) VALUES ('https://imgservice.suning.cn/uimg1/b2c/image/XXOyuH6bBdEf5Tz89WwQqQ.jpg_800w_800h_4e', '福元/易下开塞露', '20ml * 20支', 11.0);

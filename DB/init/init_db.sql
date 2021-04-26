@@ -12,7 +12,6 @@ DROP TABLE IF EXISTS hospital,
     prescription,
     medicine CASCADE;
 
-
 DROP TYPE IF EXISTS gender_type;
 DROP TYPE IF EXISTS identity_type;
 DROP TYPE IF EXISTS doctor_type;
@@ -33,6 +32,7 @@ CREATE TYPE order_type AS ENUM ('unpaid', 'paid', 'sent');
 CREATE TABLE hospital
 (
     hospital_id        SERIAL PRIMARY KEY,
+    hospital_url       TEXT  NOT NULL DEFAULT '',
     hospital_name      TEXT  NOT NULL DEFAULT '',
     hospital_address   TEXT  NOT NULL DEFAULT '',
     department_id_list INT[] NOT NULL DEFAULT array []:: INT[]

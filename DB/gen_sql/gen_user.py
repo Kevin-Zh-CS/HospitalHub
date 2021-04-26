@@ -1,6 +1,7 @@
 from gen_hospital import hospital_data
 from gen_department import department_data
 from random import choice
+from random import uniform
 
 #   手机号          密码        邮箱                    姓名     年龄  性别     一周七天的值班情况                      医生的科属          工作经历            教育经历
 doctor_data = [
@@ -8,33 +9,33 @@ doctor_data = [
      '在来安县中医院工作27年', '贵阳护理职业学院本科毕业'],
     ['18503641927', 'zKlICOhZrwE', '1KfOtq3@u3.com', '贝飞', 36, 'male', '{false,false,false,true,true,true,true}',
      '在牡丹江市肿瘤医院牡丹江市结核病防治院工作7年', '湖南师范大学医学院硕士毕业'],
-    ['13715863029', 'ylw4LVUb0DPu', 'eEKyhIOqD@ta.com', '吴换', 49, 'male', '{true,false,false,true,true,false,false}',
+    ['13715863029', 'ylw4LVUb0DPu', 'eEKyhIOqD@ta.com', '吴欢', 49, 'male', '{true,false,false,true,true,false,false}',
      '在濮阳市人民医院工作18年', '江苏建康职业学院博士毕业'],
-    ['15920538971', 'LGWesT', 'LlDpXHn@YB.com', '朱捎勋', 43, 'male', '{true,true,false,true,false,false,true}',
+    ['15920538971', 'LGWesT', 'LlDpXHn@YB.com', '朱勋', 43, 'male', '{true,true,false,true,false,false,true}',
      '在门头沟区色树坟中心卫生院工作14年', '江西卫生职业学院硕士毕业'],
-    ['13191405276', 'Mka8IEw', 'xsHbYUmKA@Fl.com', '邵稆', 42, 'male', '{true,true,false,true,true,true,false}',
+    ['13191405276', 'Mka8IEw', 'xsHbYUmKA@Fl.com', '邵可', 42, 'male', '{true,true,false,true,true,true,false}',
      '在河南省第一监狱医院工作11年', '武汉大学口腔医学院博士毕业'],
     ['15680761592', 'JctxYPh', 'UlcnkBMV8@vGb.com', '沈醪', 57, 'male', '{true,false,true,true,true,true,true}',
      '在雄县中医院工作28年', '西北民族大学本科毕业'],
-    ['13250637142', '8E3lBSmOV', '4dPVY0iD@0Pq.com', '屈虱齿', 41, 'male', '{true,false,false,true,false,false,true}',
+    ['13250637142', '8E3lBSmOV', '4dPVY0iD@0Pq.com', '屈林', 41, 'male', '{true,false,false,true,false,false,true}',
      '在商丘市第一人民医院工作12年', '兰州大学医学院硕士毕业'],
     ['13289310254', '6Qyouw4ZNSRJ', 'J4TR70q3@Qi.com', '汪琪', 40, 'male', '{false,false,true,false,true,false,false}',
      '在陕西省红十字医院工作15年', '湘南医学高等专科学校专科毕业'],
     ['15172851496', 'EOUInm', 'V0x7BqtbH@YV.com', '禹裨', 46, 'male', '{false,false,false,true,false,true,false}',
      '在神木县妇幼保健站工作19年', '湖南中医药大学湘杏学院本科毕业'],
-    ['18903471592', 'NXiOzgdI9STh', 'Ivh8jxrG@3cW.com', '贝喷饧', 43, 'male', '{false,true,false,true,true,true,true}',
+    ['18903471592', 'NXiOzgdI9STh', 'Ivh8jxrG@3cW.com', '贝鹏', 43, 'male', '{false,true,false,true,true,true,true}',
      '在义乌市新法风湿病医院工作14年', '河北联合大学冀唐学院硕士毕业'],
     ['15914739058', 'ZP6oQye', '5zVQaY@Tz1.com', '杨燮', 45, 'male', '{true,true,true,false,true,true,true}',
      '在克拉玛依市金龙医院工作19年', '湖北中医药高等专科学校专科毕业'],
-    ['18274310928', 'EMhGm90', '4LgEFMPy@px.com', '祁魇', 49, 'male', '{true,true,true,true,false,false,true}',
+    ['18274310928', 'EMhGm90', '4LgEFMPy@px.com', '祁辛', 49, 'male', '{true,true,true,true,false,false,true}',
      '在西平县人民医院工作20年', '西北民族大学本科毕业'],
     ['13402847163', '2KQIeZpq', 'ELAbwCy@nm.com', '沈典', 53, 'male', '{false,false,true,true,false,true,true}',
      '在鸡西市城子河区人民医院工作21年', '南京大学医学院硕士毕业'],
-    ['15706394271', '3Q7ZRMvS4', '6eGHj@sRf.com', '汪苈', 52, 'male', '{false,true,false,false,false,false,true}',
+    ['15706394271', '3Q7ZRMvS4', '6eGHj@sRf.com', '汪陵', 52, 'male', '{false,true,false,false,false,false,true}',
      '在阿克苏市兵团农一师九团职工医院工作27年', '沧州医学高等专科学校专科毕业'],
     ['18058342176', '4AiI3XQFKBoz', 'knOIoj@LIp.com', '卫逶输', 40, 'male', '{true,true,false,false,false,true,false}',
      '在亳州市恒康医院工作8年', '泰山医学院硕士毕业'],
-    ['15235876294', 'VPGE7e9g6', 'Duph5Ol@xUe.com', '熊苟坎', 60, 'male', '{false,false,true,true,true,true,false}',
+    ['15235876294', 'VPGE7e9g6', 'Duph5Ol@xUe.com', '熊卫龙', 60, 'male', '{false,false,true,true,true,true,false}',
      '在温州市中西医结合医院工作30年', '甘肃卫生职业学院本科毕业'],
     ['15261850479', 'eC3H0FnawSYp', 'N6hKdV@NUS.com', '纪铠奕', 37, 'male', '{false,true,true,true,false,false,true}',
      '在盘县特区中医院工作9年', '遵义医药高等专科学校专科毕业'],
@@ -45,11 +46,11 @@ doctor_data = [
                                         '{true,false,false,true,false,true,true}', '在内蒙古平计矿务局总医院工作18年', '贵阳市卫生学校硕士毕业'],
     ['15853482169', 'xEkoV8OU', '5bzyF@XC.com', '戴噎', 60, 'male', '{false,true,false,true,true,false,true}',
      '在成都口腔医院工作31年', '沈阳医学院本科毕业'],
-    ['18019368750', 'rZme0nUPVL', 'TAm0jEhe@LpM.com', '计擦', 52, 'male', '{true,false,true,true,false,true,false}',
+    ['18019368750', 'rZme0nUPVL', 'TAm0jEhe@LpM.com', '计思文', 52, 'male', '{true,false,true,true,false,true,false}',
      '在陆良县妇幼保健院工作20年', '华中科技大学同济医学院硕士毕业'],
     ['13930786491', 'MeoUKxBuANl', 'XBK2PIs@p5.com', '蒋亦俯', 57, 'male', '{false,false,true,true,false,false,true}',
      '在井陉矿务局医院工作28年', '云南大学医学院本科毕业'],
-    ['18518207469', 'UIzEphd', 'jYCp0mWNz@o1.com', '计拽', 54, 'male', '{true,true,false,true,false,false,false}',
+    ['18518207469', 'UIzEphd', 'jYCp0mWNz@o1.com', '朱昱铭', 54, 'male', '{true,true,false,true,false,false,false}',
      '在津市市中医院工作23年', '广东药学院硕士毕业'],
     ['13584930712', 'VmXNZEB', 'ordKWBf@brs.com', '毛哨灰', 45, 'male', '{false,false,true,true,true,false,false}',
      '在沈阳市房天职工医院工作18年', '安徽医学高等专科学校专科毕业'],
@@ -113,7 +114,7 @@ doctor_data = [
      '在保靖县妇幼保健站工作32年', '邢台医学高等专科学校专科毕业'],
     ['15020159768', 'XBF84O0xscN', 'UH1Ww3xO@gx.com', '郑淳肥', 55, 'male', '{true,false,true,false,true,false,true}',
      '在铁岭市银州区中西医结合医院工作28年', '大连医科大学本科毕业'],
-    ['15603928476', 'lsW2Ui804r', 'lcA6HMshF@ncG.com', '伏壤砒', 39, 'male', '{false,true,false,false,true,true,false}',
+    ['15603928476', 'lsW2Ui804r', 'lcA6HMshF@ncG.com', '伏壤习', 39, 'male', '{false,true,false,false,true,true,false}',
      '在烟台桃村中心医院(原：栖霞市第二人民医院)工作7年', '第二军医大学南京军医学院博士毕业'],
     ['13568102573', 'H2JwgZ', 'rM8o69@Ou.com', '计席瞌', 39, 'male', '{true,true,true,true,false,false,true}',
      '在房山区燕山医院工作6年', '南方医科大学博士毕业'],
@@ -133,7 +134,7 @@ doctor_data = [
      '在安达市妇幼保健院工作15年', '白城医学高等专科学校专科毕业'],
     ['15549625187', 'nvzZIiXg', 'rAgwu1pmN@gan.com', '郑枯谝', 50, 'male', '{true,false,false,false,false,false,true}',
      '在宁波市保黎医院宁波市第四医院工作17年', '皖南医学院博士毕业'],
-    ['18832967508', 'cYxH7C', 'hkvyNrzep@N2b.com', '舒旄', 56, 'male', '{true,false,true,true,false,true,false}',
+    ['18832967508', 'cYxH7C', 'hkvyNrzep@N2b.com', '舒纬', 56, 'male', '{true,false,true,true,false,true,false}',
      '在十八站林业局职工医院工作24年', '山西医科大学晋祠学院硕士毕业'],
     ['14735162490', 'SrtpcF', 'zYWIws@wa.com', '董棘', 57, 'male', '{true,true,true,false,true,true,false}',
      '在南海市南庄医院工作25年', '湖南师范大学医学院博士毕业'],
@@ -196,7 +197,7 @@ doctor_data = [
      '在漂塘钨矿职工医院工作4年', '江苏建康职业学院博士毕业'],
     ['13370564189', 'o1BcaCNuqAhJ', 'cyVJB@MEv.com', '明锶', 60, 'male', '{false,true,true,false,false,false,true}',
      '在江永县中医院工作32年', '湖北民族学院医学院本科毕业'],
-    ['13261894237', 'md2uW9', 'Ay7q1I@m7.com', '项湔荪', 52, 'male', '{false,false,false,false,false,false,false}',
+    ['13261894237', 'md2uW9', 'Ay7q1I@m7.com', '项前荪', 52, 'male', '{false,false,false,false,false,false,false}',
      '在瓦房店市第五人民医院工作22年', '南方医科大学博士毕业'],
     ['13532097481', 'zdbOu2NZr6W', 'yN5jXcuB@CNQ.com', '禹仨', 59, 'male', '{false,true,true,false,false,true,false}',
      '在重庆沙坪坝区井口医院工作28年', '四川护理职业学院博士毕业'],
@@ -265,8 +266,8 @@ $$
           AND hospital_name = '{hospital}'
           AND department.hospital_id = hospital.hospital_id;
 
-        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education)
-        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{arrangement}', '{department}', '{experience}', '{education}');
+        INSERT INTO doctor(user_id, department_id, hospital_id, arrangement, major, experience, education, score, capacity)
+        VALUES (tmp_doctor_id, tmp_department_id, tmp_hospital_id, '{arrangement}', '{department}', '{experience}', '{education}', {score}, {capacity});
 
         UPDATE department
         SET doctor_id_list = array_append(doctor_id_list, tmp_doctor_id)
@@ -287,7 +288,7 @@ def gen(sql_file):
         sql_file.write(
             sql_doctor_wildcard.format(username=row[0], password=row[1], email=row[2], true_name=row[3], age=row[4],
                                        gender=row[5], arrangement=row[6], department=choice(department_data),
-                                       hospital=choice(hospital_data)[0], experience=row[7], education=row[8]))
+                                       hospital=choice(hospital_data)[0], experience=row[7], education=row[8], score=uniform(1.0, 10.0), capacity=10))
 
     sql_file.write("\n-- 初始化 patient\n")
     for row in patient_data:
